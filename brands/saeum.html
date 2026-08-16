@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>새움 삼시먹거리 — 온길 파트너</title>
+<meta name="description" content="(주)새움 · 삼시먹거리 — HACCP 인증 냉동/즉석조리 전문 제조사, 온길 플랫폼 파트너 브랜드 페이지." />
+<style>
+  @font-face { font-family: 'Ongil UI'; src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo'); }
+  :root {
+    --bg:#FBF4EC; --surface:#FFFFFF; --surface-2:#F5ECDC;
+    --ink:#241A12; --ink-soft:#6B5D4D;
+    --accent:#B23A2E; --accent-ink:#FFFFFF;
+    --navy:#2B2117; --navy-ink:#F5ECDC; --gold:#B98A3E; --good:#3F8F5F;
+    --line:#E6D8C2; --shadow: 0 1px 2px rgba(36,26,18,.06), 0 8px 24px -12px rgba(36,26,18,.2);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#17130F; --surface:#221B14; --surface-2:#2A2117; --ink:#F3EADE; --ink-soft:#B9AC98;
+      --accent:#E0685A; --accent-ink:#17130F; --navy:#2E2519; --navy-ink:#F3EADE; --gold:#D9BA7C; --good:#59B37E;
+      --line:#39301F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#17130F; --surface:#221B14; --surface-2:#2A2117; --ink:#F3EADE; --ink-soft:#B9AC98;
+    --accent:#E0685A; --accent-ink:#17130F; --navy:#2E2519; --navy-ink:#F3EADE; --gold:#D9BA7C; --good:#59B37E;
+    --line:#39301F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Ongil UI',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  a { color:inherit; }
+  h1,h2,h3 { text-wrap:balance; margin:0; font-weight:800; letter-spacing:-0.01em; }
+  .wrap { max-width: 1040px; margin:0 auto; padding: 0 28px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .eyebrow::before { content:''; width:16px; height:1px; background:var(--accent); }
+
+  .powered { background: var(--navy); color: var(--navy-ink); font-size: 12.5px; padding: 9px 0; }
+  .powered .wrap { display:flex; justify-content:space-between; align-items:center; }
+  .powered a { text-decoration:none; font-weight:700; opacity:.9; }
+  .powered a:hover { opacity: 1; }
+
+  header.brand { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+  .brand-row { display:flex; gap:22px; align-items:center; flex-wrap:wrap; justify-content:space-between; }
+  .brand-id { display:flex; gap:20px; align-items:center; }
+  .logo-chip { width:74px; height:74px; border-radius:20px; background:var(--accent); color:var(--accent-ink); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:19px; flex-shrink:0; }
+  .brand-id h1 { font-size: clamp(24px,3.4vw,32px); }
+  .brand-id .tagline { color:var(--ink-soft); margin-top:6px; font-size:15px; }
+  .badge-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .badge { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; border-radius:999px; padding:4px 10px; border:1px solid var(--gold); color:var(--gold); }
+  .badge.alt { border-color: var(--good); color: var(--good); }
+  .contact-card { border:1px solid var(--line); border-radius:14px; padding:16px 20px; font-size:13px; color:var(--ink-soft); background:var(--surface); box-shadow:var(--shadow); min-width: 220px; }
+  .contact-card b { display:block; color:var(--ink); font-size:14px; margin-bottom:6px; }
+  .contact-card div + div { margin-top: 3px; }
+
+  section { padding: 54px 0; border-top: 1px solid var(--line); }
+  .section-head { max-width: 620px; margin-bottom: 32px; }
+  .section-head h2 { font-size: clamp(21px,2.8vw,26px); margin-top: 8px; }
+  .section-head p { color: var(--ink-soft); margin-top: 10px; font-size: 15px; }
+
+  .product-grid { display:grid; grid-template-columns: repeat(2,1fr); gap: 20px; }
+  .product-card { border:1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: var(--shadow); overflow: hidden; }
+  .product-card .swatch { height: 120px; background: var(--surface-2); display:flex; align-items:center; justify-content:center; font-size:13px; color:var(--ink-soft); letter-spacing:.06em; }
+  .product-card .pc-body { padding: 20px 22px 24px; }
+  .product-card .pc-tag { font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .product-card h3 { font-size:18px; margin-top:8px; }
+  .product-card p { font-size:13.5px; color:var(--ink-soft); margin-top:8px; }
+  .process-tags { display:flex; gap:8px; margin-top:14px; flex-wrap:wrap; }
+  .process-tags span { font-size:11px; border:1px solid var(--line); border-radius:999px; padding:4px 10px; color:var(--ink-soft); }
+
+  .cat-grid { display:grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+  .cat-tile { border:1px solid var(--line); border-radius:12px; padding:18px; text-align:center; background:var(--surface); font-size:13.5px; font-weight:700; }
+  .cat-tile span { display:block; font-size:11px; font-weight:600; color:var(--ink-soft); margin-top:4px; }
+
+  .facts { display:grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .fact { border:1px solid var(--line); border-radius: 14px; padding: 20px; background: var(--surface); }
+  .fact b { display:block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .fact span { font-size: 12.5px; color: var(--ink-soft); }
+
+  .closing { background: var(--navy); color: var(--navy-ink); border-radius: 22px; padding: 40px; text-align:center; }
+  .closing h2 { color: var(--navy-ink); font-size: clamp(20px,3vw,26px); }
+  .closing p { opacity:.8; margin-top:10px; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; border-radius:999px; font-weight:700; font-size:14.5px; text-decoration:none; margin-top:20px; }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+
+  footer.site { padding: 36px 0 60px; font-size:12.5px; color: var(--ink-soft); }
+  .foot-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+
+  @media (max-width: 780px) {
+    .product-grid, .cat-grid, .facts { grid-template-columns: 1fr 1fr; }
+    .brand-row { flex-direction:column; align-items:flex-start; }
+  }
+  @media (max-width: 520px) {
+    .cat-grid, .facts { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="powered">
+  <div class="wrap">
+    <span>Powered by 온길(Ongil) · AI 자동화 O2O 수출 플랫폼</span>
+    <a href="../index.html">← 온길 플랫폼으로 돌아가기</a>
+  </div>
+</div>
+
+<header class="brand">
+  <div class="wrap brand-row">
+    <div class="brand-id">
+      <div class="logo-chip">새움</div>
+      <div>
+        <h1>(주)새움 · 삼시먹거리</h1>
+        <p class="tagline">이천·증평의 손맛을 급속냉동 기술로 세계 식탁에 — 냉동/즉석조리 전문 제조사</p>
+        <div class="badge-row">
+          <span class="badge">✓ HACCP 인증</span>
+          <span class="badge alt">OEM · B2B · B2C</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-card">
+      <b>영업 담당</b>
+      <div>김정석 팀장</div>
+      <div>T. 043-882-1441</div>
+      <div>F. 043-882-1442</div>
+      <div>충북 증평군 도안면 화산리 15</div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Signature PB Products</span>
+      <h2>대표 수출 전략 상품</h2>
+      <p>검증된 국내 원재료를 급속냉동 가공해, 해외 소비자가 그대로 조리할 수 있도록 수출용으로 소포장합니다.</p>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="swatch">한국 쌀 프리미엄 떡볶이</div>
+        <div class="pc-body">
+          <span class="pc-tag">즉석조리세트</span>
+          <h3>한국 쌀 프리미엄 떡볶이</h3>
+          <p>검증된 맛의 이천 쌀 떡볶이를 소싱해, 부재료 신선도를 지키는 급속냉동 가공을 거칩니다.</p>
+          <div class="process-tags"><span>이천 쌀 소싱</span><span>급속 냉동</span><span>수출용 소포장</span></div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="swatch">어묵탕</div>
+        <div class="pc-body">
+          <span class="pc-tag">즉석조리세트</span>
+          <h3>어묵탕</h3>
+          <p>국물류 HMR 규격화 라인의 두 번째 전략 상품으로, 해외 소비자가 간편히 즐기는 K-길거리 음식입니다.</p>
+          <div class="process-tags"><span>국물류 HMR</span><span>냉동 유통</span><span>간편조리</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Production Lines</span>
+      <h2>제조 카테고리</h2>
+      <p>사업자 등록 기준 새움의 4대 생산 라인입니다.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-tile">포차류<span>안주/야식류</span></div>
+      <div class="cat-tile">양념육<span>가공육류</span></div>
+      <div class="cat-tile">간편조리<span>HMR</span></div>
+      <div class="cat-tile">즉석조리세트<span>수출 전략상품</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why Ongil Buyers Trust This Line</span>
+      <h2>급속냉동 가공이 만드는 차이</h2>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>검역 리스크 ↓</b><span>원물 대신 표준화된 냉동 SKU로 등록</span></div>
+      <div class="fact"><b>유통기한 ↑</b><span>급속냉동으로 신선도·유통기한 동시 확보</span></div>
+      <div class="fact"><b>소포장 대응</b><span>해외 소비자 단위에 맞춘 수출용 패키징</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="closing">
+      <span class="eyebrow" style="color:var(--gold)">Buyer Inquiry</span>
+      <h2>새움과 협업을 문의하세요</h2>
+      <p>온길 플랫폼을 통해 문의하면 세움(SEUM) AI가 담당자에게 즉시 연결합니다.</p>
+      <a class="btn btn-primary" href="mailto:uk-119@naver.com">담당자에게 문의하기 →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap foot-row">
+    <div>(주)새움 · 삼시먹거리 — 충북 증평군 도안면 화산리 15</div>
+    <div>ongil.cloud/brands/saeum</div>
+  </div>
+</footer>
+
+</body>
+</html>

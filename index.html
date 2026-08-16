@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>온길 Ongil — K-푸드 수출의 바른 길</title>
+<meta name="description" content="온길(Ongil) — AI 자동화 O2O 플랫폼으로 국내 HACCP 식품 제조사를 해외 바이어와 연결합니다." />
+<style>
+  @font-face {
+    font-family: 'Ongil UI';
+    src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo');
+  }
+
+  :root {
+    --bg: #FAF6EE;
+    --surface: #FFFFFF;
+    --surface-2: #F3ECDD;
+    --ink: #1F2A3D;
+    --ink-soft: #5B6472;
+    --accent: #C96A2E;
+    --accent-ink: #FFFFFF;
+    --navy: #1F2A3D;
+    --navy-ink: #F3ECDD;
+    --gold: #B98A3E;
+    --good: #3F8F5F;
+    --line: #E4D9C4;
+    --stamp-red: #B23A2E;
+    --shadow: 0 1px 2px rgba(31,42,61,.06), 0 8px 24px -12px rgba(31,42,61,.18);
+    --radius: 14px;
+    --route-dot: rgba(31,42,61,.22);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14181F;
+      --surface: #1B212B;
+      --surface-2: #212836;
+      --ink: #F1EDE4;
+      --ink-soft: #A7ADB8;
+      --accent: #E68A4C;
+      --accent-ink: #14181F;
+      --navy: #26314A;
+      --navy-ink: #F1EDE4;
+      --gold: #D9BA7C;
+      --good: #59B37E;
+      --line: #2B323F;
+      --stamp-red: #E0685A;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+      --route-dot: rgba(241,237,228,.22);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14181F;
+    --surface: #1B212B;
+    --surface-2: #212836;
+    --ink: #F1EDE4;
+    --ink-soft: #A7ADB8;
+    --accent: #E68A4C;
+    --accent-ink: #14181F;
+    --navy: #26314A;
+    --navy-ink: #F1EDE4;
+    --gold: #D9BA7C;
+    --good: #59B37E;
+    --line: #2B323F;
+    --stamp-red: #E0685A;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    --route-dot: rgba(241,237,228,.22);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Ongil UI', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 800; letter-spacing: -0.01em; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .eyebrow::before { content: ''; width: 16px; height: 1px; background: var(--accent); }
+
+  /* ---- nav ---- */
+  header.site {
+    position: sticky; top: 0; z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; max-width: 1120px; margin: 0 auto; }
+  .brandmark { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; text-decoration: none; }
+  .brandmark small { display: block; font-weight: 600; font-size: 10.5px; letter-spacing: .1em; color: var(--ink-soft); text-transform: uppercase; }
+  nav.links { display: flex; gap: 26px; font-size: 14.5px; font-weight: 600; }
+  nav.links a { text-decoration: none; color: var(--ink-soft); }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--ink); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 11px 20px; border-radius: 999px; font-weight: 700; font-size: 14.5px;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer;
+  }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { filter: brightness(1.06); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink-soft); }
+
+  /* ---- hero ---- */
+  .hero { padding: 76px 0 60px; position: relative; overflow: hidden; }
+  .hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: center; }
+  .hero h1 { font-size: clamp(34px, 4.6vw, 54px); line-height: 1.14; margin-top: 14px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p.lede { margin-top: 18px; font-size: 17.5px; color: var(--ink-soft); max-width: 46ch; }
+  .hero-cta { display: flex; gap: 12px; margin-top: 30px; flex-wrap: wrap; }
+  .hero-stats { display: flex; gap: 26px; margin-top: 40px; flex-wrap: wrap; }
+  .hero-stats div b { display: block; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .hero-stats div span { font-size: 12.5px; color: var(--ink-soft); }
+
+  .route-card {
+    background: var(--navy); color: var(--navy-ink); border-radius: 20px;
+    padding: 26px; box-shadow: var(--shadow); position: relative;
+  }
+  .route-card .tag { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; opacity: .7; }
+  .route-svg { width: 100%; height: auto; margin-top: 14px; }
+  .route-card .caption { font-size: 13px; opacity: .8; margin-top: 12px; }
+
+  /* ---- section shell ---- */
+  section { padding: 68px 0; border-top: 1px solid var(--line); }
+  .section-head { max-width: 640px; margin-bottom: 40px; }
+  .section-head h2 { font-size: clamp(24px, 3vw, 32px); margin-top: 10px; }
+  .section-head p { color: var(--ink-soft); margin-top: 12px; font-size: 15.5px; }
+
+  /* ---- pain / stamp cards ---- */
+  .stamp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .stamp-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; box-shadow: var(--shadow); position: relative;
+  }
+  .stamp-card .stamp {
+    position: absolute; top: 18px; right: 18px;
+    font-size: 10.5px; font-weight: 800; letter-spacing: .08em;
+    color: var(--stamp-red); border: 1.5px solid var(--stamp-red); border-radius: 999px;
+    padding: 3px 9px; transform: rotate(6deg); text-transform: uppercase;
+  }
+  .stamp-card h3 { font-size: 17px; margin-top: 4px; padding-right: 60px; }
+  .stamp-card p { color: var(--ink-soft); font-size: 14.5px; margin-top: 10px; }
+  .stamp-card .fix { margin-top: 16px; padding-top: 14px; border-top: 1px dashed var(--line); font-size: 13.5px; font-weight: 700; color: var(--good); display: flex; gap: 8px; align-items: flex-start; }
+
+  /* ---- process / workflow ---- */
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; margin-top: 10px; }
+  .flow::before {
+    content: ''; position: absolute; top: 22px; left: 6%; right: 6%; height: 1px;
+    background-image: linear-gradient(to right, var(--route-dot) 50%, transparent 0%);
+    background-size: 10px 1px; background-repeat: repeat-x;
+  }
+  .flow-step { position: relative; padding: 0 14px; text-align: left; }
+  .flow-step .n {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--surface);
+    border: 1.5px solid var(--accent); color: var(--accent); font-weight: 800;
+    display: flex; align-items: center; justify-content: center; font-size: 16px;
+    position: relative; z-index: 1; margin-bottom: 16px;
+  }
+  .flow-step h4 { font-size: 15px; font-weight: 700; }
+  .flow-step p { font-size: 13.5px; color: var(--ink-soft); margin-top: 6px; }
+
+  /* ---- partner preview ---- */
+  .preview-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+    box-shadow: var(--shadow); padding: 30px; display: grid; grid-template-columns: .8fr 1.2fr; gap: 30px; align-items: center;
+  }
+  .preview-logo { display: flex; align-items: center; gap: 14px; }
+  .logo-chip { width: 56px; height: 56px; border-radius: 14px; background: var(--navy); color: var(--navy-ink); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; }
+  .preview-logo .name { font-weight: 800; font-size: 18px; }
+  .preview-logo .sub { font-size: 12.5px; color: var(--ink-soft); }
+  .badge-haccp { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; color: var(--gold); border: 1px solid var(--gold); border-radius: 999px; padding: 3px 9px; margin-top: 8px; }
+  .product-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .product-tile { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: var(--surface-2); }
+  .product-tile .pname { font-weight: 700; font-size: 14px; }
+  .product-tile .pcat { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+  .product-tile.empty { border-style: dashed; display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 12.5px; text-align: center; }
+
+  /* ---- roadmap stepper ---- */
+  .roadmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .phase { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+  .phase .ph-tag { font-size: 11.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); }
+  .phase .ph-tag.active { color: var(--good); }
+  .phase h4 { font-size: 17px; margin-top: 8px; }
+  .phase .when { font-size: 12.5px; color: var(--accent); font-weight: 700; margin-top: 4px; }
+  .phase ul { margin: 14px 0 0; padding-left: 18px; font-size: 13.5px; color: var(--ink-soft); }
+  .phase li + li { margin-top: 6px; }
+
+  /* ---- logo wall ---- */
+  .wall { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .wall-tile { border: 1px solid var(--line); border-radius: 12px; padding: 20px; text-align: center; background: var(--surface); }
+  .wall-tile .mark { width: 40px; height: 40px; border-radius: 10px; background: var(--navy); color: var(--navy-ink); margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+  .wall-tile .wname { font-weight: 700; font-size: 13.5px; }
+  .wall-tile .wcat { font-size: 11.5px; color: var(--ink-soft); margin-top: 2px; }
+  .wall-tile.slot { border-style: dashed; color: var(--ink-soft); }
+  .wall-tile.slot .mark { background: transparent; border: 1.5px dashed var(--line); color: var(--ink-soft); }
+
+  /* ---- closing / footer ---- */
+  .closing { background: var(--navy); color: var(--navy-ink); border-radius: 24px; padding: 48px; display: grid; grid-template-columns: 1.3fr .7fr; gap: 30px; align-items: center; }
+  .closing h2 { color: var(--navy-ink); font-size: clamp(22px,3vw,30px); }
+  .closing p { color: color-mix(in srgb, var(--navy-ink) 75%, transparent); margin-top: 10px; }
+  .closing .btn-primary { background: var(--accent); }
+  .booth { font-size: 13px; opacity: .75; margin-top: 18px; display: flex; gap: 18px; flex-wrap: wrap; }
+
+  footer.site { padding: 40px 0 60px; }
+  .foot-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 18px; font-size: 13px; color: var(--ink-soft); }
+
+  @media (max-width: 860px) {
+    .hero-grid, .preview-card, .closing { grid-template-columns: 1fr; }
+    .stamp-grid, .roadmap { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .flow::before { display: none; }
+    .wall { grid-template-columns: repeat(2, 1fr); }
+    .product-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="brandmark" href="index.html">
+      <svg width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+        <circle cx="15" cy="15" r="13" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M15 6 L18.5 14.5 L15 24 L11.5 14.5 Z" fill="var(--accent)"/>
+      </svg>
+      <span>온길 Ongil<small>Right Track Export</small></span>
+    </a>
+    <nav class="links">
+      <a href="#problem">문제</a>
+      <a href="#how">작동 방식</a>
+      <a href="#onboarding">파트너 온보딩</a>
+      <a href="#roadmap">로드맵</a>
+      <a href="#partners">파트너</a>
+    </nav>
+    <a class="btn btn-primary" href="onboarding.html">파트너 등록 문의</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <span class="eyebrow">AI Export Automation Platform</span>
+        <h1>좋은 K-푸드에게<br/>필요한 건 <em>바른 길</em>입니다.</h1>
+        <p class="lede">온길(Ongil)은 명함 한 장으로 시작해 다국어 응대와 후속관리까지 자동으로 처리하는 AI 수출 플랫폼입니다. 중소 HACCP 식품 제조사가 해외 바이어를 직접, 더 빠르게 만나도록 연결합니다.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="onboarding.html">우리 브랜드 등록하기</a>
+          <a class="btn btn-ghost" href="#how">3분 만에 이해하기 ↓</a>
+        </div>
+        <div class="hero-stats">
+          <div><b>17</b><span>HACCP 인증 제품</span></div>
+          <div><b>D+3·7·13</b><span>자동 후속관리 주기</span></div>
+          <div><b>2026</b><span>말레이시아 할랄 엑스포 출하</span></div>
+        </div>
+      </div>
+      <div class="route-card">
+        <span class="tag">Export Route · Korea → World</span>
+        <svg class="route-svg" viewBox="0 0 400 220" fill="none">
+          <circle cx="34" cy="150" r="7" fill="var(--accent)"/>
+          <text x="20" y="180" fill="currentColor" font-size="11" opacity=".8">이천·증평 생산</text>
+          <path d="M34 150 C 130 70, 250 70, 370 46" stroke="var(--route-dot)" stroke-width="2" stroke-dasharray="1 8" stroke-linecap="round"/>
+          <circle cx="200" cy="88" r="5" fill="currentColor" opacity=".55"/>
+          <text x="185" y="70" fill="currentColor" font-size="11" opacity=".8">세움 AI 자동화</text>
+          <circle cx="370" cy="46" r="7" fill="var(--good)"/>
+          <text x="300" y="34" fill="currentColor" font-size="11" opacity=".8">해외 바이어</text>
+          <path d="M355 40 L372 46 L355 54" stroke="var(--good)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <p class="caption">명함 스캔 → AI 분석 → 다국어 메일 → 자동 후속관리까지, 사람이 붙지 않아도 흐르는 수출 루트.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="problem">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Why Now</span>
+        <h2>가격 경쟁만으로는 살아남지 못합니다.</h2>
+        <p>해외 전시에서 명함을 아무리 많이 모아도, 그다음이 무너지면 수출은 시작되지 않습니다. 온길은 현장의 3대 고질병을 정확히 겨냥합니다.</p>
+      </div>
+      <div class="stamp-grid">
+        <div class="stamp-card">
+          <span class="stamp">Problem</span>
+          <h3>언어 장벽</h3>
+          <p>바이어 국가 언어로 즉시, 정확하게 대응하지 못해 첫 접촉의 온도가 식습니다.</p>
+          <div class="fix">✓ AI가 다국어 메일을 즉시 작성·발송</div>
+        </div>
+        <div class="stamp-card">
+          <span class="stamp">Problem</span>
+          <h3>수작업 서류 지옥</h3>
+          <p>명함 정리, 정보 입력, 견적서 작성까지 담당자 한 명의 손끝에서 병목이 생깁니다.</p>
+          <div class="fix">✓ 명함 한 장 → AI 즉시 분석·데이터화</div>
+        </div>
+        <div class="stamp-card">
+          <span class="stamp">Problem</span>
+          <h3>후속관리 단절</h3>
+          <p>전시회가 끝나면 연락이 끊깁니다. 좋은 리드가 스프레드시트 안에서 잠듭니다.</p>
+          <div class="fix">✓ D+3 / D+7 / D+13 자동 팔로업</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">How Ongil Works</span>
+        <h2>세움(SEUM) — 원스톱 AI 수출 워크플로우</h2>
+        <p>사람이 해야 했던 4단계를 AI가 순서대로 자동 실행합니다.</p>
+      </div>
+      <div class="flow">
+        <div class="flow-step"><div class="n">1</div><h4>명함 스캔</h4><p>전시장에서 명함 사진 한 장만 등록</p></div>
+        <div class="flow-step"><div class="n">2</div><h4>AI 즉시 분석</h4><p>바이어 정보·관심 품목 자동 정리</p></div>
+        <div class="flow-step"><div class="n">3</div><h4>다국어 메일 발송</h4><p>영/독/이 등 현지 언어로 즉시 회신</p></div>
+        <div class="flow-step"><div class="n">4</div><h4>자동 후속 관리</h4><p>D+3·D+7·D+13 리마인드로 관계 유지</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="onboarding">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Partner Onboarding</span>
+        <h2>파트너로 합류하면, 이렇게 노출됩니다.</h2>
+        <p>로고와 대표 제품 3개만 있으면 온길이 브랜드 소개 페이지를 자동으로 만들어 드립니다.</p>
+      </div>
+      <div class="preview-card">
+        <div>
+          <div class="preview-logo">
+            <div class="logo-chip">새움</div>
+            <div>
+              <div class="name">(주)새움 · 삼시먹거리</div>
+              <div class="sub">충북 증평 · OEM/B2B/B2C</div>
+              <div class="badge-haccp">HACCP 인증</div>
+            </div>
+          </div>
+        </div>
+        <div class="product-row">
+          <div class="product-tile"><div class="pname">한국 쌀 프리미엄 떡볶이</div><div class="pcat">즉석조리세트 · PB</div></div>
+          <div class="product-tile"><div class="pname">어묵탕</div><div class="pcat">즉석조리세트 · PB</div></div>
+          <div class="product-tile empty">3번째 대표 제품<br/>확정 예정</div>
+        </div>
+      </div>
+      <p style="margin-top:18px;"><a class="btn btn-ghost" href="onboarding.html">파트너 온보딩 템플릿 전체 보기 →</a> &nbsp; <a class="btn btn-ghost" href="brands/saeum.html">새움 브랜드 페이지 예시 보기 →</a></p>
+    </div>
+  </section>
+
+  <section id="roadmap">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">5-Year Roadmap · 벨이삭(Belle IsaaC)</span>
+        <h2>단순 연결을 넘어, 독보적 슈퍼 솔루션으로</h2>
+      </div>
+      <div class="roadmap">
+        <div class="phase">
+          <span class="ph-tag active">● Phase 1 · ~2026.09</span>
+          <h4>시스템 실증 및 첫 수출</h4>
+          <div class="when">진행중</div>
+          <ul><li>16종 SKU 등재</li><li>말레이시아 할랄 엑스포 출하</li><li>자동화 플랫폼 실효성 입증</li></ul>
+        </div>
+        <div class="phase">
+          <span class="ph-tag">○ Phase 2 · 2026 Q4</span>
+          <h4>인프라 고도화 및 공공 연계</h4>
+          <ul><li>AI 응대 고도화</li><li>'마켓경기' 등 공공 플랫폼 연계</li><li>표준화된 입점 시스템 구축</li></ul>
+        </div>
+        <div class="phase">
+          <span class="ph-tag">○ Phase 3 · 2027~</span>
+          <h4>글로벌 네트워크 및 스케일업</h4>
+          <ul><li>북미·동남아 네트워크 확장</li><li>거래액(GMV) 극대화</li><li>대규모 투자 유치</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="partners">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Partner Brands</span>
+        <h2>온길과 함께 걷는 브랜드들</h2>
+      </div>
+      <div class="wall">
+        <div class="wall-tile"><div class="mark">새움</div><div class="wname">삼시먹거리</div><div class="wcat">냉동/즉석조리</div></div>
+        <div class="wall-tile slot"><div class="mark">+</div><div class="wname">파트너 모집중</div><div class="wcat">문의하기</div></div>
+        <div class="wall-tile slot"><div class="mark">+</div><div class="wname">파트너 모집중</div><div class="wcat">문의하기</div></div>
+        <div class="wall-tile slot"><div class="mark">+</div><div class="wname">파트너 모집중</div><div class="wcat">문의하기</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="closing">
+        <div>
+          <span class="eyebrow" style="color:var(--gold)">COEX · 2026</span>
+          <h2>이 작은 떡볶이가 K-푸드 글로벌 성공의 바른 길을 열어줄까요?</h2>
+          <p>지금 온길의 파트너로 등록하고, 다음 전시에서 여러분의 로고가 걸리게 하세요.</p>
+          <div class="booth">
+            <span>📍 COEX 부스 (일정 확정중)</span>
+            <span>✉️ contact@ongil.cloud</span>
+          </div>
+        </div>
+        <a class="btn btn-primary" href="onboarding.html" style="justify-self:start;">지금 파트너 등록하기 →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot-row">
+    <div>온길 인터내셔널(Ongil International) · AI 자동화 O2O 수출 플랫폼<br/>© 2026 Ongil. All rights reserved.</div>
+    <div>ongil.cloud · 세움(SEUM) AI Engine · 벨이삭(Belle IsaaC) Roadmap</div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>온길 9월 데모 준비 분석 보고서</title>
+<meta name="description" content="온길 인터내셔널 자료 7종 종합 분석과 8~9월 실행 타임라인, HACCP 17개 제품 개선 제안." />
+<style>
+  @font-face { font-family: 'Ongil UI'; src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo'); }
+  :root {
+    --bg:#FAF6EE; --surface:#FFFFFF; --surface-2:#F3ECDD;
+    --ink:#1F2A3D; --ink-soft:#5B6472; --ink-faint:#8A93A3;
+    --accent:#C96A2E; --accent-ink:#FFFFFF;
+    --navy:#1F2A3D; --navy-ink:#F3ECDD; --gold:#B98A3E; --good:#3F8F5F; --warn:#B23A2E;
+    --line:#E4D9C4; --shadow: 0 1px 2px rgba(31,42,61,.05), 0 8px 20px -12px rgba(31,42,61,.14);
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#14181F; --surface:#1B212B; --surface-2:#212836;
+      --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+      --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4;
+      --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+      --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 24px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#14181F; --surface:#1B212B; --surface-2:#212836;
+    --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+    --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4;
+    --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+    --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 24px -14px rgba(0,0,0,.55);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Ongil UI',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  a { color: var(--accent); }
+  h1,h2,h3,h4 { text-wrap: balance; margin:0; font-weight:800; letter-spacing:-0.01em; }
+  p { margin: 0; }
+  .wrap { max-width: 980px; margin:0 auto; padding: 0 26px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .eyebrow::before { content:''; width:16px; height:1px; background:var(--accent); }
+
+  header.doc { padding: 54px 0 40px; border-bottom: 1px solid var(--line); }
+  header.doc h1 { font-size: clamp(28px,4vw,40px); margin-top:14px; max-width: 20ch; }
+  header.doc .meta { display:flex; gap:22px; flex-wrap:wrap; margin-top:20px; font-size:13px; color:var(--ink-soft); }
+  header.doc .meta b { color: var(--ink); }
+
+  nav.toc { background: var(--surface); border:1px solid var(--line); border-radius: var(--radius); padding: 18px 22px; margin: 30px 0 0; box-shadow: var(--shadow); }
+  nav.toc div.label { font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px; }
+  nav.toc ol { columns: 2; column-gap: 30px; margin:0; padding-left: 18px; font-size: 13.5px; }
+  nav.toc li { margin-bottom: 6px; break-inside: avoid; }
+  nav.toc a { text-decoration:none; color: var(--ink-soft); }
+  nav.toc a:hover { color: var(--accent); }
+
+  main { padding: 10px 0 100px; }
+  section.block { padding: 52px 0; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
+  .block-head { max-width: 680px; margin-bottom: 26px; }
+  .block-head h2 { font-size: clamp(21px,2.8vw,27px); margin-top: 8px; }
+  .block-head p.sub { color: var(--ink-soft); margin-top: 10px; font-size: 15px; }
+  .num-tag { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--navy); color:var(--navy-ink); font-size:12px; font-weight:800; margin-right:8px; }
+
+  ul.bullets, ol.numbered { margin: 14px 0 0; padding-left: 20px; font-size: 14.5px; }
+  ul.bullets li, ol.numbered li { margin-bottom: 8px; }
+  ul.bullets { list-style: none; padding-left: 0; }
+  ul.bullets li { position: relative; padding-left: 20px; }
+  ul.bullets li::before { content:'—'; position:absolute; left:0; color: var(--accent); font-weight:700; }
+
+  /* tables */
+  .table-wrap { overflow-x: auto; border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 13.5px; background: var(--surface); }
+  th, td { text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--surface-2); font-size: 11.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--ink-soft); font-weight: 700; }
+  tr:last-child td { border-bottom: none; }
+  td.tight { white-space: nowrap; font-weight: 700; }
+  .tag { display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:999px; border:1px solid currentColor; }
+  .tag.good { color: var(--good); }
+  .tag.warn { color: var(--warn); }
+  .tag.gold { color: var(--gold); }
+
+  /* callouts */
+  .callout { border-radius: var(--radius); padding: 20px 22px; border: 1px solid var(--line); box-shadow: var(--shadow); background: var(--surface); }
+  .callout.warn { border-color: color-mix(in srgb, var(--warn) 45%, var(--line)); background: color-mix(in srgb, var(--warn) 7%, var(--surface)); }
+  .callout .c-title { display:flex; align-items:center; gap:8px; font-weight:800; font-size: 14px; }
+  .callout.warn .c-title { color: var(--warn); }
+  .callout p, .callout ul { margin-top: 10px; font-size: 13.5px; color: var(--ink-soft); }
+
+  /* brand relationship diagram */
+  .diagram { background: var(--surface); border:1px solid var(--line); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
+  .rel-row { display:flex; align-items:center; justify-content:center; gap: 14px; flex-wrap: wrap; }
+  .rel-box { border:1.5px solid var(--line); border-radius: 12px; padding: 14px 18px; text-align:center; background: var(--surface-2); min-width: 130px; }
+  .rel-box b { display:block; font-size: 14px; }
+  .rel-box span { font-size: 11px; color: var(--ink-soft); }
+  .rel-box.final { background: var(--navy); color: var(--navy-ink); border-color: var(--navy); }
+  .rel-box.final span { color: color-mix(in srgb, var(--navy-ink) 70%, transparent); }
+  .rel-arrow { font-size: 20px; color: var(--ink-faint); }
+  .rel-note { text-align:center; font-size: 12px; color: var(--warn); margin-top: 16px; }
+
+  /* flywheel */
+  .flywheel { display:grid; grid-template-columns: repeat(4,1fr); gap: 0; position: relative; margin-top: 6px; }
+  .flywheel::before { content:''; position:absolute; top:20px; left:5%; right:5%; height:1px; background-image: linear-gradient(to right, var(--ink-faint) 50%, transparent 0%); background-size: 8px 1px; background-repeat: repeat-x; opacity: .5; }
+  .fw-step { padding: 0 12px; }
+  .fw-step .n { width:40px; height:40px; border-radius:50%; background:var(--surface); border:1.5px solid var(--accent); color:var(--accent); font-weight:800; display:flex; align-items:center; justify-content:center; font-size:14px; margin-bottom:12px; position:relative; z-index:1; }
+  .fw-step h4 { font-size: 13.5px; }
+  .fw-step p { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+
+  /* product recommendations */
+  .rec-grid { display:grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+  .rec-card { border:1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; background: var(--surface); box-shadow: var(--shadow); }
+  .rec-card .rc-tag { font-size: 10.5px; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color: var(--gold); }
+  .rec-card h4 { font-size: 15px; margin-top: 6px; }
+  .rec-card p { font-size: 13px; color: var(--ink-soft); margin-top: 8px; }
+
+  /* timeline / gantt */
+  .gantt { border:1px solid var(--line); border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); }
+  .gantt-row { display:grid; grid-template-columns: 190px repeat(7,1fr); border-top:1px solid var(--line); }
+  .gantt-row:first-child { border-top:none; background: var(--surface-2); }
+  .gantt-row > div { padding: 11px 10px; font-size: 12px; border-left: 1px solid var(--line); }
+  .gantt-row > div:first-child { border-left: none; font-weight: 700; background: var(--surface); font-size: 12.5px; }
+  .gantt-row:first-child > div { font-weight: 800; text-align:center; color: var(--ink-soft); text-transform: uppercase; letter-spacing: .04em; font-size: 10.5px; }
+  .bar { border-radius: 999px; padding: 3px 0; text-align:center; font-size: 10.5px; font-weight: 700; color: var(--accent-ink); background: var(--accent); }
+  .bar.navy { background: var(--navy); color: var(--navy-ink); }
+  .bar.good { background: var(--good); color: #fff; }
+  .bar.gold { background: var(--gold); color: #241A12; }
+  .bar.ghost { background: transparent; }
+  .milestone { text-align:center; font-size: 16px; }
+
+  /* site structure */
+  .tree { font-family: 'SFMono-Regular', Consolas, monospace; font-size: 13px; background: var(--surface); border:1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; box-shadow: var(--shadow); line-height: 1.9; overflow-x:auto; }
+  .tree .c { color: var(--ink-faint); }
+  .tree .f { color: var(--accent); }
+
+  footer.doc { padding: 40px 0 70px; font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--line); text-align:center; }
+
+  @media (max-width: 760px) {
+    nav.toc ol { columns: 1; }
+    .rec-grid { grid-template-columns: 1fr; }
+    .flywheel { grid-template-columns: 1fr 1fr; row-gap: 22px; }
+    .flywheel::before { display:none; }
+    .rel-row { flex-direction: column; }
+    .rel-arrow { transform: rotate(90deg); }
+    .gantt-row { grid-template-columns: 130px repeat(7, minmax(46px,1fr)); font-size: 10.5px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="doc">
+  <div class="wrap">
+    <span class="eyebrow">Internal Report · 2026.08.16</span>
+    <h1>온길(Ongil) 9월 데모 준비 종합 분석 보고서</h1>
+    <div class="meta">
+      <span><b>분석 자료</b> 5종 (인포그래픽 3 · 영상 1 · 피치덱 1) + 사용자 제공 맥락 2건</span>
+      <span><b>목적</b> COEX 시연 대비 사이트/제품/일정 정리</span>
+    </div>
+    <nav class="toc">
+      <div class="label">Contents</div>
+      <ol>
+        <li><a href="#materials">01. 자료 7종 분석 요약</a></li>
+        <li><a href="#brand">02. 브랜드 체계 정리 및 충돌 지점</a></li>
+        <li><a href="#model">03. 사업 모델 구조</a></li>
+        <li><a href="#products">04. HACCP 17개 제품 — 현황과 개선 제안</a></li>
+        <li><a href="#automation">05. 자동화 가능 영역</a></li>
+        <li><a href="#schedule-alert">06. 일정 불일치 경고</a></li>
+        <li><a href="#timeline">07. 8–9월 실행 타임라인</a></li>
+        <li><a href="#site">08. 구축한 사이트 구조</a></li>
+        <li><a href="#risks">09. 리스크 및 유의사항</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="block" id="materials">
+    <div class="block-head">
+      <span class="eyebrow">01</span>
+      <h2>자료 7종 분석 요약</h2>
+      <p class="sub">인포그래픽 3장, 데모 영상 1편, 피치덱 1건(10p) + 사용자가 언급한 온길 현재 페이지·플랫폼 자료 2건을 종합했습니다.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>자료</th><th>형식</th><th>핵심 내용</th><th>보고서 반영</th></tr>
+        <tr>
+          <td class="tight">① 벨이삭 로드맵</td><td>인포그래픽</td>
+          <td>5년 내 '슈퍼 솔루션' 도약. Phase1(~26.09) 시스템 실증, Phase2(26.4Q) 인프라·공공연계, Phase3(27~) 글로벌 스케일업. 정성열 부장 담당으로 표기.</td>
+          <td>§02 로드맵, §06 일정</td>
+        </tr>
+        <tr>
+          <td class="tight">② 세움(SEUM) 플랫폼</td><td>인포그래픽</td>
+          <td>명함→AI분석→다국어메일→D+3/7/13 후속관리 4단계 워크플로우. PB 전략상품: 프리미엄 떡볶이·어묵탕. 할랄→미국·유럽 확장 로드맵.</td>
+          <td>§05 자동화, §04 제품</td>
+        </tr>
+        <tr>
+          <td class="tight">③ 온길&새움 브랜드</td><td>인포그래픽</td>
+          <td>브랜드 아이덴티티: 온길="수출의 바른 길", 새움="프리미엄 냉동가공식품". Phase1 로고·컬러팔레트(3종), Phase2 웹사이트(Ongil.vercel.app), Phase3 가이드라인, 11월 서울 푸드위크 데뷔.</td>
+          <td>§02 브랜드, §08 사이트</td>
+        </tr>
+        <tr>
+          <td class="tight">④ 데모 영상 (2:16)</td><td>영상</td>
+          <td>"K-푸드 수출의 미래: AI와 떡볶이". 새움 사업자정보 노출(김정석 팀장). 초고속 실행 타임라인: <b>8/20 수지 신봉동 첫 전략회의</b>, <b>11/4–7 코엑스 푸드테크 부스</b> 명시.</td>
+          <td>§06 일정 경고 핵심근거</td>
+        </tr>
+        <tr>
+          <td class="tight">⑤ O2O 피치덱 (10p)</td><td>PDF</td>
+          <td>온길 인터내셔널 = (주)새움(제조)+온길로지스틱스(물류) 통합 브랜드. Online(AI매칭)+Offline(생산·보관·수출자동화) 2계층 모델. 파일럿 상품: 이천쌀 떡볶이. <b>2026.11.4(수)~7(토) 코엑스 서울푸드</b> 공식 명시. 팀: 정성열(본부장/트레이드온), 김정석(과장·대표/새움).</td>
+          <td>§03 사업모델, §06 일정 경고</td>
+        </tr>
+        <tr>
+          <td class="tight">⑥ 온길 현재 페이지</td><td>웹사이트</td>
+          <td>이 세션의 네트워크 정책상 ongil.vercel.app / ongil.cloud에 직접 접속이 차단되어 있어 실사이트를 확인하지 못했습니다. 자료③이 언급한 Ongil.vercel.app을 목표 도메인으로 간주해 설계했습니다.</td>
+          <td>§20 질문 항목 반영 필요</td>
+        </tr>
+        <tr>
+          <td class="tight">⑦ 사용자 구두 정보</td><td>대화 맥락</td>
+          <td>"17개 HACCP 제품 준비 완료", "코엑스 9월 30일 시연" — 두 정보 모두 위 ①~⑤ 자료에서는 직접 확인되지 않아 사용자 확인이 필요합니다.</td>
+          <td>§04, §06 핵심 전제</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="brand">
+    <div class="block-head">
+      <span class="eyebrow">02</span>
+      <h2>브랜드 체계 정리 및 충돌 지점</h2>
+      <p class="sub">5개 자료에 등장하는 이름들을 하나의 구조로 정리했습니다. 자료마다 표기가 달라 실제 관계는 사용자 확인이 필요합니다.</p>
+    </div>
+    <div class="diagram">
+      <div class="rel-row">
+        <div class="rel-box"><b>(주)새움</b><span>제조 · HACCP · 삼시먹거리</span></div>
+        <span class="rel-arrow">+</span>
+        <div class="rel-box"><b>온길로지스틱스</b><span>보관 · 물류</span></div>
+        <span class="rel-arrow">→</span>
+        <div class="rel-box final"><b>온길 인터내셔널</b><span>통합 O2O 수출 플랫폼</span></div>
+      </div>
+      <p class="rel-note">⚠ "세움(SEUM, AI엔진)"과 "새움(제조사)"은 자료④·⑤에서 발음은 같으나 다른 실체로 보이나, 어느 자료에도 두 이름의 관계를 직접 설명한 문장은 없습니다. "벨이삭(Belle IsaaC)"·"Trust Navy"도 로드맵 문구가 사실상 동일해 같은 로드맵의 다른 코드네임으로 추정되나 확인되지 않았습니다.</p>
+    </div>
+    <div class="table-wrap" style="margin-top:20px;">
+      <table>
+        <tr><th>인물</th><th>자료④ 영상</th><th>자료⑤ 피치덱</th><th>기존 확인 자료</th><th>상태</th></tr>
+        <tr><td class="tight">정성열</td><td>부장 (벨이삭 로드맵 담당)</td><td>본부장 (소속: 트레이드온)</td><td>부장</td><td><span class="tag warn">직급 불일치</span></td></tr>
+        <tr><td class="tight">김정석</td><td>영업팀 팀장 (명함 정보)</td><td>과장 / 대표 (혼용 표기)</td><td>팀장</td><td><span class="tag warn">직급 3종 혼용</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="model">
+    <div class="block-head">
+      <span class="eyebrow">03</span>
+      <h2>사업 모델 구조 — Online/Offline 선순환</h2>
+      <p class="sub">피치덱이 제시하는 플라이휠 구조입니다. 온길 사이트의 메시지 설계 근거로 그대로 사용했습니다.</p>
+    </div>
+    <div class="diagram">
+      <div class="flywheel">
+        <div class="fw-step"><div class="n">1</div><h4>바이어·공급사 유입</h4><p>AI 플랫폼에 글로벌 거래 수요 집중</p></div>
+        <div class="fw-step"><div class="n">2</div><h4>독점 소싱력 확보</h4><p>누적 데이터로 상품 매입력 강화</p></div>
+        <div class="fw-step"><div class="n">3</div><h4>물동량 집중</h4><p>거래가 자사 물류·제조(새움) 거점으로 유입</p></div>
+        <div class="fw-step"><div class="n">4</div><h4>플랫폼 고도화</h4><p>물류 데이터로 매칭·인프라 효율 극대화 → 1로 순환</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="products">
+    <div class="block-head">
+      <span class="eyebrow">04</span>
+      <h2>HACCP 17개 제품 — 현황과 개선 제안</h2>
+      <p class="sub"><b>확인 필요:</b> 5개 자료 어디에도 17개 제품의 전체 목록·SKU·규격은 없습니다. 확인된 것은 파일럿 상품 "이천쌀 떡볶이"(피치덱)와 PB 전략상품 "프리미엄 떡볶이·어묵탕"(인포그래픽) 뿐입니다. 아래는 이 구조를 17개로 확장한다는 전제 하의 개선 제안입니다.</p>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <span class="rc-tag">01 · 데이터 표준화</span>
+        <h4>17개 SKU를 표준 스펙 시트로 통일</h4>
+        <p>제품명·카테고리·HACCP 인증번호·원산지·유통기한·패키징 규격·MOQ·타겟국가 8개 필드로 통일하면, 세움 AI가 바이어 문의에 즉시 견적을 매칭할 수 있습니다.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag">02 · 우선순위 압축</span>
+        <h4>17개 중 "First 3" 먼저 확정</h4>
+        <p>온길.cloud 홈에 노출할 대표 3개 제품(현재 떡볶이·어묵탕 확정, 3번째 미정)을 우선 확정해야 COEX 데모 스토리가 완성됩니다.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag">03 · HMR 규격 확장</span>
+        <h4>피치덱의 3분류(볶음밥용/찌개용/샤부샤부용) 적용</h4>
+        <p>17개 제품을 피치덱이 제시한 목적별 소포장 분류에 맞춰 재배열하면, 신규 파트너 온보딩 시에도 같은 분류 체계를 재사용할 수 있습니다.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag">04 · 유통망 연계</span>
+        <h4>트레이더스 입점 데이터를 신뢰 증거로 활용</h4>
+        <p>17개 중 이미 트레이더스(이마트)에 입점한 제품이 있다면 사이트·데모에서 "국내 검증 완료" 배지로 노출해 해외 바이어 신뢰를 높일 수 있습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="automation">
+    <div class="block-head">
+      <span class="eyebrow">05</span>
+      <h2>자동화 가능 영역</h2>
+      <p class="sub">세움(SEUM) 워크플로우를 축으로, 지금 바로 구축 가능한 자동화와 후순위 항목을 나눴습니다.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <tr><th>영역</th><th>현재 상태</th><th>자동화 방안</th><th>난이도</th></tr>
+        <tr><td class="tight">명함 → 리드</td><td>수기 정리</td><td>명함 사진 업로드 → OCR·AI 파싱 → CRM 자동 등록</td><td><span class="tag good">낮음</span></td></tr>
+        <tr><td class="tight">다국어 회신</td><td>담당자 개별 작성</td><td>바이어 언어 자동 감지 → 템플릿 기반 다국어 메일 발송</td><td><span class="tag good">낮음</span></td></tr>
+        <tr><td class="tight">후속 관리</td><td>수동 리마인드</td><td>D+3/D+7/D+13 자동 발송 + 미응답 시 담당자 알림</td><td><span class="tag good">낮음</span></td></tr>
+        <tr><td class="tight">파트너 온보딩 페이지</td><td>없음(신규 구축)</td><td>로고+제품3개 업로드 → 표준 템플릿 자동 발행 (본 보고서 §08)</td><td><span class="tag gold">중간</span></td></tr>
+        <tr><td class="tight">제품 스펙시트 생성</td><td>없음</td><td>17개 SKU 입력 시 HACCP 배지·수출 규격 문서 자동 생성</td><td><span class="tag gold">중간</span></td></tr>
+        <tr><td class="tight">견적/매칭</td><td>없음</td><td>바이어 요청 사양 ↔ SKU 스펙시트 자동 매칭 추천</td><td><span class="tag warn">높음</span></td></tr>
+        <tr><td class="tight">통관 서류</td><td>수작업</td><td>AI 서류 자동 처리(피치덱 §Offline 언급, 상세 미정)</td><td><span class="tag warn">높음</span></td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="block" id="schedule-alert">
+    <div class="block-head">
+      <span class="eyebrow">06</span>
+      <h2>일정 불일치 경고</h2>
+    </div>
+    <div class="callout warn">
+      <div class="c-title">⚠ "9월 30일 코엑스 시연" — 5개 자료 중 어디에도 등장하지 않습니다</div>
+      <p>영상(자료④)과 피치덱(자료⑤) 모두 코엑스 일정을 <b>2026년 11월 4일(수)~7일(토), 코엑스 서울푸드/푸드테크 전시부스</b>로 명시하고 있습니다(8팀 중 7팀 연합 운영 확정, 피치덱 p.7). 영상은 이보다 앞서 <b>8월 20일, 수지 신봉동에서 첫 오프라인 전략회의</b>가 있다고 언급합니다.</p>
+      <ul class="bullets">
+        <li>가능성 A — 9/30은 위 자료들에 아직 반영되지 않은, 더 작은 내부/투자자용 리허설 데모</li>
+        <li>가능성 B — 원래 계획이 변경되어 자료가 최신화되지 않음</li>
+        <li>가능성 C — 사용자가 의도한 행사가 코엑스가 아닌 다른 장소/명칭일 가능성</li>
+      </ul>
+      <p style="margin-top:12px;">아래 §07 타임라인은 <b>사용자가 말한 9/30을 1차 목표로 유지</b>하되, 11/4–7 공식 부스를 2차 목표로 병행 표기했습니다. §10에서 확인 질문으로 다시 여쭙습니다.</p>
+    </div>
+  </section>
+
+  <section class="block" id="timeline">
+    <div class="block-head">
+      <span class="eyebrow">07</span>
+      <h2>8–9월 실행 타임라인</h2>
+      <p class="sub">오늘(8/16) 기준 6주 계획. 각 주차는 자료에서 확인된 실제 일정(8/20, 9/30 가정, 11/4–7)에 맞춰 역산했습니다.</p>
+    </div>
+    <div class="gantt">
+      <div class="gantt-row">
+        <div>구분</div><div>W1<br/>8/17</div><div>W2<br/>8/24</div><div>W3<br/>8/31</div><div>W4<br/>9/7</div><div>W5<br/>9/14</div><div>W6<br/>9/21</div><div>W7<br/>9/28~</div>
+      </div>
+      <div class="gantt-row">
+        <div>브랜드/제품 데이터 확정<br/><span style="color:var(--ink-soft);font-weight:400;">17개 SKU·3rd 제품·직급 통일</span></div>
+        <div><span class="bar navy">진행</span></div><div><span class="bar navy">진행</span></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>전략회의<br/><span style="color:var(--ink-soft);font-weight:400;">수지 신봉동 대면 회의</span></div>
+        <div class="milestone">📍8/20</div><div></div><div></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>사이트 구축<br/><span style="color:var(--ink-soft);font-weight:400;">index/onboarding/브랜드 템플릿</span></div>
+        <div><span class="bar">착수</span></div><div><span class="bar">진행</span></div><div><span class="bar">진행</span></div><div></div><div></div><div></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>도메인·배포<br/><span style="color:var(--ink-soft);font-weight:400;">ongil.cloud DNS·Vercel 연결</span></div>
+        <div></div><div></div><div><span class="bar gold">설정</span></div><div><span class="bar gold">QA</span></div><div></div><div></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>파트너 데이터 입력<br/><span style="color:var(--ink-soft);font-weight:400;">새움 외 추가 파트너</span></div>
+        <div></div><div></div><div><span class="bar">입력</span></div><div><span class="bar">입력</span></div><div><span class="bar">검수</span></div><div></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>데모 시나리오·리허설<br/><span style="color:var(--ink-soft);font-weight:400;">세움 AI 라이브 데모 스크립트</span></div>
+        <div></div><div></div><div></div><div><span class="bar">작성</span></div><div><span class="bar">리허설</span></div><div><span class="bar">리허설</span></div><div></div>
+      </div>
+      <div class="gantt-row">
+        <div>최종 QA·백업플랜<br/><span style="color:var(--ink-soft);font-weight:400;">모바일·반응형·오프라인 백업</span></div>
+        <div></div><div></div><div></div><div></div><div></div><div><span class="bar good">QA</span></div><div><span class="bar good">최종</span></div>
+      </div>
+      <div class="gantt-row">
+        <div>COEX 시연 (가정)<br/><span style="color:var(--ink-soft);font-weight:400;">사용자 지정일 — §06 확인 필요</span></div>
+        <div></div><div></div><div></div><div></div><div></div><div></div><div class="milestone">🎯9/30</div>
+      </div>
+      <div class="gantt-row">
+        <div>코엑스 서울푸드 공식 부스<br/><span style="color:var(--ink-soft);font-weight:400;">피치덱 명시 · 7개 부스 연합운영</span></div>
+        <div></div><div></div><div></div><div></div><div></div><div></div><div class="milestone">→ 11/4–7</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="site">
+    <div class="block-head">
+      <span class="eyebrow">08</span>
+      <h2>구축한 사이트 구조 (ongil.cloud)</h2>
+      <p class="sub">신규 파트너가 온길 플랫폼으로 수출을 시작하면, 로고와 대표 제품 3개만으로 아래 구조가 자동 생성되도록 3개 페이지를 실제로 구현했습니다.</p>
+    </div>
+    <div class="tree">
+      <div>ongil.cloud/</div>
+      <div>├─ <span class="f">index.html</span> <span class="c">— "Here" 메인 랜딩. 문제·해결·워크플로우·로드맵·파트너 로고월</span></div>
+      <div>├─ <span class="f">onboarding.html</span> <span class="c">— 파트너 온보딩 4단계 + 새움 실사례 카드</span></div>
+      <div>├─ brands/</div>
+      <div>│&nbsp;&nbsp;└─ <span class="f">saeum.html</span> <span class="c">— 새움·삼시먹거리 개별 브랜드 홈 (실사례)</span></div>
+      <div>│&nbsp;&nbsp;└─ [partner-slug].html <span class="c">— 파트너 추가 시 동일 템플릿 반복</span></div>
+      <div>└─ docs/</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;└─ <span class="f">2026-08-analysis-report.html</span> <span class="c">— 본 보고서</span></div>
+    </div>
+    <ul class="bullets" style="margin-top:18px;">
+      <li><b>index.html</b> — COEX 참석자가 처음 만나는 페이지. "가격 경쟁의 한계 → 세움 AI 4단계 → 로드맵 → 파트너 로고월" 순서로 5분 안에 사업의 매력을 전달하도록 설계했습니다.</li>
+      <li><b>onboarding.html</b> — "계약 → 에셋 업로드 → AI 자동 생성 → 발행" 4단계 다이어그램과, 새움을 예시로 한 실제 파트너 카드를 함께 보여줘 신규 파트너 유치 미팅에서 바로 시연 가능합니다.</li>
+      <li><b>brands/saeum.html</b> — 파트너가 늘어날 때마다 같은 틀로 복제할 단일 브랜드 홈페이지 표준안입니다.</li>
+    </ul>
+  </section>
+
+  <section class="block" id="risks">
+    <div class="block-head">
+      <span class="eyebrow">09</span>
+      <h2>리스크 및 유의사항</h2>
+    </div>
+    <div class="rec-grid">
+      <div class="rec-card">
+        <span class="rc-tag" style="color:var(--warn);">개인정보 노출</span>
+        <h4>피치덱 내 사업자등록증 원본 이미지</h4>
+        <p>피치덱 3페이지 배경에 사업자등록증 2건이 그대로 삽입되어 전화번호·이메일 일부가 노출됩니다. 투자자/바이어 배포 전 마스킹 권장합니다.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag" style="color:var(--warn);">호칭 불일치</span>
+        <h4>정성열 "부장" vs "본부장", 김정석 3개 직급</h4>
+        <p>대외 자료를 통일하지 않으면 COEX 부스에서 명함·발표자료 간 신뢰도가 떨어질 수 있습니다. 최종 호칭 1개로 확정 필요.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag">확인 필요</span>
+        <h4>ongil.vercel.app / ongil.cloud 현재 상태</h4>
+        <p>이번 세션 네트워크 정책상 직접 접속이 차단되어 현재 사이트 유무를 확인하지 못했습니다. 기존 사이트가 있다면 스크린샷이나 소스를 공유해 주시면 이번 구조와 병합하겠습니다.</p>
+      </div>
+      <div class="rec-card">
+        <span class="rc-tag">범위 제한</span>
+        <h4>17개 HACCP 제품 목록 미확보</h4>
+        <p>본 보고서의 제품 관련 제안은 확인된 2개 PB 상품(떡볶이·어묵탕)과 파일럿 1건(이천쌀 떡볶이)을 근거로 한 구조적 제안입니다. 실제 17개 리스트를 주시면 사이트·표를 즉시 채워 넣겠습니다.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="doc">
+  온길 인터내셔널 · 내부 분석 보고서 · 2026년 8월 16일 작성 · 다음 업데이트: 17개 제품 리스트 및 일정 확정 후
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>파트너 온보딩 — 온길 Ongil</title>
+<meta name="description" content="온길 플랫폼에 합류하는 파트너 브랜드가 자동으로 받는 소개 페이지 템플릿과 온보딩 절차." />
+<style>
+  @font-face { font-family: 'Ongil UI'; src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo'); }
+  :root {
+    --bg: #FAF6EE; --surface: #FFFFFF; --surface-2: #F3ECDD;
+    --ink: #1F2A3D; --ink-soft: #5B6472;
+    --accent: #C96A2E; --accent-ink: #FFFFFF;
+    --navy: #1F2A3D; --navy-ink: #F3ECDD; --gold: #B98A3E; --good: #3F8F5F;
+    --line: #E4D9C4; --stamp-red: #B23A2E;
+    --shadow: 0 1px 2px rgba(31,42,61,.06), 0 8px 24px -12px rgba(31,42,61,.18);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#14181F; --surface:#1B212B; --surface-2:#212836; --ink:#F1EDE4; --ink-soft:#A7ADB8;
+      --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4; --gold:#D9BA7C; --good:#59B37E;
+      --line:#2B323F; --stamp-red:#E0685A; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#14181F; --surface:#1B212B; --surface-2:#212836; --ink:#F1EDE4; --ink-soft:#A7ADB8;
+    --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4; --gold:#D9BA7C; --good:#59B37E;
+    --line:#2B323F; --stamp-red:#E0685A; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Ongil UI',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  a { color: inherit; }
+  h1,h2,h3 { text-wrap: balance; margin:0; font-weight:800; letter-spacing:-0.01em; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .eyebrow::before { content:''; width:16px; height:1px; background:var(--accent); }
+  header.site { position: sticky; top:0; z-index:40; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom:1px solid var(--line); }
+  .nav-row { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; max-width:1080px; margin:0 auto; }
+  .brandmark { display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; text-decoration:none; }
+  .brandmark small { display:block; font-weight:600; font-size:10.5px; letter-spacing:.1em; color:var(--ink-soft); text-transform:uppercase; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; font-weight:700; font-size:14.5px; text-decoration:none; border:1px solid transparent; cursor:pointer; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-primary { background:var(--accent); color:var(--accent-ink); }
+  .btn-ghost { border-color:var(--line); color:var(--ink); }
+
+  main { padding: 56px 0 90px; }
+  .intro { max-width: 640px; margin-bottom: 44px; }
+  .intro h1 { font-size: clamp(28px,4vw,40px); margin-top: 12px; }
+  .intro p { color: var(--ink-soft); font-size: 16px; margin-top: 14px; }
+
+  /* onboarding flow diagram */
+  .flow-diagram { display:grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin: 40px 0 60px; position: relative; }
+  .flow-diagram::before { content:''; position:absolute; top:26px; left:6%; right:6%; height:1px; background-image: linear-gradient(to right, rgba(31,42,61,.2) 50%, transparent 0%); background-size: 10px 1px; background-repeat: repeat-x; }
+  :root:not([data-theme="light"]) .flow-diagram::before { background-image: linear-gradient(to right, rgba(241,237,228,.2) 50%, transparent 0%); }
+  .fd-step { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:18px; position:relative; box-shadow: var(--shadow); }
+  .fd-step .n { width:34px; height:34px; border-radius:50%; background:var(--navy); color:var(--navy-ink); font-weight:800; display:flex; align-items:center; justify-content:center; font-size:14px; margin-bottom:12px; }
+  .fd-step h4 { font-size:14.5px; }
+  .fd-step p { font-size:12.5px; color:var(--ink-soft); margin-top:6px; }
+  .fd-step .req { margin-top:10px; font-size:11px; color:var(--gold); font-weight:700; }
+
+  /* live example */
+  .example-head { display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+  .example-head h2 { font-size: 22px; }
+  .example-badge { font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--good); border:1px solid var(--good); border-radius:999px; padding:4px 10px; }
+
+  .card {
+    background: var(--surface); border:1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); overflow:hidden;
+  }
+  .card-top { background: var(--navy); color: var(--navy-ink); padding: 30px 32px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; justify-content:space-between; }
+  .card-top .id { display:flex; align-items:center; gap:16px; }
+  .logo-chip { width:60px; height:60px; border-radius:16px; background: var(--accent); color: var(--accent-ink); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; flex-shrink:0; }
+  .card-top .name { font-weight:800; font-size:20px; }
+  .card-top .sub { font-size:13px; opacity:.75; margin-top:3px; }
+  .badge-haccp { display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:700; color:var(--gold); border:1px solid var(--gold); border-radius:999px; padding:4px 10px; margin-top:10px; }
+  .contact-mini { text-align:right; font-size:12.5px; opacity:.8; line-height:1.7; }
+
+  .card-body { padding: 30px 32px 34px; }
+  .card-body h3 { font-size: 14px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; }
+  .product-row { display:grid; grid-template-columns: repeat(3,1fr); gap:14px; margin-top:14px; }
+  .product-tile { border:1px solid var(--line); border-radius:14px; padding:18px; background:var(--surface-2); }
+  .product-tile .pname { font-weight:700; font-size:15px; }
+  .product-tile .pcat { font-size:12px; color:var(--ink-soft); margin-top:4px; }
+  .product-tile .pnote { font-size:12px; color:var(--ink-soft); margin-top:10px; }
+  .product-tile.empty { border-style:dashed; display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:12.5px; text-align:center; }
+  .card-foot { display:flex; justify-content:space-between; align-items:center; margin-top:26px; padding-top:20px; border-top:1px dashed var(--line); flex-wrap:wrap; gap:14px; }
+
+  .checklist { margin-top: 70px; }
+  .checklist h2 { font-size: 22px; margin-bottom: 8px; }
+  .checklist p.lede { color: var(--ink-soft); margin-bottom: 22px; }
+  .req-grid { display:grid; grid-template-columns: repeat(2,1fr); gap: 14px; }
+  .req-item { display:flex; gap: 12px; padding: 16px 18px; border:1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .req-item .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); margin-top:7px; flex-shrink:0; }
+  .req-item b { display:block; font-size:14px; }
+  .req-item span { font-size:12.5px; color:var(--ink-soft); }
+
+  footer.site { padding: 40px 0 60px; border-top:1px solid var(--line); margin-top: 70px; }
+  .foot-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px; font-size:13px; color:var(--ink-soft); max-width:1080px; margin:0 auto; padding:0 28px; }
+
+  @media (max-width: 800px) {
+    .flow-diagram { grid-template-columns: 1fr 1fr; }
+    .flow-diagram::before { display:none; }
+    .product-row { grid-template-columns: 1fr; }
+    .req-grid { grid-template-columns: 1fr; }
+    .card-top { flex-direction:column; align-items:flex-start; }
+    .contact-mini { text-align:left; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="brandmark" href="index.html">
+      <svg width="28" height="28" viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle cx="15" cy="15" r="13" stroke="currentColor" stroke-width="1.6"/><path d="M15 6 L18.5 14.5 L15 24 L11.5 14.5 Z" fill="var(--accent)"/></svg>
+      <span>온길 Ongil<small>Right Track Export</small></span>
+    </a>
+    <a class="btn btn-ghost" href="index.html">← 홈으로</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="intro">
+    <span class="eyebrow">Partner Onboarding Template</span>
+    <h1>로고와 대표 제품 3개, 그게 전부입니다.</h1>
+    <p>계약이 완료된 파트너는 아래 4단계를 거쳐 온길 플랫폼 안에 전용 소개 페이지를 갖게 됩니다. 사람이 디자인을 새로 만들 필요 없이, 이 페이지의 형식이 모든 파트너에게 동일하게 자동 적용됩니다.</p>
+  </div>
+
+  <div class="flow-diagram">
+    <div class="fd-step">
+      <div class="n">1</div>
+      <h4>파트너 계약</h4>
+      <p>사업자등록증·HACCP 인증서 확인 후 입점 계약 체결</p>
+      <div class="req">필요서류: 사업자등록증, HACCP 인증서</div>
+    </div>
+    <div class="fd-step">
+      <div class="n">2</div>
+      <h4>브랜드 에셋 업로드</h4>
+      <p>로고 파일과 대표 제품 3개의 이름·사진·카테고리 제출</p>
+      <div class="req">필요자료: 로고, 제품사진 3종</div>
+    </div>
+    <div class="fd-step">
+      <div class="n">3</div>
+      <h4>AI 자동 페이지 생성</h4>
+      <p>세움(SEUM) 엔진이 표준 템플릿에 맞춰 브랜드 페이지를 즉시 생성</p>
+      <div class="req">소요시간: 자동 처리</div>
+    </div>
+    <div class="fd-step">
+      <div class="n">4</div>
+      <h4>ongil.cloud 발행</h4>
+      <p>/brands/{브랜드명} 경로로 온길 플랫폼에 정식 노출</p>
+      <div class="req">공개 URL 발급</div>
+    </div>
+  </div>
+
+  <section>
+    <div class="example-head">
+      <h2>실제 예시 — (주)새움 · 삼시먹거리</h2>
+      <span class="example-badge">Live Example</span>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="id">
+          <div class="logo-chip">새움</div>
+          <div>
+            <div class="name">(주)새움 · 삼시먹거리</div>
+            <div class="sub">충북 증평군 도안면 화산리 15 · OEM / B2B / B2C</div>
+            <div class="badge-haccp">✓ HACCP 인증</div>
+          </div>
+        </div>
+        <div class="contact-mini">
+          영업팀 김정석 팀장<br/>
+          T. 043-882-1441
+        </div>
+      </div>
+      <div class="card-body">
+        <h3>대표 제품 3</h3>
+        <div class="product-row">
+          <div class="product-tile">
+            <div class="pname">한국 쌀 프리미엄 떡볶이</div>
+            <div class="pcat">즉석조리세트 · PB 전략상품</div>
+            <div class="pnote">이천 쌀 소싱 · 급속냉동 가공 · 수출용 소포장</div>
+          </div>
+          <div class="product-tile">
+            <div class="pname">어묵탕</div>
+            <div class="pcat">즉석조리세트 · PB 전략상품</div>
+            <div class="pnote">국물류 HMR 규격화 테스트 라인</div>
+          </div>
+          <div class="product-tile empty">3번째 대표 제품<br/>파트너 확정 필요</div>
+        </div>
+        <div class="card-foot">
+          <span style="font-size:13px; color:var(--ink-soft);">전체 17개 HACCP SKU 중 대표 3종 노출</span>
+          <a class="btn btn-primary" href="brands/saeum.html">새움 브랜드 페이지 열기 →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="checklist">
+    <h2>온보딩에 필요한 5가지</h2>
+    <p class="lede">신규 파트너가 이 페이지를 갖기 위해 온길에 제출해야 하는 최소 자료입니다.</p>
+    <div class="req-grid">
+      <div class="req-item"><span class="dot"></span><div><b>사업자등록증</b><span>사업자 정보 및 소재지 확인용</span></div></div>
+      <div class="req-item"><span class="dot"></span><div><b>HACCP 인증서</b><span>제품 안전 인증 배지 표기용</span></div></div>
+      <div class="req-item"><span class="dot"></span><div><b>브랜드 로고 파일</b><span>SVG/PNG, 투명배경 권장</span></div></div>
+      <div class="req-item"><span class="dot"></span><div><b>대표 제품 3종 정보</b><span>제품명·카테고리·제품사진</span></div></div>
+      <div class="req-item"><span class="dot"></span><div><b>담당자 연락처</b><span>바이어 문의 자동 라우팅용</span></div></div>
+      <div class="req-item"><span class="dot"></span><div><b>수출 희망 국가</b><span>AI 매칭 알고리즘 타겟팅용</span></div></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="foot-row">
+    <div>온길 인터내셔널(Ongil International) · AI 자동화 O2O 수출 플랫폼</div>
+    <div>ongil.cloud/onboarding</div>
+  </div>
+</footer>
+
+</body>
+</html>
