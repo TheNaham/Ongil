@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>세움 AI 라이브 데모 — 온길 Ongil</title>
+<meta name="description" content="세움(SEUM) AI 자동화 4단계를 실제로 눌러볼 수 있는 라이브 데모 — 명함 분석, 다국어 메일, 파트너 페이지 생성, 견적 매칭." />
+<style>
+  @font-face { font-family: 'Ongil UI'; src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo'); }
+  :root {
+    --bg:#FAF6EE; --surface:#FFFFFF; --surface-2:#F3ECDD;
+    --ink:#1F2A3D; --ink-soft:#5B6472; --ink-faint:#8A93A3;
+    --accent:#C96A2E; --accent-ink:#FFFFFF;
+    --navy:#1F2A3D; --navy-ink:#F3ECDD; --gold:#B98A3E; --good:#3F8F5F; --warn:#B23A2E;
+    --line:#E4D9C4; --shadow: 0 1px 2px rgba(31,42,61,.06), 0 8px 24px -12px rgba(31,42,61,.18);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#14181F; --surface:#1B212B; --surface-2:#212836; --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+      --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4; --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+      --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#14181F; --surface:#1B212B; --surface-2:#212836; --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+    --accent:#E68A4C; --accent-ink:#14181F; --navy:#26314A; --navy-ink:#F1EDE4; --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+    --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Ongil UI',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  a { color: inherit; }
+  h1,h2,h3,h4 { text-wrap:balance; margin:0; font-weight:800; letter-spacing:-0.01em; }
+  .wrap { max-width: 1040px; margin:0 auto; padding: 0 26px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .eyebrow::before { content:''; width:16px; height:1px; background:var(--accent); }
+
+  header.site { position: sticky; top:0; z-index:40; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom:1px solid var(--line); }
+  .nav-row { display:flex; align-items:center; justify-content:space-between; padding:16px 26px; max-width:1040px; margin:0 auto; }
+  .brandmark { display:flex; align-items:center; gap:10px; font-weight:800; font-size:18px; text-decoration:none; }
+  .brandmark small { display:block; font-weight:600; font-size:10.5px; letter-spacing:.1em; color:var(--ink-soft); text-transform:uppercase; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:11px 20px; border-radius:999px; font-weight:700; font-size:14px; text-decoration:none; border:1px solid transparent; cursor:pointer; font-family:inherit; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .btn-primary { background:var(--accent); color:var(--accent-ink); }
+  .btn-primary:hover { filter:brightness(1.06); }
+  .btn-ghost { border-color:var(--line); color:var(--ink); background:transparent; }
+  .btn-sm { padding: 8px 14px; font-size: 13px; }
+
+  main.intro { padding: 50px 0 10px; }
+  main.intro h1 { font-size: clamp(26px,3.8vw,36px); margin-top: 10px; max-width: 22ch; }
+  main.intro p { color: var(--ink-soft); margin-top: 12px; font-size: 15.5px; max-width: 62ch; }
+  .live-tag { display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:800; color:var(--good); border:1px solid var(--good); border-radius:999px; padding:4px 10px; margin-top:16px; }
+  .live-tag .dot { width:6px; height:6px; border-radius:50%; background:var(--good); animation: pulse 1.6s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) { .live-tag .dot { animation:none; } }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.35;} }
+
+  section.demo-block { padding: 46px 0; border-top: 1px solid var(--line); scroll-margin-top: 70px; }
+  .db-head { display:flex; align-items:flex-start; justify-content:space-between; gap: 16px; flex-wrap:wrap; margin-bottom: 24px; }
+  .db-head .n { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:50%; background:var(--navy); color:var(--navy-ink); font-weight:800; font-size:13px; flex-shrink:0; }
+  .db-head h2 { font-size: clamp(19px,2.6vw,23px); margin-top:2px; }
+  .db-head .titlewrap { display:flex; gap:12px; align-items:flex-start; }
+  .db-head p { color:var(--ink-soft); font-size:13.5px; margin-top:6px; max-width: 56ch; }
+
+  .panel { background:var(--surface); border:1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+  .panel + .panel { margin-top: 16px; }
+  .two-col { display:grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  label.field { display:block; font-size: 12px; font-weight:700; color:var(--ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:.04em; }
+  textarea, input[type=text], select {
+    width:100%; border:1px solid var(--line); border-radius:10px; padding:10px 12px; font-family:inherit; font-size:14px;
+    background:var(--surface-2); color:var(--ink);
+  }
+  textarea:focus, input:focus, select:focus { outline:2px solid var(--accent); outline-offset:1px; }
+  textarea { min-height: 120px; resize: vertical; }
+  .field-row { margin-bottom: 14px; }
+  .chip-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom: 14px; }
+  .chip-btn { border:1px solid var(--line); background:var(--surface); color:var(--ink-soft); border-radius:999px; padding:6px 12px; font-size:12.5px; cursor:pointer; font-family:inherit; }
+  .chip-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .result-card { border:1px solid var(--line); border-radius: 12px; padding: 18px 20px; background:var(--surface-2); margin-top: 16px; display:none; }
+  .result-card.show { display:block; animation: fadein .35s ease; }
+  @keyframes fadein { from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;} }
+  @media (prefers-reduced-motion: reduce) { .result-card.show { animation:none; } }
+  .result-grid { display:grid; grid-template-columns: repeat(2,1fr); gap: 10px 20px; margin-top: 10px; }
+  .result-grid div span.k { display:block; font-size:11px; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.05em; }
+  .result-grid div span.v { font-size:14px; font-weight:700; }
+  .status-line { font-size:12.5px; color:var(--good); font-weight:700; display:flex; align-items:center; gap:6px; }
+
+  .email-preview { border:1px solid var(--line); border-radius:12px; background: var(--surface-2); margin-top:16px; overflow:hidden; display:none; }
+  .email-preview.show { display:block; animation: fadein .35s ease; }
+  .email-head { padding: 12px 16px; border-bottom:1px solid var(--line); font-size:12px; color:var(--ink-soft); display:flex; justify-content:space-between; }
+  .email-body { padding: 18px 20px; font-size:14px; white-space: pre-wrap; line-height:1.7; }
+
+  .p3-preview { margin-top: 20px; }
+  .p3-card { border:1px solid var(--line); border-radius: 18px; overflow:hidden; box-shadow: var(--shadow); display:none; }
+  .p3-card.show { display:block; animation: fadein .35s ease; }
+  .p3-top { background: var(--navy); color: var(--navy-ink); padding: 22px 24px; display:flex; gap:14px; align-items:center; }
+  .p3-chip { width:48px; height:48px; border-radius:12px; background:var(--accent); color:var(--accent-ink); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0; }
+  .p3-body { padding: 20px 24px 24px; }
+  .p3-products { display:grid; grid-template-columns: repeat(3,1fr); gap:10px; margin-top: 12px; }
+  .p3-tile { border:1px solid var(--line); border-radius:10px; padding:12px; background:var(--surface-2); font-size:12.5px; }
+  .p3-tile b { display:block; font-size:13.5px; }
+
+  .sku-grid { display:grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 18px; }
+  .sku-card { border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--surface-2); opacity: .4; transition: opacity .2s; }
+  .sku-card.match { opacity: 1; border-color: var(--good); }
+  .sku-card h4 { font-size: 13.5px; }
+  .sku-card .cat { font-size:11px; color:var(--ink-soft); margin-top:2px; }
+  .sku-card .price { font-size: 14px; font-weight:800; margin-top:8px; font-variant-numeric: tabular-nums; }
+  .sku-card .moq { font-size: 11px; margin-top: 4px; }
+  .sku-card .moq.ok { color: var(--good); }
+  .sku-card .moq.no { color: var(--warn); }
+  .sample-note { font-size:12px; color:var(--ink-faint); margin-top:14px; }
+
+  footer.site { padding: 40px 0 60px; font-size:12.5px; color: var(--ink-faint); border-top:1px solid var(--line); margin-top: 20px; }
+
+  @media (max-width: 760px) {
+    .two-col, .result-grid, .p3-products, .sku-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav-row">
+    <a class="brandmark" href="index.html">
+      <svg width="28" height="28" viewBox="0 0 30 30" fill="none" aria-hidden="true"><circle cx="15" cy="15" r="13" stroke="currentColor" stroke-width="1.6"/><path d="M15 6 L18.5 14.5 L15 24 L11.5 14.5 Z" fill="var(--accent)"/></svg>
+      <span>온길 Ongil<small>Right Track Export</small></span>
+    </a>
+    <a class="btn btn-ghost" href="index.html">← 홈으로</a>
+  </div>
+</header>
+
+<main class="intro wrap">
+  <span class="eyebrow">SEUM AI · Interactive Demo</span>
+  <h1>세움 AI, 직접 눌러보세요.</h1>
+  <p>아래 4개 섹션은 화면 속 그림이 아니라 실제로 작동하는 미니 모델입니다. 명함 텍스트를 넣고, 메일을 생성하고, 파트너 페이지를 만들고, 견적을 매칭해 보세요 — COEX 부스에서 관람객이 직접 조작할 수 있습니다.</p>
+  <span class="live-tag"><span class="dot"></span> 클라이언트 사이드 라이브 데모 (백엔드 없이 브라우저에서 즉시 동작)</span>
+</main>
+
+<!-- 1. 명함 -> 리드 -->
+<section class="demo-block" id="step1">
+  <div class="wrap">
+    <div class="db-head">
+      <div class="titlewrap">
+        <span class="n">1</span>
+        <div>
+          <h2>명함 → 리드 자동화</h2>
+          <p>명함 텍스트를 붙여넣으면 AI가 이름·회사·이메일·전화·국가를 즉시 구조화합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="chip-row">
+        <button class="chip-btn" onclick="loadExample('de')">예시: 독일 바이어</button>
+        <button class="chip-btn" onclick="loadExample('vn')">예시: 베트남 바이어</button>
+        <button class="chip-btn" onclick="loadExample('jp')">예시: 일본 바이어</button>
+      </div>
+      <div class="field-row">
+        <label class="field" for="cardInput">명함 텍스트 (OCR 결과 붙여넣기)</label>
+        <textarea id="cardInput" placeholder="예)&#10;Hans Müller&#10;Müller Feinkost GmbH&#10;hans.mueller@muellerfeinkost.de&#10;+49 30 1234 5678&#10;Germany"></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="analyzeCard()">🤖 AI 즉시 분석</button>
+      <div id="cardStatus" class="status-line" style="margin-top:10px; display:none;">✓ 분석 완료 — 0.8초</div>
+      <div id="leadResult" class="result-card">
+        <div class="status-line">✓ 리드 등록 완료</div>
+        <div class="result-grid">
+          <div><span class="k">이름</span><span class="v" id="rName">—</span></div>
+          <div><span class="k">회사</span><span class="v" id="rCompany">—</span></div>
+          <div><span class="k">이메일</span><span class="v" id="rEmail">—</span></div>
+          <div><span class="k">전화</span><span class="v" id="rPhone">—</span></div>
+          <div><span class="k">추정 국가</span><span class="v" id="rCountry">—</span></div>
+          <div><span class="k">다음 단계</span><span class="v">↓ 2단계에서 메일 자동 생성</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2. 다국어 메일 -->
+<section class="demo-block" id="step2">
+  <div class="wrap">
+    <div class="db-head">
+      <div class="titlewrap">
+        <span class="n">2</span>
+        <div>
+          <h2>다국어 메일 자동화</h2>
+          <p>1단계에서 분석된 리드 정보를 바탕으로 바이어 언어에 맞춘 메일을 즉시 작성합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="two-col">
+        <div class="field-row">
+          <label class="field" for="langSel">회신 언어</label>
+          <select id="langSel">
+            <option value="en">English</option>
+            <option value="de">Deutsch</option>
+            <option value="it">Italiano</option>
+            <option value="ja">日本語</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="ms">Bahasa Melayu</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field" for="prodSel">관심 제품</label>
+          <select id="prodSel">
+            <option value="한국 쌀 프리미엄 떡볶이">한국 쌀 프리미엄 떡볶이</option>
+            <option value="어묵탕">어묵탕</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="generateEmail()">✉️ 메일 자동 생성</button>
+      <div id="emailPreview" class="email-preview">
+        <div class="email-head">
+          <span id="emailTo">To: —</span>
+          <button class="btn btn-ghost btn-sm" onclick="copyEmail()">📋 복사하기</button>
+        </div>
+        <div class="email-body" id="emailBody">—</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. 파트너 페이지 자동 생성 -->
+<section class="demo-block" id="step3">
+  <div class="wrap">
+    <div class="db-head">
+      <div class="titlewrap">
+        <span class="n">3</span>
+        <div>
+          <h2>파트너 페이지 자동 생성</h2>
+          <p>브랜드명과 대표 제품 3개를 입력하면 onboarding.html과 같은 형식의 카드가 그 자리에서 만들어집니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="two-col">
+        <div class="field-row"><label class="field" for="pBrand">브랜드명</label><input type="text" id="pBrand" placeholder="예: 청정원 김치" /></div>
+        <div class="field-row"><label class="field" for="pOwner">담당자</label><input type="text" id="pOwner" placeholder="예: 이수진 팀장" /></div>
+      </div>
+      <div class="two-col">
+        <div class="field-row"><label class="field" for="pProd1">대표 제품 1</label><input type="text" id="pProd1" placeholder="제품명" /></div>
+        <div class="field-row"><label class="field" for="pProd2">대표 제품 2</label><input type="text" id="pProd2" placeholder="제품명" /></div>
+      </div>
+      <div class="field-row"><label class="field" for="pProd3">대표 제품 3</label><input type="text" id="pProd3" placeholder="제품명 (비워두면 '확정 예정'으로 표시)" /></div>
+      <button class="btn btn-primary" onclick="buildPartnerCard()">⚡ 파트너 페이지 생성</button>
+      <div class="p3-preview">
+        <div id="p3Card" class="p3-card">
+          <div class="p3-top">
+            <div class="p3-chip" id="p3Initial">—</div>
+            <div>
+              <div style="font-weight:800; font-size:16px;" id="p3Name">—</div>
+              <div style="font-size:12.5px; opacity:.75;" id="p3Sub">—</div>
+            </div>
+          </div>
+          <div class="p3-body">
+            <div style="font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); font-weight:700;">대표 제품 3</div>
+            <div class="p3-products">
+              <div class="p3-tile"><b id="p3p1">—</b></div>
+              <div class="p3-tile"><b id="p3p2">—</b></div>
+              <div class="p3-tile"><b id="p3p3">—</b></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:16px;" onclick="copyCardCode()">📋 이 카드 HTML 복사</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. 견적/매칭 -->
+<section class="demo-block" id="step4">
+  <div class="wrap">
+    <div class="db-head">
+      <div class="titlewrap">
+        <span class="n">4</span>
+        <div>
+          <h2>견적 / 매칭 데모</h2>
+          <p>바이어가 원하는 카테고리와 수량을 넣으면 등록된 SKU 중 조건에 맞는 상품을 매칭합니다.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="two-col">
+        <div class="field-row">
+          <label class="field" for="catSel">카테고리</label>
+          <select id="catSel">
+            <option value="all">전체</option>
+            <option value="즉석조리세트">즉석조리세트</option>
+            <option value="양념육">양념육</option>
+            <option value="포차류">포차류</option>
+            <option value="간편조리">간편조리</option>
+          </select>
+        </div>
+        <div class="field-row">
+          <label class="field" for="qtySel">희망 수량 (박스)</label>
+          <input type="text" id="qtySel" value="500" />
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="matchSku()">🔍 매칭 검색</button>
+      <div class="sku-grid" id="skuGrid"></div>
+      <p class="sample-note">※ 위 SKU 6종은 데모용 샘플입니다. 실제 17개 HACCP 제품 데이터를 전달해 주시면 이 목록을 교체합니다.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">세움(SEUM) AI 라이브 데모 · 온길 인터내셔널 · 브라우저에서만 동작하는 프런트엔드 목업 (실제 AI 백엔드 미연동)</div>
+</footer>
+
+<script>
+  var lastLead = null;
+
+  var examples = {
+    de: "Hans Müller\nMüller Feinkost GmbH\nhans.mueller@muellerfeinkost.de\n+49 30 1234 5678\nGermany",
+    vn: "Nguyen Van An\nSaigon Food Import Co.\nan.nguyen@saigonfood.vn\n+84 28 3822 1122\nVietnam",
+    jp: "田中健一\n田中商事株式会社\nkenichi.tanaka@tanaka-shoji.jp\n+81 3 1234 5678\nJapan"
+  };
+
+  function loadExample(key) {
+    document.getElementById('cardInput').value = examples[key];
+  }
+
+  var countryByDialCode = [
+    ['+49', 'Germany'], ['+84', 'Vietnam'], ['+81', 'Japan'], ['+39', 'Italy'],
+    ['+60', 'Malaysia'], ['+1', 'USA/Canada'], ['+82', 'Korea'], ['+86', 'China']
+  ];
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function analyzeCard() {
+    var text = document.getElementById('cardInput').value.trim();
+    var statusEl = document.getElementById('cardStatus');
+    var resultEl = document.getElementById('leadResult');
+    if (!text) { alert('명함 텍스트를 입력하거나 예시 버튼을 눌러주세요.'); return; }
+
+    statusEl.style.display = 'flex';
+    statusEl.textContent = '⏳ AI 분석 중...';
+    resultEl.classList.remove('show');
+
+    setTimeout(function () {
+      var lines = text.split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+      var emailMatch = text.match(/[\w.+-]+@[\w-]+\.[\w.-]+/);
+      var phoneMatch = text.match(/\+?\d[\d\s-]{7,}\d/);
+      var email = emailMatch ? emailMatch[0] : '미확인';
+      var phone = phoneMatch ? phoneMatch[0].trim() : '미확인';
+
+      var country = '미확인';
+      var lower = text.toLowerCase();
+      var known = ['germany', 'vietnam', 'japan', 'italy', 'malaysia', 'usa', 'canada', 'korea', 'china'];
+      for (var i = 0; i < known.length; i++) {
+        if (lower.indexOf(known[i]) !== -1) { country = known[i].charAt(0).toUpperCase() + known[i].slice(1); break; }
+      }
+      if (country === '미확인' && phoneMatch) {
+        for (var j = 0; j < countryByDialCode.length; j++) {
+          if (phoneMatch[0].indexOf(countryByDialCode[j][0]) === 0) { country = countryByDialCode[j][1]; break; }
+        }
+      }
+
+      var rest = lines.filter(function (l) { return l.indexOf('@') === -1 && !/\d{3,}/.test(l) && known.indexOf(l.toLowerCase()) === -1; });
+      var name = rest[0] || '미확인';
+      var company = rest[1] || '미확인';
+
+      document.getElementById('rName').textContent = name;
+      document.getElementById('rCompany').textContent = company;
+      document.getElementById('rEmail').textContent = email;
+      document.getElementById('rPhone').textContent = phone;
+      document.getElementById('rCountry').textContent = country;
+
+      statusEl.textContent = '✓ 분석 완료 — 0.8초';
+      resultEl.classList.add('show');
+
+      lastLead = { name: name, company: company, email: email, country: country };
+    }, 650);
+  }
+
+  var emailTemplates = {
+    en: "Dear {name},\n\nThank you for visiting our booth. We are pleased to introduce our {product}, produced under HACCP-certified facilities in Korea and export-ready with quick-frozen packaging.\n\nWe would love to discuss pricing and MOQ for {company}. Could we schedule a short call this week?\n\nBest regards,\nOngil International Export Team",
+    de: "Sehr geehrte(r) {name},\n\nvielen Dank für Ihren Besuch an unserem Stand. Wir freuen uns, Ihnen unser Produkt {product} vorzustellen — HACCP-zertifiziert und exportfertig tiefgekühlt verpackt.\n\nGerne besprechen wir Preise und Mindestbestellmengen für {company}. Passt Ihnen ein kurzes Gespräch diese Woche?\n\nMit freundlichen Grüßen,\nOngil International Export Team",
+    it: "Gentile {name},\n\ngrazie per aver visitato il nostro stand. Siamo lieti di presentarle il nostro prodotto {product}, certificato HACCP e pronto per l'esportazione con confezionamento surgelato.\n\nSaremmo felici di discutere prezzi e MOQ per {company}. Possiamo fissare una breve chiamata questa settimana?\n\nCordiali saluti,\nOngil International Export Team",
+    ja: "{name} 様\n\nブースにお立ち寄りいただきありがとうございます。HACCP認証取得済み、輸出用急速冷凍包装の {product} をご紹介させていただきます。\n\n{company} 様向けに価格とMOQについてご相談できればと思います。今週、短いお電話のお時間をいただけますでしょうか。\n\n何卒よろしくお願いいたします。\nOngil International 輸出チーム",
+    vi: "Kính gửi {name},\n\nCảm ơn quý khách đã ghé thăm gian hàng của chúng tôi. Chúng tôi xin giới thiệu sản phẩm {product}, đạt chứng nhận HACCP và đóng gói cấp đông sẵn sàng xuất khẩu.\n\nChúng tôi rất mong trao đổi về giá và MOQ cho {company}. Quý khách có thể sắp xếp một cuộc gọi ngắn trong tuần này không?\n\nTrân trọng,\nĐội xuất khẩu Ongil International",
+    ms: "Yang dihormati {name},\n\nTerima kasih kerana melawat gerai kami. Kami dengan sukacitanya memperkenalkan produk {product} kami, disahkan HACCP dan siap eksport dalam pembungkusan beku pantas.\n\nKami ingin membincangkan harga dan MOQ untuk {company}. Bolehkah kita jadualkan panggilan ringkas minggu ini?\n\nSalam hormat,\nPasukan Eksport Ongil International"
+  };
+
+  function generateEmail() {
+    var lang = document.getElementById('langSel').value;
+    var product = document.getElementById('prodSel').value;
+    var lead = lastLead || { name: 'Buyer', company: 'your company', email: '' };
+    var body = emailTemplates[lang]
+      .replace(/{name}/g, lead.name)
+      .replace(/{company}/g, lead.company)
+      .replace(/{product}/g, product);
+
+    document.getElementById('emailTo').textContent = 'To: ' + (lead.email !== '미확인' && lead.email ? lead.email : '(1단계에서 명함을 분석하면 자동 입력됩니다)');
+    document.getElementById('emailBody').textContent = body;
+    document.getElementById('emailPreview').classList.add('show');
+  }
+
+  function copyEmail() {
+    var text = document.getElementById('emailBody').textContent;
+    navigator.clipboard && navigator.clipboard.writeText(text);
+    var btn = event.target;
+    var orig = btn.textContent;
+    btn.textContent = '✓ 복사됨';
+    setTimeout(function () { btn.textContent = orig; }, 1500);
+  }
+
+  function buildPartnerCard() {
+    var brand = document.getElementById('pBrand').value.trim() || '브랜드명';
+    var owner = document.getElementById('pOwner').value.trim() || '담당자';
+    var p1 = document.getElementById('pProd1').value.trim() || '제품 1';
+    var p2 = document.getElementById('pProd2').value.trim() || '제품 2';
+    var p3 = document.getElementById('pProd3').value.trim() || '확정 예정';
+
+    document.getElementById('p3Initial').textContent = brand.slice(0, 2);
+    document.getElementById('p3Name').textContent = brand;
+    document.getElementById('p3Sub').textContent = owner + ' · HACCP 인증';
+    document.getElementById('p3p1').textContent = p1;
+    document.getElementById('p3p2').textContent = p2;
+    document.getElementById('p3p3').textContent = p3;
+    document.getElementById('p3Card').classList.add('show');
+  }
+
+  function copyCardCode() {
+    var brand = escapeHtml(document.getElementById('p3Name').textContent);
+    var owner = escapeHtml(document.getElementById('p3Sub').textContent);
+    var p1 = escapeHtml(document.getElementById('p3p1').textContent);
+    var p2 = escapeHtml(document.getElementById('p3p2').textContent);
+    var p3 = escapeHtml(document.getElementById('p3p3').textContent);
+    var html = '<div class="preview-card">\n  <div class="preview-logo">\n    <div class="logo-chip">' + brand.slice(0,2) + '</div>\n    <div><div class="name">' + brand + '</div><div class="sub">' + owner + '</div></div>\n  </div>\n  <div class="product-row">\n    <div class="product-tile"><div class="pname">' + p1 + '</div></div>\n    <div class="product-tile"><div class="pname">' + p2 + '</div></div>\n    <div class="product-tile"><div class="pname">' + p3 + '</div></div>\n  </div>\n</div>';
+    navigator.clipboard && navigator.clipboard.writeText(html);
+    var btn = event.target;
+    var orig = btn.textContent;
+    btn.textContent = '✓ 복사됨';
+    setTimeout(function () { btn.textContent = orig; }, 1500);
+  }
+
+  var demoSkus = [
+    { name: '한국 쌀 프리미엄 떡볶이', cat: '즉석조리세트', price: 3.2, moq: 300 },
+    { name: '어묵탕', cat: '즉석조리세트', price: 4.1, moq: 300 },
+    { name: '매콤 양념 닭꼬치', cat: '양념육', price: 5.4, moq: 500 },
+    { name: '옛날 소떡소떡', cat: '포차류', price: 2.8, moq: 400 },
+    { name: '즉석 순대볶음', cat: '간편조리', price: 3.6, moq: 350 },
+    { name: '냉동 김치볶음밥 소스', cat: '간편조리', price: 2.4, moq: 600 }
+  ];
+
+  function renderSkuGrid(list, qty) {
+    var grid = document.getElementById('skuGrid');
+    grid.innerHTML = '';
+    demoSkus.forEach(function (sku) {
+      var isMatch = list.indexOf(sku) !== -1;
+      var card = document.createElement('div');
+      card.className = 'sku-card' + (isMatch ? ' match' : '');
+      var moqOk = qty >= sku.moq;
+      card.innerHTML = '<h4>' + escapeHtml(sku.name) + '</h4>' +
+        '<div class="cat">' + escapeHtml(sku.cat) + '</div>' +
+        '<div class="price">$' + sku.price.toFixed(2) + ' / unit</div>' +
+        (isMatch ? '<div class="moq ' + (moqOk ? 'ok' : 'no') + '">MOQ ' + sku.moq + ' — ' + (moqOk ? '충족 ✓' : '수량 부족') + '</div>' : '');
+      grid.appendChild(card);
+    });
+  }
+
+  function matchSku() {
+    var cat = document.getElementById('catSel').value;
+    var qty = parseInt(document.getElementById('qtySel').value, 10) || 0;
+    var matched = demoSkus.filter(function (s) { return cat === 'all' || s.cat === cat; });
+    renderSkuGrid(matched, qty);
+  }
+
+  renderSkuGrid(demoSkus, 0);
+</script>
+
+</body>
+</html>
