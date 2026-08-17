@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>온길 사거리 — 4대 축 인포그래픽</title>
+<meta name="description" content="정성열 본부장·김정석 과장 대화록을 4개 전략 축(각 25%)으로 재구성한 온길 인포그래픽." />
+<style>
+  @font-face { font-family: 'Ongil UI'; src: local('Pretendard Variable'), local('Pretendard'), local('Apple SD Gothic Neo'); }
+  :root {
+    --bg:#FAF6EE; --surface:#FFFFFF; --surface-2:#F3ECDD;
+    --ink:#1F2A3D; --ink-soft:#5B6472; --ink-faint:#8A93A3;
+    --accent:#C96A2E; --accent-ink:#FFFFFF;
+    --navy:#1F2A3D; --navy-ink:#F3ECDD; --gold:#B98A3E; --good:#3F8F5F; --warn:#B23A2E;
+    --line:#E4D9C4; --shadow: 0 1px 2px rgba(31,42,61,.05), 0 8px 20px -12px rgba(31,42,61,.14);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg:#14181F; --surface:#1B212B; --surface-2:#212836;
+      --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+      --accent:#E68A4C; --accent-ink:#14181F; --navy:#4A5A82; --navy-ink:#F1EDE4;
+      --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+      --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 24px -14px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:#14181F; --surface:#1B212B; --surface-2:#212836;
+    --ink:#F1EDE4; --ink-soft:#A7ADB8; --ink-faint:#7B8291;
+    --accent:#E68A4C; --accent-ink:#14181F; --navy:#4A5A82; --navy-ink:#F1EDE4;
+    --gold:#D9BA7C; --good:#59B37E; --warn:#E0685A;
+    --line:#2B323F; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 24px -14px rgba(0,0,0,.55);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin:0; background:var(--bg); color:var(--ink); font-family:'Ongil UI',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Segoe UI',sans-serif; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  .mono { font-family:'SFMono-Regular',Consolas,monospace; font-variant-numeric: tabular-nums; }
+  h1,h2,h3,h4 { text-wrap: balance; margin:0; font-weight:800; letter-spacing:-0.01em; }
+  p { margin:0; }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .wrap { max-width: 980px; margin:0 auto; padding: 0 26px; }
+  .eyebrow { display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); }
+  .eyebrow::before { content:''; width:16px; height:1px; background:var(--accent); }
+
+  header.hero { padding: 56px 0 40px; border-bottom: 1px solid var(--line); }
+  header.hero h1 { font-size: clamp(30px,5vw,46px); margin-top:14px; max-width: 16ch; }
+  header.hero .sub { margin-top:16px; max-width: 62ch; font-size:15.5px; color:var(--ink-soft); }
+  .meta-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:26px; }
+  .meta-chip { display:flex; flex-direction:column; gap:2px; border:1px solid var(--line); border-radius:10px; padding:9px 14px; background:var(--surface); box-shadow:var(--shadow); }
+  .meta-chip .k { font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-faint); }
+  .meta-chip .v { font-size:13px; font-weight:700; color:var(--ink); }
+
+  main { padding: 8px 0 100px; }
+  section.block { padding: 56px 0; border-top: 1px solid var(--line); scroll-margin-top: 20px; }
+  .block-head { max-width: 680px; margin: 0 auto 34px; text-align:center; }
+  .block-head h2 { font-size: clamp(22px,3vw,29px); margin-top:8px; }
+  .block-head p.sub { color: var(--ink-soft); margin-top:10px; font-size:14.5px; }
+
+  /* ── crossroads (4-quadrant, equal weight) ── */
+  .crossroads-wrap { position:relative; max-width: 760px; margin: 0 auto; }
+  .crossroads {
+    display:grid; grid-template-columns: 1fr 1fr; column-gap:16px; row-gap:0; align-items:stretch;
+    grid-template-areas: "a1 a2" "hub hub" "a3 a4";
+  }
+  .quad.a1 { grid-area:a1; margin-bottom:16px; }
+  .quad.a2 { grid-area:a2; margin-bottom:16px; }
+  .quad.a3 { grid-area:a3; margin-top:16px; }
+  .quad.a4 { grid-area:a4; margin-top:16px; }
+  .quad {
+    position:relative; background:var(--surface); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 24px 22px; box-shadow: var(--shadow); overflow:hidden;
+  }
+  .quad::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--axis); }
+  .quad .dir { font-size:11px; font-weight:800; letter-spacing:.1em; color:var(--ink-faint); text-transform:uppercase; }
+  .quad .dir b { color:var(--axis); }
+  .quad .pct { font-size: clamp(34px,5vw,46px); font-weight:800; color:var(--axis); margin-top:6px; line-height:1; }
+  .quad .pct sup { font-size:.42em; font-weight:700; margin-left:2px; }
+  .quad h3 { font-size:16.5px; margin-top:10px; }
+  .quad p.d { font-size:13px; color:var(--ink-soft); margin-top:8px; }
+  .quad .chips { display:flex; flex-wrap:wrap; gap:6px; margin-top:14px; }
+  .quad .chips span { font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:999px; background:var(--surface-2); color:var(--ink-soft); border:1px solid var(--line); }
+  .quad.a1 { --axis: var(--accent); }
+  .quad.a2 { --axis: var(--gold); }
+  .quad.a3 { --axis: var(--good); }
+  .quad.a4 { --axis: var(--navy); }
+
+  .hub {
+    grid-area: hub; position:relative; z-index:2; justify-self:center; margin: -2px auto;
+    display:flex; align-items:center; gap:10px; border-radius:999px; background:var(--navy); color:var(--navy-ink);
+    box-shadow: 0 10px 26px -12px rgba(0,0,0,.4), 0 0 0 6px var(--bg); padding: 11px 22px;
+  }
+  .hub .brand { font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; opacity:.7; border-right:1px solid color-mix(in srgb, var(--navy-ink) 30%, transparent); padding-right:10px; }
+  .hub .date { font-size:13px; font-weight:800; white-space:nowrap; }
+  .hub .where { font-size:11px; opacity:.75; white-space:nowrap; }
+  .hub .sep { opacity:.5; }
+
+  .crossroads-note { max-width: 640px; margin: 26px auto 0; font-size:12.5px; color:var(--ink-faint); text-align:center; line-height:1.7; }
+  .crossroads-note b { color:var(--ink-soft); }
+
+  @media (max-width: 640px) {
+    .crossroads { grid-template-columns: 1fr; grid-template-areas: "a1" "a2" "hub" "a3" "a4"; }
+    .quad.a1, .quad.a2, .quad.a3, .quad.a4 { margin:0; }
+    .quad.a2 { margin-top:16px; }
+    .quad.a3 { margin-top:16px; }
+    .quad.a4 { margin-top:16px; }
+    .hub { flex-direction:column; text-align:center; gap:2px; margin: 16px auto; padding:14px 22px; }
+    .hub .brand { border-right:none; padding-right:0; }
+    .hub .sep { display:none; }
+  }
+
+  /* ── focus 5 (ranked) ── */
+  .focus-list { display:flex; flex-direction:column; gap:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); background:var(--surface); }
+  .focus-item { display:grid; grid-template-columns: 56px 1fr; gap:16px; padding:18px 22px; border-top:1px solid var(--line); align-items:start; }
+  .focus-item:first-child { border-top:none; }
+  .focus-item .n { font-size:22px; font-weight:800; color:var(--accent); }
+  .focus-item h4 { font-size:14.5px; }
+  .focus-item p { font-size:13px; color:var(--ink-soft); margin-top:5px; }
+
+  /* ── next 5 (actionable) ── */
+  .next-grid { display:grid; grid-template-columns: repeat(2,1fr); gap:14px; }
+  .next-card { border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; background:var(--surface); box-shadow:var(--shadow); }
+  .next-card .tag { display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.05em; padding:3px 9px; border-radius:999px; border:1px solid currentColor; color:var(--gold); }
+  .next-card h4 { font-size:14.5px; margin-top:10px; }
+  .next-card p { font-size:12.5px; color:var(--ink-soft); margin-top:7px; }
+  @media (max-width:640px) { .next-grid { grid-template-columns: 1fr; } }
+
+  footer.doc { padding: 44px 0 70px; font-size:12.5px; color:var(--ink-faint); border-top:1px solid var(--line); text-align:center; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Trade-On · 대화 분석 인포그래픽 · 2026.08.17</span>
+    <h1>온길 사거리</h1>
+    <p class="sub">정성열(맥스 정) 본부장과 김정석 과장이 나눈 대화를 네 갈래 길로 다시 그렸습니다. 대화에 등장한 빈도가 아니라, 앞으로 함께 걸어갈 무게를 기준으로 네 축을 똑같이 나눴습니다 — 각 25%.</p>
+    <div class="meta-row">
+      <div class="meta-chip"><span class="k">참여자</span><span class="v">정성열 본부장 · 김정석 과장</span></div>
+      <div class="meta-chip"><span class="k">축 구성</span><span class="v mono">4개 · 각 25%</span></div>
+      <div class="meta-chip"><span class="k">재구성 기준</span><span class="v">대화 빈도 → 전략적 중요도</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="block" id="crossroads">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="eyebrow">Equal-Weight Quadrant</span>
+        <h2>네 갈래 길, 하나의 사거리</h2>
+        <p class="sub">각 축은 같은 크기의 길입니다. 어느 하나도 다른 하나보다 앞서지 않습니다.</p>
+      </div>
+
+      <div class="crossroads-wrap">
+        <div class="crossroads">
+          <div class="quad a1">
+            <div class="dir"><b>북 · AXIS 01</b> — 나아갈 길</div>
+            <div class="pct mono">25<sup>%</sup></div>
+            <h3>AI 기반 수출 중계·소싱 플랫폼</h3>
+            <p class="d">중소 제조사 상품을 AI가 진단해 수출 가능국·HS CODE·인증정보를 매칭하고 바이어까지 자동 연결합니다.</p>
+            <div class="chips"><span>HS CODE 자동 매칭</span><span>바이어 DB 연동</span><span>세움(SEUM) 워크플로우</span></div>
+          </div>
+          <div class="quad a2">
+            <div class="dir"><b>동 · AXIS 02</b> — 떠오르는 길</div>
+            <div class="pct mono">25<sup>%</sup></div>
+            <h3>K-Food 글로벌 브랜딩 — 새움 × 온길</h3>
+            <p class="d">이천쌀 떡볶이 등 한식을 냉동 가공식품으로 재구성해 '새움' 브랜드로 해외 시장에 런칭합니다.</p>
+            <div class="chips"><span>냉동 가공식품 개발</span><span>수출용 패키징</span><span>샘플 검증</span></div>
+          </div>
+          <div class="quad a3">
+            <div class="dir"><b>남 · AXIS 03</b> — 움직이는 길</div>
+            <div class="pct mono">25<sup>%</sup></div>
+            <h3>물류 혁신 및 풀필먼트</h3>
+            <p class="d">단가 경쟁을 넘어, 물류 거점과 배송 시스템을 연결해 수출 전 과정을 하나의 흐름으로 통합합니다.</p>
+            <div class="chips"><span>거점 풀필먼트</span><span>배송 고도화</span><span>원스톱 프로세스</span></div>
+          </div>
+          <div class="quad a4">
+            <div class="dir"><b>서 · AXIS 04</b> — 걸어온 길</div>
+            <div class="pct mono">25<sup>%</sup></div>
+            <h3>지식 콘텐츠·기록 브랜딩</h3>
+            <p class="d">사업의 전 과정을 블로그와 전자책 '온길이 걸어온 길'로 기록해 신뢰를 쌓고 검색 유입을 넓힙니다.</p>
+            <div class="chips"><span>블로그·전자책</span><span>SEO 유입 설계</span><span>신뢰 자산화</span></div>
+          </div>
+          <div class="hub">
+            <span class="brand">Ongil</span>
+            <span class="date">2026.11 서울 푸드위크</span>
+            <span class="sep">·</span>
+            <span class="where">COEX, 네 길이 만나는 지점</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="crossroads-note"><b>※ 원 데이터 기준 실제 대화 비중</b> — AI 플랫폼 35% · K-Food 브랜딩 25% · 박람회 준비 20% · 물류 혁신 10% · 기록 브랜딩 10%. 이번 인포그래픽은 박람회 실행 과제를 축 1·2에 흡수하고, 향후 집중도를 기준으로 4개 축을 동일 비중(25%)으로 재구성한 것입니다.</p>
+    </div>
+  </section>
+
+  <section class="block" id="focus5">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="eyebrow">함께 그려본 미래</span>
+        <h2>지금 가장 집중해야 할 5가지</h2>
+        <p class="sub">네 축을 실제로 움직이게 만드는 우선순위입니다.</p>
+      </div>
+      <div class="focus-list">
+        <div class="focus-item"><div class="n mono">01</div><div><h4>AI 소싱 엔진 고도화</h4><p>국가별 수출 규제와 바이어 데이터를 학습시켜 정확한 진단 서비스를 구축합니다.</p></div></div>
+        <div class="focus-item"><div class="n mono">02</div><div><h4>전략적 파트너십 확장</h4><p>KOTRA 등 기존 인프라를 활용하되, 민간 실행형 서비스로서의 차별점을 강화합니다.</p></div></div>
+        <div class="focus-item"><div class="n mono">03</div><div><h4>글로벌 브랜드 정체성 확립</h4><p>'온길(Ongil)'의 브랜드 캐릭터와 톤앤매너를 전 매체에 통일감 있게 적용합니다.</p></div></div>
+        <div class="focus-item"><div class="n mono">04</div><div><h4>수출 실적(Track Record) 확보</h4><p>박람회 등을 통해 실제 수출 계약 한 건을 성공시켜 성공 사례를 만듭니다.</p></div></div>
+        <div class="focus-item"><div class="n mono">05</div><div><h4>지속적인 콘텐츠 기록</h4><p>블로그와 일기 작성으로 잠재적 파트너와 고객에게 진정성을 전달합니다.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="next5">
+    <div class="wrap">
+      <div class="block-head">
+        <span class="eyebrow">홈페이지, 그다음</span>
+        <h2>먼저 움직일 우선 실행 5가지</h2>
+        <p class="sub">홈페이지 제작 이후, 지금 바로 검토·실행 가능한 항목입니다.</p>
+      </div>
+      <div class="next-grid">
+        <div class="next-card"><span class="tag">자동화</span><h4>텔레그램 문의 봇 연동 최종 테스트</h4><p>홈페이지 질의가 실시간으로 두 담당자에게 전달되는지 시스템을 최종 점검합니다.</p></div>
+        <div class="next-card"><span class="tag">브랜드</span><h4>새움 브랜드 서브페이지 업데이트</h4><p>떡볶이 제품의 영문 상세 페이지와 카탈로그를 업로드합니다.</p></div>
+        <div class="next-card"><span class="tag">마케팅</span><h4>박람회용 마케팅 키트 제작</h4><p>AI 캐릭터가 반영된 온길 트레이드 명함과 부스 전시용 홍보 영상을 만듭니다.</p></div>
+        <div class="next-card"><span class="tag">검증</span><h4>샘플 테스트 및 피드백</h4><p>이천쌀 떡볶이 샘플을 실제 파트너사·지인에게 전달해 상품성을 최종 검증합니다.</p></div>
+        <div class="next-card"><span class="tag">협업</span><h4>Google Workspace 협업 세팅</h4><p><span class="mono">ongiltrade@gmail.com</span> 계정으로 파트너 이메일과 드래프트 공유를 활성화합니다.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="doc">
+  <div class="wrap">이 인포그래픽은 2026.08 트레이드온–온길 대화록 분석을 바탕으로 재구성되었습니다. · Ongil International</div>
+</footer>
+
+</body>
+</html>

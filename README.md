@@ -14,6 +14,7 @@ brands/
   [partner-slug].html    신규 파트너 추가 시 saeum.html을 복제해 데이터만 교체
 docs/
   2026-08-analysis-report.html   자료 7종 종합 분석 + 8~9월 실행 타임라인 보고서
+  2026-08-4quadrant-infographic.html   정성열·김정석 대화 분석 — 4대 전략 축(각 25%) 인포그래픽
 ```
 
 ## 파트너 추가 방법 (현재는 수동, 추후 세움 AI로 자동화 예정)
