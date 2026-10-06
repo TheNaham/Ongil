@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="ko" data-theme="A">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>온길로직스 ONGIL LOGISTICS — 통합물류기획 · 종합상품유통 · 원스톱수출입</title>
+<meta name="description" content="상품이 가는 모든 길, 온길이 함께합니다. 입고·보관부터 O2O 풀필먼트, 콜드체인, 수출 컨설팅·통관까지 원스톱.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== 시안 A: 네이비·골드 (벨이삭 패밀리룩) / 시안 B: 오렌지·네이비 (온길 독립형) ===== */
+:root,[data-theme="A"]{
+  --ink:#152342; --ink-2:#0d1730; --ink-soft:#2a3a60;
+  --accent:#c9a227; --accent-2:#e2c45a; --on-accent:#152342;
+  --cream:#f4efe2; --paper:#fbf8f1; --line:#e3dccb; --muted:#5d6478; --text:#1b2236;
+  --logo-a:#152342; --logo-b:#c9a227;
+}
+[data-theme="B"]{
+  --ink:#1c2b52; --ink-2:#111c3a; --ink-soft:#2f4170;
+  --accent:#ec7a2c; --accent-2:#ff9b52; --on-accent:#ffffff;
+  --cream:#fbf1e6; --paper:#fffaf4; --line:#efdcc8; --muted:#5f6680; --text:#1b2236;
+  --logo-a:#1c2b52; --logo-b:#ec7a2c;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:var(--text);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-x:clip}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+.eyebrow{font-family:Montserrat,sans-serif;font-size:11.5px;letter-spacing:.28em;text-transform:uppercase;font-weight:600;color:var(--accent)}
+.wrap{max-width:1280px;margin:0 auto;padding:0 28px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 24px;border-radius:999px;font-weight:600;font-size:15px;transition:.2s}
+.btn-acc{background:var(--accent);color:var(--on-accent)}
+.btn-acc:hover{background:var(--accent-2)}
+.btn-ghost{border:1.5px solid rgba(255,255,255,.7);color:#fff}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ink:hover{background:var(--ink-soft)}
+.arrow::after{content:"→";font-family:Montserrat}
+.chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--accent);color:var(--on-accent);letter-spacing:.02em;vertical-align:middle}
+.chip.fact{background:var(--ink);color:#fff}
+
+/* ===== Password gate ===== */
+#gate{position:fixed;inset:0;z-index:999;background:radial-gradient(circle at 30% 20%,var(--ink-soft),var(--ink-2));display:flex;align-items:center;justify-content:center;padding:16px}
+#gate .box{background:var(--paper);border-radius:20px;padding:40px 34px;max-width:380px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.35)}
+#gate svg{width:96px;height:66px;margin:0 auto 14px}
+#gate h2{font-size:20px;color:var(--ink);margin-bottom:4px}
+#gate p{font-size:13px;color:var(--muted);margin-bottom:20px}
+#gate input{width:100%;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:18px;text-align:center;letter-spacing:.4em;outline:none}
+#gate input:focus{border-color:var(--accent)}
+#gate .err{color:#c0392b;font-size:13px;height:20px;margin-top:8px}
+#gate .btn{width:100%;justify-content:center;margin-top:6px}
+body.locked{overflow:hidden}
+
+/* ===== Header ===== */
+header.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.hrow{display:flex;align-items:center;gap:22px;height:76px}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand svg{width:58px;height:40px}
+.brand .bt{line-height:1.05}
+.brand .bt b{display:block;font-size:22px;font-weight:800;color:var(--ink);letter-spacing:.02em}
+.brand .bt small{font-family:Montserrat,sans-serif;font-size:9.5px;font-weight:700;letter-spacing:.16em;color:var(--ink-soft)}
+.tagline{font-size:12.5px;color:var(--muted);border-left:1px solid var(--line);padding-left:16px;max-width:190px;line-height:1.4}
+nav.gnav{display:flex;gap:4px;margin-left:auto}
+.gitem{position:relative}
+.gitem>button{padding:10px 14px;font-size:15px;font-weight:600;color:var(--ink);border-radius:8px}
+.gitem>button:hover,.gitem.on>button{color:var(--accent)}
+.gitem .dd{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:210px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(21,35,66,.14);padding:8px;display:none}
+.gitem:hover .dd,.gitem:focus-within .dd{display:block}
+.dd a{display:flex;gap:10px;padding:9px 12px;border-radius:8px;font-size:14px;color:var(--text)}
+.dd a span{font-family:Montserrat,sans-serif;font-size:11px;color:var(--accent);font-weight:700;padding-top:2px}
+.dd a:hover{background:var(--cream)}
+.hctl{display:flex;align-items:center;gap:14px}
+.lang{font-family:Montserrat,sans-serif;font-size:12.5px;font-weight:700;color:var(--muted)}
+.lang button{padding:4px 4px}
+.lang button.on{color:var(--ink)}
+.burger{display:none;width:42px;height:42px;border-radius:10px;border:1px solid var(--line)}
+.burger i{display:block;width:18px;height:2px;background:var(--ink);margin:4px auto}
+
+/* tab strip (20 tabs) */
+.tabstrip{border-top:1px solid var(--line);background:var(--paper)}
+.tabstrip .wrap{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-top:8px;padding-bottom:8px}
+.tabstrip .wrap::-webkit-scrollbar{display:none}
+.tabstrip a{flex-shrink:0;font-size:13px;padding:6px 12px;border-radius:999px;color:var(--muted);border:1px solid transparent;white-space:nowrap}
+.tabstrip a b{font-family:Montserrat,sans-serif;font-size:10.5px;margin-right:5px;color:var(--accent)}
+.tabstrip a:hover{border-color:var(--line);color:var(--ink)}
+.tabstrip a.on{background:var(--ink);color:#fff}
+.tabstrip a.on b{color:var(--accent-2)}
+
+/* mobile drawer */
+#drawer{position:fixed;inset:0;z-index:80;background:rgba(10,16,32,.5);display:none}
+#drawer.open{display:block}
+#drawer .pane{position:absolute;right:0;top:0;bottom:0;width:min(340px,88vw);background:#fff;padding:20px;overflow-y:auto}
+#drawer h4{font-size:12px;color:var(--accent);letter-spacing:.2em;font-family:Montserrat,sans-serif;margin:16px 0 6px}
+#drawer a{display:block;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
+
+/* ===== Tabs ===== */
+.tab{display:none;animation:fade .45s ease}
+.tab.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* hero slider */
+.hero{position:relative;height:min(78vh,720px);min-height:520px;overflow:hidden;background:var(--ink-2)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s ease}
+.slide.on img{transform:scale(1)}
+.slide::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,34,.82) 0%,rgba(10,16,34,.55) 38%,rgba(10,16,34,.05) 70%)}
+.hcopy{position:absolute;inset:0;z-index:2;display:flex;align-items:center}
+.hcopy .wrap{width:100%}
+.hcopy .inner{max-width:620px;color:#fff}
+.hcopy .eyebrow{color:var(--accent-2);margin-bottom:18px}
+.hcopy h1{font-size:clamp(34px,5vw,60px);line-height:1.15;font-weight:800;letter-spacing:-.02em;margin-bottom:18px}
+.hcopy h1 em{font-style:normal;color:var(--accent-2)}
+.hcopy p{font-size:17px;opacity:.88;margin-bottom:30px}
+.hcopy .btns{display:flex;gap:10px;flex-wrap:wrap}
+.hnav{position:absolute;z-index:3;left:0;right:0;bottom:30px}
+.hnav .wrap{display:flex;align-items:center;gap:14px;color:#fff;font-family:Montserrat,sans-serif;font-size:12px}
+.hnav button{color:#fff;opacity:.6;display:flex;align-items:center;gap:10px}
+.hnav button.on{opacity:1}
+.hnav button i{display:block;width:26px;height:2px;background:#fff;transition:.4s}
+.hnav button.on i{width:60px;background:var(--accent-2)}
+.hlabel{margin-left:auto;text-align:right;letter-spacing:.3em;font-size:10.5px;opacity:.8;line-height:1.8}
+
+/* icon bar */
+.iconbar{background:var(--ink);color:#fff}
+.iconbar .wrap{display:grid;grid-template-columns:repeat(5,1fr)}
+.iconbar a{display:flex;align-items:center;gap:14px;padding:24px 16px;border-right:1px solid rgba(255,255,255,.1);transition:.2s}
+.iconbar a:last-child{border-right:0}
+.iconbar a:hover{background:rgba(255,255,255,.05)}
+.iconbar svg{width:34px;height:34px;flex-shrink:0;stroke:var(--accent-2);fill:none;stroke-width:1.5}
+.iconbar b{display:block;font-size:15.5px}
+.iconbar small{font-size:12px;opacity:.65}
+
+/* sections */
+section.sec{padding:84px 0}
+.sec h2{font-size:clamp(26px,3.2vw,38px);line-height:1.25;letter-spacing:-.02em;color:var(--ink);font-weight:800;margin:10px 0 14px}
+.sec .lead{color:var(--muted);font-size:16.5px;max-width:640px}
+.about{display:grid;grid-template-columns:300px 1fr;gap:36px;align-items:stretch}
+.about .txt{display:flex;flex-direction:column;justify-content:center}
+.about .txt .btn{margin-top:24px;align-self:flex-start}
+.pcards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/5;color:#fff;display:block}
+.pcard img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.pcard:hover img{transform:scale(1.06)}
+.pcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(10,16,34,.88) 100%)}
+.pcard .c{position:absolute;z-index:2;left:20px;right:20px;bottom:20px}
+.pcard b{font-size:21px;display:block}
+.pcard .en{font-family:Montserrat,sans-serif;font-size:10.5px;letter-spacing:.22em;opacity:.8;font-weight:600}
+.pcard p{font-size:13px;opacity:.85;margin-top:8px}
+.pcard .go{position:absolute;right:18px;bottom:18px;z-index:2;width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-family:Montserrat}
+
+/* trust strip */
+.trust{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.trust .wrap{display:grid;grid-template-columns:1.25fr 1fr;gap:30px;padding-top:34px;padding-bottom:34px;align-items:center}
+.trust h3{font-size:18px;color:var(--ink);margin:6px 0 14px}
+.trust .wrap>div{min-width:0}
+.marquee{overflow:hidden;max-width:100%;mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.mtrack{display:flex;gap:10px;width:max-content;animation:mq 38s linear infinite}
+.marquee:hover .mtrack{animation-play-state:paused}
+@keyframes mq{to{transform:translateX(-50%)}}
+.rchip{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 16px;font-weight:700;font-size:14.5px;color:var(--ink);white-space:nowrap}
+.rchip.top{border-color:var(--accent)}
+.tnote{font-size:11.5px;color:var(--muted);margin-top:10px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.stat{padding:4px 16px;border-left:1px solid var(--line)}
+.stat small{display:block;font-size:12px;color:var(--muted)}
+.stat b{font-size:26px;color:var(--ink);font-weight:800;letter-spacing:-.02em}
+.stat .u{font-size:11px;color:var(--muted)}
+
+/* split CTA */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.sbox{position:relative;border-radius:20px;overflow:hidden;min-height:380px;color:#fff;display:flex;align-items:flex-end}
+.sbox img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sbox::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,16,34,.1),rgba(10,16,34,.9))}
+.sbox .c{position:relative;z-index:2;padding:34px}
+.sbox h3{font-size:28px;margin:8px 0 10px;line-height:1.3}
+.sbox p{opacity:.85;margin-bottom:20px;max-width:440px}
+
+/* product highlight */
+.prod{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
+.prod .ph{border-radius:20px;overflow:hidden;aspect-ratio:4/3}
+.prod .ph img{width:100%;height:100%;object-fit:cover}
+.plist{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:22px 0}
+.plist div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px}
+.plist b{display:block;color:var(--ink)}
+.plist small{color:var(--muted);font-size:12.5px}
+
+/* all-tabs grid */
+.tgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:30px}
+.tg{border-radius:14px;overflow:hidden;background:#fff;border:1px solid var(--line);transition:.25s;display:block}
+.tg:hover{transform:translateY(-4px);box-shadow:0 16px 30px rgba(21,35,66,.12)}
+.tg .im{aspect-ratio:16/10;overflow:hidden;background:var(--cream)}
+.tg .im img{width:100%;height:100%;object-fit:cover}
+.tg .t{padding:12px 14px}
+.tg .t span{font-family:Montserrat,sans-serif;font-size:10.5px;font-weight:700;color:var(--accent)}
+.tg .t b{display:block;font-size:14.5px;color:var(--ink);line-height:1.35}
+
+/* CTA band */
+.band{position:relative;color:#fff;overflow:hidden}
+.band img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,34,.88),rgba(10,16,34,.45))}
+.band .wrap{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:24px;padding-top:56px;padding-bottom:56px;flex-wrap:wrap}
+.band .big{font-family:Montserrat,sans-serif;letter-spacing:.24em;font-size:clamp(18px,2.4vw,28px);font-weight:600;line-height:1.4}
+.band p{opacity:.85;margin-top:8px}
+
+/* sub tab hero */
+.thero{position:relative;height:min(56vh,520px);min-height:380px;color:#fff;overflow:hidden;background:var(--ink-2)}
+.thero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,34,.86) 0%,rgba(10,16,34,.5) 45%,rgba(10,16,34,.1) 80%)}
+.thero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center}
+.thero .num{font-family:Montserrat,sans-serif;font-size:13px;letter-spacing:.2em;color:var(--accent-2);font-weight:700}
+.thero h1{font-size:clamp(30px,4.4vw,52px);line-height:1.18;font-weight:800;letter-spacing:-.02em;margin:12px 0 14px;max-width:760px}
+.thero p{font-size:17px;opacity:.9;max-width:600px;margin-bottom:26px}
+.tagrow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.tagrow span{font-size:12.5px;border:1px solid rgba(255,255,255,.4);padding:4px 12px;border-radius:999px}
+.crumb{font-size:12.5px;opacity:.7;margin-bottom:6px}
+
+.points{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pt{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px}
+.pt .n{font-family:Montserrat,sans-serif;font-weight:700;color:var(--accent);font-size:13px}
+.pt b{display:block;font-size:18px;color:var(--ink);margin:8px 0 8px}
+.pt p{font-size:14.5px;color:var(--muted)}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+.duo .ph{border-radius:20px;overflow:hidden;aspect-ratio:4/3}
+.duo .ph img{width:100%;height:100%;object-fit:cover}
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:18px}
+.step{display:flex;gap:14px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.step::before{counter-increment:s;content:counter(s,decimal-leading-zero);font-family:Montserrat,sans-serif;font-weight:700;color:var(--on-accent);background:var(--accent);border-radius:8px;min-width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:13px}
+.step b{display:block;color:var(--ink)}
+.step small{color:var(--muted);font-size:13.5px}
+.pager{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--line);padding-top:26px;margin-top:60px}
+.pager a{flex:1;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:#fff}
+.pager a:hover{border-color:var(--accent)}
+.pager small{display:block;color:var(--muted);font-size:12px}
+.pager b{color:var(--ink)}
+.pager a.nx{text-align:right}
+
+/* packages */
+.pkgs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pkg{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;display:flex;flex-direction:column}
+.pkg.hot{background:var(--ink);color:#fff;border-color:var(--ink)}
+.pkg h3{font-size:22px;margin:6px 0}
+.pkg .pr{font-size:15px;font-weight:700;color:var(--accent);margin:8px 0 16px}
+.pkg ul{list-style:none;display:grid;gap:8px;margin-bottom:24px;flex:1}
+.pkg li{font-size:14.5px;padding-left:22px;position:relative}
+.pkg li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800}
+.pkg.hot li{color:rgba(255,255,255,.9)}
+
+/* forms */
+.formcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px}
+.formcard h3{color:var(--ink);font-size:21px;margin-bottom:4px}
+.formcard .sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid .full{grid-column:1/-1}
+label.f{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--ink)}
+.f input,.f select,.f textarea{font:inherit;font-weight:400;font-size:15px;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);outline:none;width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--accent)}
+.f textarea{min-height:96px;resize:vertical}
+.formcard .btn{margin-top:16px}
+.fmsg{font-size:13.5px;margin-top:12px;color:var(--ink-soft)}
+.forms2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+/* AI diag */
+.diag{display:grid;grid-template-columns:380px 1fr;gap:24px;align-items:start}
+.dres{background:var(--ink);color:#fff;border-radius:20px;padding:30px;min-height:360px}
+.dres h3{font-size:20px;margin-bottom:6px}
+.dres .lvl{display:inline-block;margin:6px 0 16px;padding:4px 14px;border-radius:999px;background:var(--accent);color:var(--on-accent);font-weight:800}
+.dres ul{list-style:none;display:grid;gap:9px}
+.dres li{padding:10px 12px 10px 38px;background:rgba(255,255,255,.07);border-radius:10px;position:relative;font-size:14.5px}
+.dres li::before{content:"☐";position:absolute;left:13px;color:var(--accent-2)}
+.dres .ph{opacity:.7;font-size:14.5px}
+.disc{font-size:12px;opacity:.65;margin-top:14px}
+
+/* channels page */
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:20px}
+.chgrid div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;text-align:center;font-weight:700;color:var(--ink)}
+.chgrid div small{display:block;font-weight:500;color:var(--muted);font-size:11.5px;margin-top:2px}
+
+/* faq */
+details.q{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:10px}
+details.q summary{font-weight:700;color:var(--ink);cursor:pointer}
+details.q p{margin-top:10px;color:var(--muted);font-size:14.5px}
+
+/* footer */
+footer{background:#fff;border-top:1px solid var(--line);padding:40px 0 30px}
+footer .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:center}
+footer .fl{font-size:13px;color:var(--muted);line-height:1.8}
+footer .fl b{color:var(--ink)}
+footer .slog{font-family:Montserrat,sans-serif;font-size:10.5px;letter-spacing:.24em;color:var(--muted);text-align:right;line-height:1.9}
+
+/* floating */
+.floats{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.fbtn{display:flex;align-items:center;gap:8px;padding:11px 16px;border-radius:999px;font-weight:700;font-size:13.5px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+.fbtn.kk{background:#fee500;color:#191600}
+.fbtn.wa{background:#25d366;color:#fff}
+.fbtn.top{background:var(--ink);color:#fff;padding:11px 14px}
+/* review toolbar */
+.rv{position:fixed;left:18px;bottom:18px;z-index:60;background:var(--ink-2);color:#fff;border-radius:16px;padding:10px;display:flex;gap:6px;align-items:center;box-shadow:0 14px 34px rgba(0,0,0,.3);font-size:12.5px}
+.rv span{opacity:.7;padding:0 6px}
+.rv button{padding:7px 12px;border-radius:10px;background:rgba(255,255,255,.08);font-weight:600}
+.rv button.on{background:var(--accent);color:var(--on-accent)}
+#memo{position:fixed;left:18px;bottom:80px;z-index:61;width:min(380px,calc(100vw - 36px));max-height:60vh;overflow:auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 20px 50px rgba(0,0,0,.25);display:none;font-size:13.5px}
+#memo.open{display:block}
+#memo h4{color:var(--ink);margin-bottom:8px}
+#memo li{margin:0 0 8px 18px;color:var(--text)}
+#toast{position:fixed;left:50%;top:96px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:12px;z-index:90;font-size:14px;display:none}
+
+@media (max-width:1100px){
+  .tagline{display:none}
+  .tgrid{grid-template-columns:repeat(3,1fr)}
+  .pcards{grid-template-columns:repeat(2,1fr)}
+  .about{grid-template-columns:1fr}
+  .trust .wrap{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  nav.gnav{display:none}
+  .burger{display:block}
+  .hctl{margin-left:auto}
+  .iconbar .wrap{grid-template-columns:repeat(5,minmax(150px,1fr));overflow-x:auto}
+  .points,.pkgs{grid-template-columns:1fr}
+  .duo,.prod,.split,.forms2,.diag{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr);row-gap:16px}
+  footer .wrap{grid-template-columns:1fr}
+  footer .slog{text-align:left}
+}
+@media (max-width:640px){
+  .rv{left:8px;bottom:8px;padding:6px;font-size:11px}
+  .rv button{padding:6px 8px}
+  .wrap{padding:0 16px}
+  .hrow{height:64px;gap:10px}
+  .brand svg{width:46px;height:32px}
+  .brand .bt b{font-size:19px}
+  .hctl .btn{display:none}
+  section.sec{padding:56px 0}
+  .tgrid{grid-template-columns:repeat(2,1fr)}
+  .pcards{grid-template-columns:1fr 1fr;gap:10px}
+  .pcard b{font-size:17px}
+  .pcard p{display:none}
+  .fgrid{grid-template-columns:1fr}
+  .plist{grid-template-columns:1fr}
+  .hcopy p{font-size:15px}
+  .hlabel{display:none}
+  .rv span{display:none}
+  .fbtn .tx{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body class="locked">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="ongil-mark" viewBox="8 8 330 226"><path style="fill:var(--logo-b)" fill-rule="evenodd" d="M272.5,79.7 L271.2,79.7 L270.3,80.5 L266.0,86.0 L265.5,87.2 L265.5,88.7 L267.0,93.2 L267.5,96.3 L268.7,100.7 L269.0,103.8 L270.0,107.3 L270.2,111.2 L270.5,112.8 L270.5,115.0 L270.2,115.7 L269.5,116.2 L268.0,116.3 L242.0,116.3 L240.7,116.8 L239.8,117.7 L238.5,119.7 L236.0,122.2 L236.0,123.5 L236.8,124.0 L268.3,123.8 L269.7,124.2 L270.5,125.3 L270.5,128.0 L270.2,129.8 L270.0,133.3 L269.0,137.3 L268.5,140.8 L267.2,145.5 L266.8,147.7 L265.8,149.8 L265.3,152.2 L264.5,153.7 L263.8,156.5 L262.8,158.2 L262.3,160.0 L259.8,165.0 L259.7,165.8 L258.5,167.7 L257.8,169.5 L255.7,172.7 L255.0,174.2 L252.5,177.3 L251.5,179.2 L250.5,179.7 L250.3,181.2 L247.5,184.8 L246.0,186.2 L245.0,186.3 L245.0,186.8 L244.3,188.0 L241.7,190.7 L240.2,191.8 L238.7,193.5 L236.3,195.2 L234.0,197.5 L230.0,200.8 L226.2,203.3 L225.3,204.2 L223.3,205.5 L222.2,206.0 L220.8,207.0 L219.8,207.3 L218.5,208.3 L216.2,209.3 L215.3,210.0 L212.3,211.5 L211.0,211.8 L209.3,212.8 L204.8,214.5 L203.7,214.7 L201.2,216.2 L199.0,216.3 L198.5,217.2 L195.3,220.0 L193.0,221.3 L190.7,223.3 L187.8,224.7 L185.0,226.8 L184.0,227.3 L182.0,227.8 L182.0,229.2 L184.8,229.2 L186.7,228.7 L192.2,227.8 L196.8,226.7 L199.2,226.5 L201.7,225.3 L203.0,225.2 L206.7,223.8 L208.5,223.5 L210.7,222.5 L212.5,222.0 L216.8,219.7 L218.8,219.0 L227.5,214.2 L232.8,210.3 L234.3,209.7 L235.5,208.5 L236.2,208.2 L237.2,207.2 L238.7,206.3 L245.2,200.8 L251.7,194.2 L252.0,193.5 L253.0,192.7 L254.2,191.0 L255.7,189.5 L258.0,186.0 L260.2,183.3 L262.8,179.2 L263.5,178.5 L264.3,176.5 L268.2,170.2 L270.0,165.8 L271.2,163.8 L271.7,162.2 L272.8,160.0 L273.5,157.5 L274.3,156.0 L274.8,153.8 L276.0,151.7 L276.3,148.8 L277.5,144.3 L277.8,141.0 L279.0,136.5 L279.5,129.2 L280.0,126.3 L280.2,114.5 L279.5,110.7 L279.0,103.5 L277.8,98.8 L277.7,96.5 L277.2,94.3 L276.3,92.2 L275.8,88.5 L274.8,86.5 L274.2,83.8 L273.3,82.3 L273.0,80.5Z M294.0,12.7 L292.3,12.7 L290.8,13.0 L288.8,13.8 L284.8,14.3 L282.2,15.3 L278.8,15.8 L275.8,17.0 L273.3,17.3 L270.7,18.3 L267.2,19.0 L263.2,20.3 L261.7,20.5 L259.2,21.5 L256.8,21.8 L251.7,23.3 L249.5,23.5 L247.0,24.5 L244.2,25.0 L242.2,25.8 L237.7,26.7 L237.3,27.0 L237.3,28.3 L238.7,29.3 L240.8,31.5 L242.5,32.5 L243.2,33.3 L249.3,38.2 L250.3,39.3 L250.3,40.3 L248.0,43.2 L247.3,44.3 L246.2,45.5 L244.2,48.3 L243.0,49.5 L241.8,51.3 L240.2,53.0 L238.2,55.8 L236.7,57.2 L235.3,59.2 L233.8,60.7 L233.5,61.3 L229.3,66.0 L229.0,66.7 L226.2,69.5 L225.8,70.2 L223.3,72.8 L221.7,75.2 L218.8,78.2 L218.3,79.0 L215.7,81.7 L215.0,83.0 L207.8,90.8 L203.7,95.0 L203.3,95.7 L180.2,118.8 L179.5,119.2 L175.3,123.3 L172.3,125.7 L170.2,127.8 L167.5,129.8 L165.0,132.2 L163.8,132.8 L161.3,135.3 L159.8,136.2 L154.0,141.2 L152.2,142.2 L151.3,143.2 L150.3,143.8 L150.3,145.2 L151.7,145.2 L154.2,144.0 L155.2,143.2 L156.5,142.5 L157.8,141.3 L161.3,139.5 L162.7,138.2 L165.8,136.7 L169.3,134.0 L173.7,131.5 L176.5,129.0 L181.8,125.5 L186.7,121.7 L190.2,119.3 L192.5,117.0 L193.5,116.5 L195.5,114.5 L196.8,113.7 L203.3,108.0 L205.0,107.2 L207.0,105.0 L208.2,104.3 L212.7,100.3 L213.8,99.7 L216.8,96.7 L218.5,95.5 L220.8,93.2 L221.8,92.5 L245.0,69.7 L248.5,65.7 L251.3,62.8 L253.2,60.5 L255.3,58.3 L256.7,56.5 L263.3,49.5 L265.0,47.2 L269.3,42.8 L270.0,41.8 L275.3,36.2 L275.7,35.5 L277.5,33.7 L279.7,30.8 L281.3,29.2 L282.3,27.7 L284.5,25.3 L285.2,24.2 L287.3,22.2 L288.3,20.5 L290.8,18.2 L294.0,14.2Z M182.0,11.5 L182.0,12.8 L186.3,15.0 L187.7,16.2 L190.7,18.0 L191.7,19.0 L194.2,20.5 L198.2,24.3 L200.0,24.3 L201.5,24.7 L203.5,25.7 L205.8,26.3 L207.0,27.0 L208.3,27.3 L211.2,29.0 L212.5,29.3 L215.2,30.7 L216.7,31.8 L218.3,32.3 L219.7,33.3 L220.3,33.5 L222.2,34.8 L226.7,37.3 L229.0,39.3 L230.3,40.0 L231.8,41.2 L233.0,42.3 L236.5,45.0 L238.0,45.0 L240.5,42.2 L240.8,41.5 L240.8,40.0 L239.8,38.8 L229.2,30.0 L228.5,28.5 L228.3,27.3 L227.8,26.7 L225.8,25.3 L223.7,24.3 L222.3,23.3 L221.5,23.2 L219.2,21.8 L218.3,21.7 L213.3,19.2 L211.0,18.5 L208.7,17.3 L207.0,17.0 L204.5,15.8 L201.8,15.3 L199.2,14.3 L194.8,13.7 L192.8,13.0 L190.0,12.7 L186.0,11.7Z"/><path style="fill:var(--logo-a)" fill-rule="evenodd" d="M297.2,12.7 L296.3,12.7 L295.7,13.3 L294.8,14.7 L293.2,16.3 L291.3,18.7 L288.3,21.7 L288.0,22.5 L286.0,24.5 L285.0,26.0 L282.5,28.7 L278.3,33.8 L276.2,35.8 L275.7,36.8 L271.8,40.8 L270.0,43.2 L268.3,44.7 L267.2,46.3 L264.2,49.3 L263.5,50.5 L257.8,56.5 L255.7,59.2 L249.8,65.3 L247.2,68.5 L222.8,92.7 L216.7,97.8 L210.5,103.5 L208.8,104.8 L207.8,105.3 L205.7,107.7 L203.8,108.7 L201.7,110.8 L198.7,112.8 L193.8,117.3 L191.7,118.8 L190.3,120.2 L187.3,122.2 L184.8,124.3 L183.0,125.3 L182.0,126.3 L177.0,129.7 L174.2,132.0 L172.3,133.0 L167.5,136.5 L163.7,138.7 L161.8,140.2 L159.2,141.5 L157.8,142.7 L154.0,144.8 L153.0,145.7 L151.3,146.3 L150.2,147.3 L143.7,150.8 L143.0,151.5 L140.5,153.0 L138.0,154.0 L136.2,155.3 L131.8,157.5 L128.7,159.5 L127.2,160.2 L126.2,161.0 L124.3,161.7 L120.5,164.3 L119.2,164.8 L118.2,165.7 L116.3,166.5 L112.8,168.8 L111.7,169.2 L110.2,170.2 L108.0,171.2 L105.0,173.2 L102.8,173.8 L101.3,175.0 L95.8,177.7 L92.7,178.5 L91.7,179.2 L90.8,179.2 L89.3,178.0 L88.7,176.7 L87.7,175.7 L86.2,173.5 L85.8,171.7 L86.5,170.7 L89.2,169.5 L91.8,168.8 L93.0,168.0 L94.5,167.5 L96.5,166.3 L98.5,165.8 L100.3,164.7 L102.0,164.0 L102.8,163.3 L104.7,162.7 L106.2,161.7 L108.5,161.0 L109.3,160.2 L111.3,159.0 L113.2,158.3 L114.7,157.3 L117.2,156.3 L118.0,155.5 L120.0,154.3 L122.3,153.3 L123.2,152.5 L124.0,152.2 L125.5,151.0 L127.0,150.3 L128.2,149.5 L130.0,148.8 L130.7,148.0 L133.0,146.5 L134.0,146.2 L135.7,144.8 L137.2,144.2 L140.2,141.8 L141.8,141.2 L146.2,137.7 L148.0,136.8 L150.7,134.3 L152.2,133.5 L152.8,132.8 L154.0,132.3 L155.3,131.0 L165.7,123.0 L168.0,120.8 L169.0,120.3 L171.8,117.5 L172.7,117.0 L176.8,113.2 L178.0,112.7 L180.7,109.7 L183.0,108.0 L183.7,107.0 L185.2,105.5 L185.8,105.2 L190.8,100.2 L191.3,99.3 L192.5,98.5 L192.7,97.5 L191.5,97.8 L190.3,99.2 L189.8,99.3 L188.8,100.3 L187.7,100.8 L185.5,102.8 L183.7,103.8 L182.7,104.8 L180.2,106.5 L179.3,106.8 L178.0,108.2 L174.7,110.0 L173.5,111.2 L171.5,112.5 L169.8,113.2 L168.8,114.2 L166.8,115.5 L165.2,116.3 L164.7,116.8 L162.7,117.7 L161.7,118.7 L159.2,120.3 L158.0,120.8 L157.0,121.7 L155.8,122.2 L154.2,123.5 L151.7,124.8 L150.2,125.3 L149.0,126.3 L142.0,129.8 L138.3,132.2 L136.7,132.7 L131.8,135.3 L130.5,135.7 L129.2,136.7 L126.2,137.3 L125.0,138.3 L123.5,138.8 L121.0,140.3 L118.2,141.5 L116.0,142.0 L114.8,142.8 L112.8,143.5 L111.3,144.3 L108.0,145.2 L106.3,146.0 L104.3,146.5 L103.0,147.3 L100.5,148.0 L98.3,149.0 L94.7,149.7 L93.0,150.7 L91.0,151.0 L89.0,152.2 L87.5,152.3 L85.3,153.2 L82.2,153.8 L78.7,154.0 L78.5,154.2 L77.3,154.0 L75.5,151.2 L75.3,149.8 L74.2,147.0 L73.5,142.5 L72.5,139.5 L72.2,136.0 L71.2,132.8 L70.7,125.5 L70.8,124.8 L71.5,124.2 L72.3,123.8 L79.3,123.8 L79.5,123.7 L92.7,123.7 L92.8,123.8 L93.7,123.7 L93.8,123.8 L107.2,123.7 L108.7,124.2 L109.5,125.3 L110.2,136.2 L111.0,137.0 L112.3,137.0 L113.3,136.5 L114.2,135.7 L115.3,135.3 L116.5,134.7 L117.5,133.5 L117.5,132.2 L116.7,127.0 L116.7,125.2 L117.3,124.0 L118.3,123.7 L133.2,123.8 L133.3,123.7 L139.8,123.5 L140.8,123.2 L142.2,122.2 L143.8,121.5 L144.7,120.8 L146.7,120.0 L147.3,119.3 L149.2,118.3 L150.0,117.3 L150.8,116.8 L150.8,116.5 L149.7,116.3 L118.3,116.5 L117.5,116.2 L116.8,115.3 L116.8,111.2 L117.8,103.5 L117.8,100.2 L118.0,100.0 L118.0,97.7 L118.5,93.0 L119.5,89.3 L119.7,86.8 L120.8,83.7 L121.0,81.5 L122.0,78.7 L123.0,73.5 L123.7,72.2 L124.7,71.7 L126.7,71.7 L131.8,72.7 L133.3,73.2 L137.8,73.7 L140.3,74.5 L146.3,75.0 L150.5,76.0 L156.5,76.2 L156.7,76.3 L162.7,76.3 L165.8,76.7 L166.5,77.3 L166.7,77.8 L166.7,105.7 L167.0,106.7 L167.7,107.0 L169.2,105.7 L170.8,105.0 L171.8,104.0 L173.0,103.3 L173.8,102.5 L174.3,101.3 L174.3,78.0 L174.5,77.5 L175.3,76.7 L179.3,76.5 L179.5,76.3 L190.5,76.0 L194.5,75.0 L199.3,74.7 L203.8,73.5 L207.7,73.2 L210.5,72.3 L214.5,71.7 L215.8,71.0 L216.7,70.2 L217.3,69.0 L219.5,66.5 L220.5,64.7 L222.0,63.3 L222.0,62.7 L221.3,62.0 L220.3,59.8 L219.7,59.0 L219.3,57.0 L218.2,55.3 L218.0,54.3 L217.3,52.8 L216.7,52.2 L216.0,50.8 L215.2,49.8 L215.0,48.5 L214.5,47.2 L213.7,46.3 L213.0,45.0 L211.8,43.8 L211.5,42.5 L210.7,41.5 L210.0,40.0 L208.8,38.8 L208.3,37.7 L207.5,36.8 L207.2,36.0 L206.3,35.2 L205.7,34.0 L203.8,32.3 L202.5,30.2 L195.5,22.8 L190.2,18.5 L189.0,18.0 L185.7,15.7 L180.7,13.3 L179.2,12.3 L175.7,11.2 L170.7,11.0 L170.5,10.8 L158.5,11.2 L153.5,12.3 L150.3,12.5 L146.8,13.7 L144.7,13.8 L141.2,15.0 L137.2,15.7 L135.3,16.7 L133.3,17.2 L131.5,18.2 L128.8,18.8 L127.3,19.7 L125.3,20.3 L121.0,22.8 L118.3,23.7 L117.5,24.5 L116.7,24.8 L115.5,25.8 L114.3,26.3 L113.3,27.2 L111.2,28.0 L108.3,30.3 L106.7,31.2 L105.3,32.5 L101.3,35.5 L97.3,39.2 L95.8,40.2 L93.8,42.0 L93.5,42.7 L90.8,45.3 L89.3,47.3 L84.7,52.5 L84.0,53.8 L81.8,56.3 L81.2,57.8 L77.3,63.2 L76.7,64.7 L75.8,65.7 L75.2,67.2 L74.2,68.5 L73.7,70.0 L72.5,71.8 L72.2,73.0 L69.5,78.0 L68.7,81.3 L68.2,82.0 L67.5,84.5 L66.5,86.5 L66.2,88.3 L65.0,91.5 L64.3,96.5 L63.3,100.0 L63.0,103.3 L61.8,107.3 L61.7,115.0 L61.5,115.2 L61.5,125.7 L61.7,125.8 L61.8,133.2 L63.0,136.8 L63.2,139.5 L63.5,141.3 L64.3,143.8 L65.0,148.8 L66.2,151.7 L66.5,153.7 L67.5,155.5 L67.8,157.0 L68.8,159.2 L69.5,162.3 L70.3,163.5 L71.3,166.0 L72.3,167.3 L72.7,168.5 L73.7,170.2 L74.2,171.8 L75.2,173.0 L76.7,175.5 L77.3,177.3 L78.3,178.3 L78.8,179.3 L81.0,182.0 L81.8,184.0 L84.3,186.8 L86.5,190.2 L87.7,191.2 L89.3,193.3 L95.0,199.2 L100.2,203.7 L101.5,205.2 L102.2,205.5 L103.5,206.8 L104.8,207.5 L107.5,209.8 L109.2,210.7 L111.7,212.7 L113.0,213.3 L113.8,214.2 L116.7,215.3 L119.3,217.2 L121.2,217.8 L123.0,219.0 L125.0,219.5 L128.0,221.0 L129.2,222.0 L132.3,222.7 L134.2,223.5 L136.7,224.2 L137.8,225.0 L140.5,225.5 L143.0,226.7 L148.8,227.3 L151.5,228.2 L155.5,228.5 L160.7,229.7 L170.8,229.8 L177.7,228.5 L179.5,227.7 L183.0,226.7 L186.8,224.3 L190.8,222.3 L192.2,221.0 L193.3,220.3 L196.7,217.7 L198.5,215.8 L198.7,215.3 L203.0,211.2 L203.3,210.3 L207.3,205.7 L209.2,202.8 L210.3,201.7 L212.5,197.7 L213.5,196.5 L214.0,195.5 L215.0,194.5 L215.7,192.3 L217.2,189.5 L218.0,188.7 L218.7,186.7 L219.5,185.5 L220.3,182.5 L221.3,180.8 L221.7,179.3 L222.3,178.5 L222.7,178.3 L226.0,178.5 L227.5,179.3 L229.8,179.8 L232.0,181.0 L234.0,181.3 L237.3,182.7 L238.7,182.8 L240.7,184.0 L242.7,184.7 L243.8,185.5 L244.3,185.7 L245.8,185.5 L247.2,184.2 L247.8,183.0 L249.2,181.5 L249.5,180.5 L249.0,180.0 L247.5,179.5 L246.0,178.5 L244.5,178.2 L242.7,177.2 L240.3,176.5 L238.7,175.5 L236.7,175.0 L234.8,173.8 L231.0,173.2 L229.2,172.3 L226.5,171.7 L225.0,170.2 L225.0,169.0 L225.7,167.8 L226.0,166.2 L227.3,162.8 L228.0,157.5 L229.0,154.3 L229.3,151.2 L230.3,148.0 L230.7,143.3 L231.7,137.2 L231.8,131.5 L232.0,131.3 L232.0,128.5 L231.8,128.2 L231.0,128.2 L227.8,131.7 L226.8,133.3 L224.8,135.5 L224.2,136.8 L223.7,139.5 L222.5,151.5 L221.5,154.5 L221.3,157.0 L220.2,159.7 L219.5,163.5 L218.0,168.2 L217.2,168.8 L215.0,168.8 L211.8,167.7 L207.8,167.2 L206.7,166.5 L205.5,166.2 L197.2,165.7 L196.3,166.0 L195.5,166.8 L195.3,167.3 L191.3,171.0 L191.3,171.7 L191.8,172.0 L197.3,172.3 L200.5,173.3 L205.8,173.7 L209.0,174.2 L211.7,175.0 L214.0,175.3 L214.7,176.0 L215.0,176.8 L214.8,177.8 L212.5,182.5 L212.2,183.8 L210.8,186.0 L210.5,187.3 L209.2,189.8 L208.2,190.8 L207.5,192.8 L206.0,195.3 L203.5,198.3 L203.0,199.7 L201.2,202.0 L198.7,204.7 L198.5,205.2 L195.7,207.8 L195.3,208.5 L193.8,210.0 L193.0,210.3 L190.0,213.2 L188.3,214.3 L186.7,215.0 L185.5,216.2 L183.0,217.5 L177.0,219.3 L175.7,219.3 L174.7,218.8 L174.3,218.2 L174.3,204.8 L174.5,204.7 L174.5,192.2 L174.3,191.3 L174.5,190.0 L174.3,189.0 L173.8,188.5 L173.3,188.5 L169.0,193.0 L167.3,194.3 L166.7,195.8 L166.7,218.2 L166.0,219.0 L163.8,219.2 L158.3,217.5 L155.3,216.0 L154.3,215.0 L152.7,214.3 L150.7,213.0 L149.5,211.8 L148.7,211.8 L148.0,212.2 L145.3,214.3 L144.3,214.8 L143.5,216.2 L143.0,216.5 L141.5,216.5 L140.2,216.2 L138.2,215.0 L136.7,214.7 L136.0,214.0 L136.2,213.2 L138.0,211.3 L139.3,210.3 L140.2,210.0 L148.0,202.7 L149.3,202.0 L151.8,199.3 L153.7,198.0 L164.7,187.7 L165.7,187.0 L169.7,182.8 L170.5,182.3 L176.2,176.7 L178.2,175.2 L182.0,171.0 L184.8,168.5 L186.7,166.3 L187.7,165.5 L188.2,164.7 L190.8,162.2 L197.5,154.8 L203.3,148.8 L204.5,147.3 L206.0,146.0 L208.7,142.7 L210.5,141.2 L211.0,140.2 L212.0,139.2 L212.3,138.5 L215.0,136.0 L215.5,135.0 L222.7,127.5 L223.3,126.2 L229.2,119.7 L230.7,117.5 L231.5,116.8 L232.5,115.2 L235.2,112.3 L236.5,110.3 L238.5,108.3 L239.3,107.8 L240.2,106.0 L244.2,101.5 L244.3,101.0 L249.3,94.8 L251.7,92.5 L252.2,91.3 L256.0,87.0 L256.5,86.0 L257.8,84.3 L259.2,83.2 L259.5,82.3 L261.0,80.3 L263.7,77.5 L264.0,76.7 L265.7,74.3 L268.5,71.3 L269.8,69.5 L271.2,68.3 L271.7,67.3 L272.5,66.5 L273.3,65.2 L275.3,63.0 L276.0,62.7 L277.3,62.8 L278.3,64.0 L279.0,64.3 L280.7,66.0 L280.8,66.5 L281.5,67.2 L283.2,68.3 L289.8,75.0 L290.3,75.3 L291.0,75.0 L291.3,74.0 L291.3,70.8 L291.5,70.7 L291.7,67.0 L292.3,63.5 L292.5,60.2 L292.8,58.7 L293.3,49.8 L294.5,42.5 L294.5,39.7 L295.2,35.8 L295.8,33.5 L296.0,28.2 L297.0,18.2 L297.5,15.5 L297.5,13.2Z M207.7,118.3 L207.5,119.0 L206.3,120.3 L205.8,121.3 L204.7,122.3 L203.0,124.5 L201.7,125.5 L189.5,139.0 L173.0,155.3 L164.0,163.2 L161.7,165.7 L160.8,166.2 L158.3,168.7 L156.3,170.2 L155.0,170.8 L153.0,173.2 L151.7,173.8 L149.2,176.2 L147.8,177.0 L147.0,177.8 L145.7,178.5 L142.2,181.7 L139.8,183.2 L133.2,188.8 L130.2,190.7 L127.0,193.2 L125.8,193.7 L124.8,194.7 L123.2,195.5 L120.7,197.5 L118.3,198.5 L117.7,199.3 L114.2,201.7 L112.7,201.7 L112.0,201.3 L108.5,198.2 L106.8,197.3 L105.3,195.8 L105.0,194.7 L105.2,194.2 L105.8,193.5 L107.0,193.0 L108.2,192.0 L109.0,191.7 L110.3,190.7 L112.8,189.7 L113.5,189.0 L114.7,188.5 L115.8,187.5 L117.0,187.0 L118.5,185.8 L119.2,185.7 L121.3,184.2 L122.2,183.8 L123.0,183.0 L124.5,182.3 L125.8,181.3 L126.5,181.2 L129.8,178.7 L131.5,178.0 L133.5,176.5 L134.3,176.2 L137.5,173.7 L138.5,173.3 L140.8,171.7 L143.2,169.7 L145.0,168.8 L147.8,166.3 L149.3,165.8 L152.5,163.0 L154.3,161.7 L156.0,160.8 L156.5,160.2 L160.2,157.3 L161.8,156.5 L162.8,155.3 L164.5,154.0 L166.0,153.3 L167.0,152.2 L171.0,149.2 L175.8,145.0 L176.8,144.5 L179.8,141.7 L180.8,141.2 L182.8,139.5 L184.0,138.2 L185.8,137.0 L188.7,134.2 L190.2,133.2 L191.7,131.5 L194.7,129.2 L199.0,125.2 L199.7,124.8 L202.5,122.0 L204.0,120.8 L205.5,119.2 L207.3,118.2Z M115.7,68.8 L116.3,69.5 L116.3,71.7 L115.3,73.8 L114.7,77.3 L114.2,78.3 L113.5,81.0 L113.0,84.8 L112.0,87.8 L111.7,91.3 L110.5,95.8 L110.5,98.7 L109.7,106.0 L109.5,113.7 L109.3,115.0 L109.0,115.7 L108.5,116.2 L107.5,116.5 L93.8,116.5 L93.7,116.3 L72.0,116.5 L71.5,116.3 L71.0,115.8 L70.7,115.0 L71.0,109.5 L72.2,104.7 L72.3,101.5 L73.8,95.7 L74.2,92.8 L75.0,91.2 L75.5,89.0 L76.5,87.3 L77.0,84.8 L78.2,82.5 L78.5,81.0 L79.7,79.2 L80.2,77.5 L81.3,75.7 L81.8,73.8 L83.2,71.3 L84.2,70.2 L86.3,65.8 L87.3,64.3 L88.5,63.2 L89.5,61.2 L90.8,59.8 L92.5,59.7 L97.8,62.3 L99.0,62.7 L100.7,63.8 L103.3,64.3 L105.8,65.5 L107.3,65.8 L109.3,67.0 L111.3,67.3Z M142.3,24.3 L142.5,25.5 L140.7,27.3 L140.0,27.7 L138.0,29.8 L130.7,39.3 L129.8,41.2 L126.2,46.8 L125.2,49.3 L124.5,50.2 L123.8,51.7 L123.0,52.7 L122.3,55.0 L121.3,57.0 L120.8,59.0 L119.0,62.2 L117.7,62.3 L116.3,61.5 L113.8,60.8 L112.3,60.0 L108.3,59.2 L107.2,58.5 L105.3,58.0 L103.3,56.8 L101.8,56.5 L100.3,55.7 L98.0,55.0 L97.0,54.3 L96.8,53.0 L97.2,52.3 L101.8,47.5 L108.0,41.8 L110.3,40.0 L111.5,39.5 L114.7,36.8 L118.2,35.0 L121.8,32.5 L123.8,31.7 L125.3,30.7 L126.5,30.3 L127.8,29.3 L129.3,28.8 L130.8,27.8 L133.2,27.3 L134.7,26.3 L136.5,25.8 L138.2,24.8 L139.8,24.5 L141.5,23.8Z M175.2,21.5 L177.2,21.3 L178.8,21.7 L180.7,22.8 L183.2,23.3 L185.8,24.7 L187.0,25.7 L190.5,27.8 L191.7,29.2 L192.2,29.3 L197.2,34.0 L202.8,40.8 L203.3,42.2 L206.2,45.8 L207.5,48.3 L208.2,50.3 L209.2,51.3 L209.5,52.2 L210.7,53.7 L211.3,56.2 L212.3,57.5 L212.7,59.3 L213.7,60.5 L214.2,61.7 L214.5,63.2 L213.8,64.0 L211.5,64.5 L210.0,65.3 L207.0,65.7 L205.0,66.5 L203.0,67.0 L200.0,67.2 L194.3,68.2 L189.5,68.7 L186.7,68.7 L186.5,68.8 L182.0,68.8 L177.0,69.5 L175.3,69.3 L174.5,68.5 L174.3,68.0 L174.3,22.8 L174.5,22.2Z M166.0,21.3 L166.7,22.3 L166.7,68.3 L166.3,69.0 L165.5,69.5 L163.0,69.5 L157.7,68.8 L153.8,68.8 L153.7,68.7 L147.7,68.3 L145.0,67.8 L143.7,67.8 L140.7,67.2 L136.7,66.8 L134.0,65.8 L130.3,65.3 L127.3,64.2 L126.8,63.7 L126.8,62.8 L127.3,61.0 L129.0,57.7 L130.0,56.2 L130.5,54.2 L131.8,51.5 L132.8,50.3 L135.2,45.7 L137.5,42.5 L138.0,41.3 L139.8,38.8 L143.8,34.5 L144.3,33.7 L150.7,27.8 L152.3,26.7 L154.2,25.8 L155.5,24.5 L157.8,23.3 L160.2,22.8 L162.2,21.7 L165.2,21.2Z"/></symbol></svg>
+
+<!-- 비밀번호 게이트 (검토용 시안) -->
+<div id="gate">
+  <div class="box">
+    <svg viewBox="8 8 330 226"><use href="#ongil-mark"/></svg>
+    <h2>온길로직스 홈페이지 리뉴얼 시안</h2>
+    <p>검토용 비공개 시안입니다. 비밀번호를 입력해 주세요.</p>
+    <input id="pw" type="password" inputmode="numeric" maxlength="8" placeholder="••••" autocomplete="off">
+    <div class="err" id="pwerr"></div>
+    <button class="btn btn-ink" id="pwbtn">시안 열기</button>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap hrow">
+    <a class="brand" href="#home" aria-label="온길 홈">
+      <svg viewBox="8 8 330 226"><use href="#ongil-mark"/></svg>
+      <span class="bt"><b>온길</b><small>ONGIL LOGISTICS</small></span>
+    </a>
+    <span class="tagline" data-i18n="tagline"></span>
+    <nav class="gnav" id="gnav"></nav>
+    <div class="hctl">
+      <div class="lang"><button data-lang="ko" class="on">KR</button> | <button data-lang="en">EN</button></div>
+      <a class="btn btn-ink arrow" href="#contact" data-i18n="ask"></a>
+      <button class="burger" id="burger" aria-label="menu"><i></i><i></i><i></i></button>
+    </div>
+  </div>
+  <div class="tabstrip"><div class="wrap" id="tabstrip"></div></div>
+</header>
+
+<div id="drawer"><div class="pane" id="drawerPane"></div></div>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#home">
+      <svg viewBox="8 8 330 226"><use href="#ongil-mark"/></svg>
+      <span class="bt"><b>온길</b><small>ONGIL LOGISTICS</small></span>
+    </a>
+    <div class="fl" id="footInfo"></div>
+    <div class="slog">GOOD LOGISTICS<br>A BETTER TOMORROW<br>ONGIL.CLOUD</div>
+  </div>
+</footer>
+
+<div class="floats">
+  <a class="fbtn kk" id="kakaoBtn" href="#contact" title="카카오톡 상담">💬 <span class="tx">카톡 상담</span></a>
+  <a class="fbtn wa" href="https://wa.me/821041117745" target="_blank" rel="noopener" title="WhatsApp">✆ <span class="tx">WhatsApp</span></a>
+  <a class="fbtn top" href="#" id="toTop" aria-label="top">↑</a>
+</div>
+
+<div class="rv" aria-label="시안 선택">
+  <span>시안</span>
+  <button data-theme-btn="A" class="on">A 네이비·골드</button>
+  <button data-theme-btn="B">B 오렌지·네이비</button>
+  <button id="memoBtn">검토 메모</button>
+</div>
+<div id="memo">
+  <h4>김정석 대표 검토 요청 사항</h4>
+  <ol>
+    <li><b>유통 채널 표기</b>: 이마트·롯데마트·GS·홈플러스·쿠팡 외 국내 유통처를 순서대로 넣었습니다. 실제 거래가 확정된 곳만 공식 로고로 바꾸고, 나머지는 '납품 대응 채널' 텍스트로 둡니다.</li>
+    <li><b>숫자</b>: 거점 10+ / 월 50,000+ BOX / 파트너 100+ / 30+개국은 <b>'목표'</b> 라벨입니다. 실적 수치가 있으면 교체해 주세요. (17 SKU만 사실 표기)</li>
+    <li><b>연락처</b>: 명함 기준 +82 10 4111 7745 / podlie@naver.com — 대표번호·대표메일 따로 쓸지 확인.</li>
+    <li><b>주소</b>: 명함에도 '확인 필요' 상태 → 사업장 주소 확정 필요.</li>
+    <li><b>카카오톡 채널</b> 주소 미정 → 채널 개설 후 링크 연결.</li>
+    <li><b>문의폼</b>: 지금은 메일 앱으로 전송. 구글시트 리드 적재(Apps Script) URL 연결 시 자동 접수.</li>
+    <li><b>사진</b>: 전부 AI 생성 실사 이미지입니다. 실제 센터·차량 사진이 생기면 교체 권장.</li>
+  </ol>
+</div>
+<div id="toast"></div>
+
+<script>
+/* ================= DATA ================= */
+const CDN="https://d8j0ntlcm91z4.cloudfront.net/user_3F3C4BhyYo9wkj5mZYxSUtwH0VS/";
+const IMG=["hf_20261006_040628_0988aa9e-6610-4b12-9530-173e72e7db04", "hf_20261006_040627_4e5ee011-cb46-4704-8588-aa90c78e4107", "hf_20261006_040626_26614b23-6159-44b4-8ab0-290ecd03047c", "hf_20261006_040626_d611e0db-ade5-4e7d-ae52-eedba189dcd9", "hf_20261006_040628_89c707ce-d725-4652-a16b-ff2fed424a82", "hf_20261006_040626_43a1cb26-d0fe-433c-91f5-47ec508b07dd", "hf_20261006_040628_8c52ac73-bfd3-4d42-851b-99e951f74304", "hf_20261006_040629_952387ab-8d84-4fc9-bb4c-2fa8ffb20017", "hf_20261006_040628_5ab9a306-1f6e-4631-8f4f-5d8e83f9909d", "hf_20261006_040627_6433468c-afcf-4640-8263-95b387da15c7", "hf_20261006_040627_d14bb46c-e26a-4c60-aa23-26ac75e286db", "hf_20261006_040627_2571fcd5-be2b-46b6-a77a-153085b20069", "hf_20261006_040649_c2698c01-bb1a-41da-9317-aa00abeda0de", "hf_20261006_040650_6838f31b-0414-43f1-b8af-4dc481b009df", "hf_20261006_040648_38facbff-fd19-40f8-8d33-bad6add0e28e", "hf_20261006_040650_51abbda5-05d7-420f-b1ce-3ab69b07cfc3", "hf_20261006_040649_950dbf44-2ce6-418f-9af6-6849a05665b4", "hf_20261006_040650_99417ba0-e499-459d-af7e-286a7335a746", "hf_20261006_040649_9d53d435-3584-45a3-bbef-38e698019760", "hf_20261006_040649_305f337f-f3a3-433d-9d03-7643ad9bd75f", "hf_20261006_040649_d095af13-24fc-4f79-8a37-d37a837946a7", "hf_20261006_040650_49244d37-d1b1-410a-a08d-ea37f0d4e2eb", "hf_20261006_040650_bccedf92-561d-497d-81df-d4f1b3ab3a7f", "hf_20261006_040649_b9e175fc-7b7e-4b80-a9b1-1e4a95cd9177"];
+const img=(i,full)=>CDN+IMG[i]+(full?".png":"_min.webp");
+const CONTACT={tel:"+82 10 4111 7745",mail:"podlie@naver.com",cc:"thenahammax@gmail.com",web:"ongil.cloud"};
+/* 구글시트 리드 적재용 Apps Script 웹앱 URL (연결 시 입력) */
+const LEAD_ENDPOINT="";
+
+let LANG="ko";
+const T=(o)=>typeof o==="string"?o:(o[LANG]||o.ko);
+
+const UI={
+ tagline:{ko:"상품이 가는 모든 길,<br>온길이 함께합니다.",en:"Every road your products travel,<br>ONGIL goes with you."},
+ ask:{ko:"문의하기",en:"Contact"},
+ next:{ko:"다음",en:"Next"},prev:{ko:"이전",en:"Prev"},
+ quote:{ko:"견적·샘플 요청",en:"Request a Quote"},
+ consult:{ko:"생산자 상담 신청",en:"Producer Consultation"},
+ diag:{ko:"무료 AI 수출 진단",en:"Free AI Export Check"},
+ goal:{ko:"목표",en:"Target"},fact:{ko:"사실",en:"Fact"}
+};
+
+const GROUPS=[
+ {ko:"회사소개",en:"About",tabs:["about","network"]},
+ {ko:"물류서비스",en:"Logistics",tabs:["logistics","storage","fulfillment","center","cold","lastmile"]},
+ {ko:"수출·무역",en:"Export",tabs:["consult","customs","cert","aidx"]},
+ {ko:"K-Food",en:"K-Food",tabs:["tteok","hmr"]},
+ {ko:"파트너",en:"Partners",tabs:["producer","buyer","channel"]},
+ {ko:"고객지원",en:"Support",tabs:["pricing","contact"]}
+];
+
+/* 20개 탭 — 중요도 순 */
+const TABS=[
+ {id:"home",img:0,t:{ko:"홈",en:"Home"}},
+ {id:"logistics",img:19,img2:3,t:{ko:"물류서비스 개요",en:"Logistics Overview"},
+  h:{ko:"입고부터 해외 배송까지,<br>하나의 길로 잇습니다.",en:"From inbound to overseas delivery,<br>one connected road."},
+  p:{ko:"통합물류기획 · 종합상품유통 · 원스톱수출입. 보관·출고·센터 납품·콜드체인·라스트마일을 한 창구에서 설계하고 운영합니다.",en:"Integrated logistics planning, distribution and one-stop export. Storage, fulfillment, retail-center delivery, cold chain and last-mile — designed and run from one desk."},
+  tags:["입고·보관","출고·패킹","센터 납품","콜드체인","O2O 라스트마일"],
+  pts:[{ko:["통합 물류 설계","품목·물량·채널을 분석해 보관 방식, 출고 동선, 운송 수단을 한 번에 설계합니다."],en:["Integrated design","We analyze SKU, volume and channel to design storage, picking flow and transport in one plan."]},
+       {ko:["종합 상품 유통","대형마트·이커머스·편의점 등 국내 유통 채널 납품 규격에 맞춰 상품을 준비하고 입고합니다."],en:["Product distribution","We prepare and deliver to Korean retail channel specs — hypermarkets, e-commerce and CVS."]},
+       {ko:["원스톱 수출입","국내 물류에서 끊기지 않고 수출 서류·통관·국제운송까지 그대로 이어집니다."],en:["One-stop export","Domestic logistics flows straight into export documents, customs and international freight."]}],
+  steps:{ko:[["물류 진단","품목·물량·온도대·목표 채널 확인"],["설계 제안","보관·출고·운송 플랜과 견적"],["입고·운영","센터 입고, 재고·출고 운영"],["납품·수출","국내 채널 납품 또는 해외 선적"]],en:[["Assessment","SKU, volume, temperature, channels"],["Proposal","Storage, picking, transport plan & quote"],["Operation","Inbound, inventory and outbound"],["Delivery / Export","Retail delivery or overseas shipment"]]}},
+ {id:"storage",img:3,img2:19,t:{ko:"입고 · 보관",en:"Inbound & Storage"},
+  h:{ko:"안전하고 체계적인<br>보관 시스템",en:"Safe, systematic<br>storage"},
+  p:{ko:"상온·냉장·냉동 온도대별 보관과 로케이션 관리로 재고를 정확하게 지킵니다.",en:"Ambient, chilled and frozen storage with location control keeps inventory accurate."},
+  tags:["상온·냉장·냉동","로케이션 관리","선입선출(FIFO)","유통기한 관리"],
+  pts:[{ko:["검수 입고","수량·외관·라벨·유통기한을 검수 후 입고합니다."],en:["Inspected inbound","Quantity, condition, labels and expiry checked on arrival."]},
+       {ko:["로케이션·FIFO","선입선출과 로트 관리로 유통기한 리스크를 줄입니다."],en:["Location & FIFO","FIFO and lot control reduce expiry risk."]},
+       {ko:["재고 리포트","입출고·재고 현황을 정기 리포트로 공유합니다."],en:["Inventory reports","Regular reports on stock and movements."]}]},
+ {id:"fulfillment",img:8,img2:5,t:{ko:"출고 · 패킹 (O2O 풀필먼트)",en:"Fulfillment (O2O)"},
+  h:{ko:"신속하고 정확한<br>출고 업무",en:"Fast, accurate<br>fulfillment"},
+  p:{ko:"온라인 주문과 오프라인 납품을 하나의 재고로 운영하는 O2O 풀필먼트. 합포장·키팅·선물세트 작업까지 대응합니다.",en:"O2O fulfillment runs online orders and offline deliveries from one inventory, including kitting and gift sets."},
+  tags:["B2C 택배","B2B 납품","합포장·키팅","반품 처리"],
+  pts:[{ko:["주문 연동","쇼핑몰·오픈마켓 주문을 받아 당일 출고 체계로 처리합니다."],en:["Order sync","Marketplace orders flow into same-day dispatch."]},
+       {ko:["맞춤 패킹","제품 특성에 맞는 완충·보냉 포장으로 파손과 변질을 줄입니다."],en:["Custom packing","Cushioning and insulated packing matched to each product."]},
+       {ko:["반품·재입고","회수 상품 검수와 재판매 가능 여부 분류까지 처리합니다."],en:["Returns","Inspection and re-stock classification of returns."]}]},
+ {id:"center",img:9,img2:4,t:{ko:"센터 납품",en:"Retail Center Delivery"},
+  h:{ko:"대형마트 · 유통센터<br>전문 납품",en:"Specialized delivery to<br>retail distribution centers"},
+  p:{ko:"유통사별 입고 규격(팔레트·라벨·시간 예약)에 맞춰 센터 납품을 대행합니다.",en:"We handle center deliveries to each retailer's specs — pallets, labels and time slots."},
+  tags:["팔레트 규격","입고 예약","라벨·바코드","회송 관리"],
+  pts:[{ko:["규격 대응","유통사별 팔레트·적재 높이·라벨 규정을 맞춥니다."],en:["Spec compliance","Pallet, height and label rules per retailer."]},
+       {ko:["입고 예약","센터 입고 시간 예약과 차량 배차를 함께 관리합니다."],en:["Booking","Dock appointments and truck dispatch managed together."]},
+       {ko:["회송·클레임","회송 상품 회수와 클레임 대응을 대행합니다."],en:["Claims","Returned goods and claims handled for you."]}]},
+ {id:"cold",img:7,img2:18,t:{ko:"콜드체인 · Fresh HMR",en:"Cold Chain · Fresh HMR"},
+  h:{ko:"냉동의 신선함을<br>끝까지 지킵니다.",en:"Keeping frozen freshness<br>all the way."},
+  p:{ko:"급속 냉동 HMR·떡볶이를 -18°C 이하로 보관·운송하고, 리퍼 컨테이너로 해외까지 온도를 이어갑니다.",en:"Frozen HMR kept at -18°C or below in storage and transport, continued overseas in reefer containers."},
+  tags:["-18°C 이하","리퍼 컨테이너","온도 기록","보냉 패킹"],
+  pts:[{ko:["냉동 보관","냉동 창고 보관과 온도 기록으로 품질을 증빙합니다."],en:["Frozen storage","Temperature logs document quality."]},
+       {ko:["냉동 운송","냉동 탑차와 보냉 포장으로 국내 구간을 잇습니다."],en:["Frozen trucking","Reefer trucks and insulated packs domestically."]},
+       {ko:["리퍼 수출","리퍼 컨테이너 선적으로 해외 바이어 창고까지 연결합니다."],en:["Reefer export","Reefer containers to the buyer's warehouse."]}]},
+ {id:"lastmile",img:23,img2:19,t:{ko:"O2O 라스트마일",en:"O2O Last-mile"},
+  h:{ko:"마지막 1km까지,<br>온길이 책임집니다.",en:"Responsible to<br>the very last mile."},
+  p:{ko:"택배·당일배송·매장 직납을 상황에 맞게 조합해 고객 문 앞까지 연결합니다.",en:"Parcel, same-day and store direct delivery combined to reach the customer's door."},
+  tags:["택배","당일·새벽","매장 직납","해외 현지 배송 연계"],
+  pts:[{ko:["배송 옵션 설계","상품·지역·마감시간에 맞는 배송 조합을 제안합니다."],en:["Delivery mix","Options matched to product, region and cut-off."]},
+       {ko:["매장 직납","오프라인 매장·카페·급식처 직납 루트를 운영합니다."],en:["Store direct","Direct routes to stores, cafés and caterers."]},
+       {ko:["해외 연계","해외 수출 시 현지 파트너 라스트마일과 연결합니다."],en:["Overseas link","Connects to local partners' last-mile abroad."]}]},
+ {id:"consult",img:10,img2:21,t:{ko:"수출 컨설팅",en:"Export Consulting"},
+  h:{ko:"수출이 처음이어도<br>길은 있습니다.",en:"First time exporting?<br>There is a road."},
+  p:{ko:"품목 진단, 타깃 국가 선정, 바이어 발굴, 견적(FOB/CIF)과 계약까지 실무 중심으로 함께합니다.",en:"Product assessment, target market, buyer sourcing, FOB/CIF quotes and contracts — hands-on."},
+  tags:["국가 선정","바이어 발굴","FOB·CIF 견적","계약 지원"],
+  pts:[{ko:["시장 진단","품목별 수출 가능 국가와 규제 난이도를 먼저 확인합니다."],en:["Market check","Which countries fit your product and how hard the rules are."]},
+       {ko:["바이어 매칭","전시회·네트워크·데이터로 바이어를 찾고 미팅을 잡습니다."],en:["Buyer matching","Trade shows, network and data to find and meet buyers."]},
+       {ko:["견적·계약","수출 단가 산정과 인코텀즈·결제조건 협상을 지원합니다."],en:["Quote & contract","Export pricing, Incoterms and payment terms."]}],
+  steps:{ko:[["무료 AI 진단","품목·국가·온도대 입력"],["상담","수출 전략·예상 비용 안내"],["준비","라벨·인증·서류 준비"],["첫 선적","샘플→본 오더 선적"]],en:[["Free AI check","Product, country, temperature"],["Consulting","Strategy and cost estimate"],["Preparation","Labels, certification, documents"],["First shipment","Sample to first order"]]}},
+ {id:"customs",img:22,img2:2,t:{ko:"수출입 · 통관",en:"Import/Export & Customs"},
+  h:{ko:"서류에서 막히지 않는<br>원스톱 수출입",en:"One-stop trade that<br>doesn't stall on paperwork"},
+  p:{ko:"인보이스·패킹리스트·원산지증명·위생증명 등 수출 서류와 통관, 해상·항공 운송을 함께 준비합니다.",en:"Invoices, packing lists, certificates of origin and health certificates, plus customs and sea/air freight."},
+  tags:["수출 신고","원산지증명","해상·항공","보험"],
+  pts:[{ko:["수출 서류","거래별 필요 서류를 체크리스트로 관리합니다."],en:["Documents","Required documents managed per deal."]},
+       {ko:["통관 연계","관세사·포워더와 연계해 수출신고와 선적을 진행합니다."],en:["Customs","Brokers and forwarders for declaration and loading."]},
+       {ko:["운송 선택","물량·온도·납기에 맞춰 해상/항공을 비교 제안합니다."],en:["Freight choice","Sea vs. air compared by volume, temperature and lead time."]}]},
+ {id:"cert",img:12,img2:10,t:{ko:"국가별 인증 · 규제",en:"Certification & Regulation"},
+  h:{ko:"국가마다 다른 규칙,<br>미리 걸러냅니다.",en:"Every country has rules.<br>We screen them first."},
+  p:{ko:"FDA 등록, 할랄, 현지어 라벨, 첨가물 기준 등 국가별 요건을 사전에 점검해 반송 리스크를 줄입니다.",en:"FDA registration, halal, local-language labels and additive rules checked in advance to avoid rejections."},
+  tags:["HACCP","FDA 등록","할랄","현지 라벨"],
+  pts:[{ko:["요건 체크","품목×국가 조합별 필수 요건을 정리합니다."],en:["Requirements","Mandatory items per product × country."]},
+       {ko:["라벨 현지화","영문·현지어 라벨과 알레르기·영양 표기를 준비합니다."],en:["Label localization","English/local labels with allergens and nutrition."]},
+       {ko:["인증 연계","필요 인증 기관과 일정을 안내합니다."],en:["Certification","Bodies and timelines for required certificates."]}]},
+ {id:"aidx",img:13,t:{ko:"무료 AI 수출 진단",en:"Free AI Export Check"},
+  h:{ko:"3가지만 고르면,<br>수출 체크리스트가 나옵니다.",en:"Pick three things,<br>get your export checklist."},
+  p:{ko:"품목·희망 국가·온도대를 선택하면 준비해야 할 인증·서류·라벨 항목을 바로 보여드립니다.",en:"Choose product, country and temperature to see the certifications, documents and labels you'll need."},
+  tags:["무료","즉시 결과","정밀 진단 연계"]},
+ {id:"tteok",img:11,img2:1,t:{ko:"이천쌀 떡볶이",en:"Icheon Rice Tteokbokki"},
+  h:{ko:"이천쌀로 만든 떡볶이,<br>세계로 갑니다.",en:"Tteokbokki made with Icheon rice,<br>headed for the world."},
+  p:{ko:"온길이 직접 수출하는 대표 상품. 산지 원료부터 급속 냉동, 수출 포장, 콜드체인 선적까지 온길의 물류가 증명합니다.",en:"ONGIL's flagship export. From local rice to quick-freezing, export packing and cold-chain shipping — proof of our logistics."},
+  tags:["이천쌀","급속 냉동","수출 포장","HACCP 라인"]},
+ {id:"hmr",img:16,img2:7,t:{ko:"Fresh HMR",en:"Fresh HMR"},
+  h:{ko:"집밥의 맛을<br>냉동으로 잠급니다.",en:"Home-style taste,<br>locked in by freezing."},
+  p:{ko:"떡볶이·찌개·불고기 등 한국 HMR을 냉동 형태로 신선도와 유통 효율을 함께 잡아 수출합니다.",en:"Korean HMR — tteokbokki, stews, bulgogi — exported frozen for freshness and efficient distribution."},
+  tags:["냉동 HMR","17 SKU 라인업","OEM·공동브랜드"]},
+ {id:"producer",img:20,img2:12,t:{ko:"생산자 파트너",en:"For Producers"},
+  h:{ko:"사장님은 맛에만 집중하세요.<br>물류와 수출은 온길이.",en:"Focus on taste.<br>ONGIL handles logistics and export."},
+  p:{ko:"좋은 상품을 만드는 국내 생산자가 보관·출고·유통 납품·수출까지 한 번에 맡길 수 있는 파트너입니다.",en:"A partner for Korean producers to hand over storage, fulfillment, retail delivery and export in one go."},
+  tags:["입점 상담","물류 위탁","수출 대행","공동 브랜드"]},
+ {id:"buyer",img:14,img2:2,t:{ko:"해외 바이어",en:"For Global Buyers"},
+  h:{ko:"한국 상품을 찾는다면,<br>온길을 먼저 거치세요.",en:"Sourcing from Korea?<br>Start with ONGIL."},
+  p:{ko:"검증된 K-Food 소싱, 스펙시트·MOQ·단가 안내, 샘플 발송, 콜드체인 선적까지 한 창구에서 응대합니다.",en:"Verified K-Food sourcing, spec sheets, MOQ and pricing, samples and cold-chain shipping — one contact."},
+  tags:["Spec sheet","MOQ","Samples","FOB / CIF"]},
+ {id:"channel",img:17,img2:9,t:{ko:"유통 채널",en:"Retail Channels"},
+  h:{ko:"국내 주요 유통 채널,<br>납품 규격대로.",en:"Korean retail channels,<br>delivered to spec."},
+  p:{ko:"대형마트·창고형 할인점·이커머스·편의점·백화점 납품 규격에 맞춰 물류를 대응합니다.",en:"Logistics matched to the specs of hypermarkets, warehouse clubs, e-commerce, CVS and department stores."},
+  tags:["대형마트","이커머스","편의점","백화점"]},
+ {id:"network",img:2,img2:6,t:{ko:"운영 네트워크",en:"Network"},
+  h:{ko:"국내 거점에서<br>세계 항만까지.",en:"From Korean hubs<br>to global ports."},
+  p:{ko:"국내 보관·출고 거점과 포워더·관세사·현지 파트너 네트워크로 국내외 물류를 연결합니다.",en:"Domestic hubs plus forwarders, customs brokers and local partners connect logistics at home and abroad."},
+  tags:["국내 거점","포워더","관세사","현지 파트너"]},
+ {id:"pricing",img:4,t:{ko:"서비스 패키지",en:"Packages"},
+  h:{ko:"필요한 만큼,<br>단계별로 시작하세요.",en:"Start with<br>what you need."},
+  p:{ko:"물량·온도대·국가에 따라 비용이 달라 정확한 금액은 견적으로 안내드립니다.",en:"Costs vary by volume, temperature and country, so exact pricing comes with a quote."},
+  tags:["Starter","Growth","Full"]},
+ {id:"about",img:21,img2:0,t:{ko:"회사소개",en:"About ONGIL"},
+  h:{ko:"신뢰를 잇고,<br>더 넓은 길을 만듭니다.",en:"Connecting trust,<br>building wider roads."},
+  p:{ko:"온길(溫길)은 '따뜻한 길, 바른 길'입니다. 상품이 가는 모든 길을 책임지는 통합물류·수출 파트너를 지향합니다.",en:"ONGIL means 'a warm road, the right road' — an integrated logistics and export partner for every road your products take."},
+  tags:["통합물류기획","종합상품유통","원스톱수출입"]},
+ {id:"contact",img:15,t:{ko:"고객지원 · 문의",en:"Contact & Support"},
+  h:{ko:"지금, 온길과<br>새로운 길을 시작하세요.",en:"Start a new road<br>with ONGIL today."},
+  p:{ko:"바이어 견적·샘플, 생산자 물류·수출 상담, 무엇이든 남겨주시면 담당자가 회신드립니다.",en:"Buyer quotes and samples, producer logistics and export consulting — leave a message and we'll reply."},
+  tags:["견적","상담","FAQ"]}
+];
+const IDX=Object.fromEntries(TABS.map((t,i)=>[t.id,i]));
+
+/* 국내 유통 채널 — 지정 순서 유지 */
+const CHANNELS=["이마트","롯데마트","GS리테일","홈플러스","쿠팡","이마트 트레이더스","코스트코 코리아","롯데마트 맥스","농협 하나로마트","컬리","SSG닷컴","롯데온","네이버 스마트스토어","11번가","G마켓","오아시스마켓","CU","GS25","세븐일레븐","이마트24","현대백화점","신세계백화점","롯데백화점","GS더프레시","롯데슈퍼","홈플러스 익스프레스"];
+const CH_TYPE={"이마트":"대형마트","롯데마트":"대형마트","GS리테일":"편의점·슈퍼","홈플러스":"대형마트","쿠팡":"이커머스","이마트 트레이더스":"창고형","코스트코 코리아":"창고형","롯데마트 맥스":"창고형","농협 하나로마트":"대형마트","컬리":"이커머스","SSG닷컴":"이커머스","롯데온":"이커머스","네이버 스마트스토어":"이커머스","11번가":"이커머스","G마켓":"이커머스","오아시스마켓":"이커머스","CU":"편의점","GS25":"편의점","세븐일레븐":"편의점","이마트24":"편의점","현대백화점":"백화점","신세계백화점":"백화점","롯데백화점":"백화점","GS더프레시":"SSM","롯데슈퍼":"SSM","홈플러스 익스프레스":"SSM"};
+
+const ICONS={
+ box:'<svg viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>',
+ truck:'<svg viewBox="0 0 24 24"><path d="M2 6h12v10H2zM14 9h4l4 4v3h-8z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+ bldg:'<svg viewBox="0 0 24 24"><path d="M3 21V9l9-5 9 5v12"/><path d="M7 21v-8h10v8M7 17h10"/></svg>',
+ snow:'<svg viewBox="0 0 24 24"><path d="M12 2v20M4.9 6.5l14.2 11M19.1 6.5 4.9 17.5"/><path d="m9 4 3 2 3-2M9 20l3-2 3 2"/></svg>',
+ globe:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg>'
+};
+
+/* ================= RENDER ================= */
+const $=(s,r=document)=>r.querySelector(s);
+const tabLink=(id)=>"#"+id;
+function nav(){
+  $("#gnav").innerHTML=GROUPS.map(g=>`<div class="gitem" data-g="${g.tabs.join(',')}"><button>${T(g)}</button><div class="dd">${g.tabs.map(id=>`<a href="${tabLink(id)}"><span>${String(IDX[id]+1).padStart(2,"0")}</span>${T(TABS[IDX[id]].t)}</a>`).join("")}</div></div>`).join("");
+  $("#tabstrip").innerHTML=TABS.map((t,i)=>`<a href="${tabLink(t.id)}" data-id="${t.id}"><b>${String(i+1).padStart(2,"0")}</b>${T(t.t)}</a>`).join("");
+  $("#drawerPane").innerHTML=`<a href="#home"><b>${T(TABS[0].t)}</b></a>`+GROUPS.map(g=>`<h4>${T(g)}</h4>`+g.tabs.map(id=>`<a href="${tabLink(id)}">${String(IDX[id]+1).padStart(2,"0")} · ${T(TABS[IDX[id]].t)}</a>`).join("")).join("");
+  document.querySelectorAll("[data-i18n]").forEach(el=>el.innerHTML=T(UI[el.dataset.i18n]));
+  $("#footInfo").innerHTML=LANG==="ko"
+   ?`<b>온길로직스 ONGIL LOGISTICS</b> · 통합물류기획 · 종합상품유통 · 원스톱수출입<br>주소: (확인 필요) &nbsp;|&nbsp; TEL. ${CONTACT.tel} &nbsp;|&nbsp; E-mail. ${CONTACT.mail} &nbsp;|&nbsp; ${CONTACT.web}<br>개인정보처리방침 · 이용약관 · © 2026 ONGIL LOGISTICS. All rights reserved.`
+   :`<b>ONGIL LOGISTICS</b> · Integrated logistics · Distribution · One-stop export<br>Address: (TBC) &nbsp;|&nbsp; TEL. ${CONTACT.tel} &nbsp;|&nbsp; E-mail. ${CONTACT.mail} &nbsp;|&nbsp; ${CONTACT.web}<br>Privacy · Terms · © 2026 ONGIL LOGISTICS. All rights reserved.`;
+}
+
+function pager(i){
+  const p=TABS[(i-1+TABS.length)%TABS.length], n=TABS[(i+1)%TABS.length];
+  return `<div class="pager"><a href="${tabLink(p.id)}"><small>← ${T(UI.prev)} · ${String(TABS.indexOf(p)+1).padStart(2,"0")}</small><b>${T(p.t)}</b></a><a class="nx" href="${tabLink(n.id)}"><small>${T(UI.next)} · ${String(TABS.indexOf(n)+1).padStart(2,"0")} →</small><b>${T(n.t)}</b></a></div>`;
+}
+function band(){
+  return `<section class="band"><img src="${img(15)}" alt="" loading="lazy"><div class="wrap"><div><div class="big">ON YOUR WAY,<br>WITH ONGIL</div><p>${LANG==="ko"?"“좋은 물류가 더 나은 세상을 만듭니다.” 지금, 온길과 새로운 비즈니스를 시작하세요.":"“Good logistics builds a better world.” Start your next business with ONGIL."}</p></div><a class="btn btn-acc arrow" href="#contact">${LANG==="ko"?"지금 문의하기":"Contact us"}</a></div></section>`;
+}
+function thero(t,i){
+  return `<section class="thero"><img src="${img(t.img)}" alt="${T(t.t)}" data-full="${t.img}"><div class="wrap"><div class="crumb">${LANG==="ko"?"온길":"ONGIL"} / ${T(t.t)}</div><div class="num">${String(i+1).padStart(2,"0")} / 20</div><h1>${T(t.h)}</h1><p>${T(t.p)}</p>${t.tags?`<div class="tagrow">${t.tags.map(x=>`<span>${x}</span>`).join("")}</div>`:""}<div class="btns" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-acc arrow" href="#contact">${T(UI.quote)}</a><a class="btn btn-ghost" href="#aidx">${T(UI.diag)}</a></div></div></section>`;
+}
+function pointsBlock(t){
+  if(!t.pts) return "";
+  return `<div class="points">${t.pts.map((p,k)=>{const v=p[LANG]||p.ko;return `<div class="pt"><div class="n">0${k+1}</div><b>${v[0]}</b><p>${v[1]}</p></div>`}).join("")}</div>`;
+}
+function duoBlock(t){
+  const st=t.steps?(t.steps[LANG]||t.steps.ko):null;
+  const img2=t.img2!=null?t.img2:t.img;
+  return `<div class="duo" style="margin-top:56px"><div class="ph"><img src="${img(img2)}" alt="" loading="lazy"></div><div><div class="eyebrow">${LANG==="ko"?"HOW IT WORKS · 진행 방식":"HOW IT WORKS"}</div><h2>${LANG==="ko"?"이렇게 진행됩니다":"How we work"}</h2>${st?`<div class="steps">${st.map(s=>`<div class="step"><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join("")}</div>`:`<div class="steps">${(LANG==="ko"?[["문의 접수","품목·물량·희망 일정 확인"],["맞춤 제안","운영 방식과 견적 안내"],["운영 시작","입고부터 출고·수출까지 실행"]]:[["Inquiry","Product, volume, schedule"],["Proposal","Operation plan and quote"],["Go live","From inbound to outbound and export"]]).map(s=>`<div class="step"><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join("")}</div>`}<a class="btn btn-ink arrow" style="margin-top:22px" href="#contact">${T(UI.ask)}</a></div></div>`;
+}
+
+/* ---- HOME ---- */
+function home(){
+  const S=[
+   {i:0,e:"GOOD LOGISTICS · A BETTER TOMORROW",h:{ko:"상품이 가는 모든 길,<br><em>온길</em>이 함께합니다.",en:"Every road your products travel,<br><em>ONGIL</em> goes with you."},p:{ko:"신뢰하는 물류, 연결되는 비즈니스. 통합물류기획 · 종합상품유통 · 원스톱수출입.",en:"Trusted logistics, connected business. Integrated logistics, distribution and one-stop export."},b:["#logistics",{ko:"물류서비스 보기",en:"Our logistics"}]},
+   {i:1,e:"ICHEON RICE TTEOKBOKKI · FRESH HMR",h:{ko:"이 떡볶이가 세계로 가는 길,<br><em>온길</em>이 엽니다.",en:"The road this tteokbokki takes<br>to the world — <em>ONGIL</em> opens it."},p:{ko:"이천쌀 떡볶이 · Fresh HMR — 소싱부터 급속 냉동, 콜드체인 수출까지 원스톱.",en:"Icheon rice tteokbokki and Fresh HMR — sourcing, quick-freezing and cold-chain export in one stop."},b:["#tteok",{ko:"대표 상품 보기",en:"See products"}]},
+   {i:2,e:"FROM KOREA TO GLOBAL TABLES",h:{ko:"한국의 좋은 상품을,<br><em>세계의 시장</em>으로.",en:"Great Korean products,<br>to <em>global markets</em>."},p:{ko:"수출 컨설팅 · 인증 · 통관 · 국제운송까지 온길이 끝까지 연결합니다.",en:"Export consulting, certification, customs and international freight — connected end to end."},b:["#consult",{ko:"수출 컨설팅 보기",en:"Export consulting"}]}
+  ];
+  const ib=[["box","storage",{ko:"입고 · 보관",en:"Inbound · Storage"},{ko:"안전하고 체계적인 보관",en:"Safe, systematic storage"}],["truck","fulfillment",{ko:"출고 · 패킹",en:"Fulfillment"},{ko:"신속·정확한 출고",en:"Fast, accurate dispatch"}],["bldg","center",{ko:"센터 납품",en:"Center Delivery"},{ko:"대형마트·유통센터 전문",en:"Retail DCs"}],["snow","cold",{ko:"콜드체인",en:"Cold Chain"},{ko:"냉동 HMR 온도 유지",en:"Frozen HMR, kept cold"}],["globe","customs",{ko:"수출입 · 무역지원",en:"Export · Trade"},{ko:"국내를 넘어 세계로",en:"Beyond Korea"}]];
+  const cards=[[3,"storage",{ko:"물류센터",en:"Warehousing"},"WAREHOUSING",{ko:"안전한 보관이 신뢰의 시작입니다.",en:"Safe storage is where trust begins."}],[4,"center",{ko:"유통 · 납품",en:"Distribution"},"DISTRIBUTION",{ko:"전국 유통 채널로 빠르게 연결합니다.",en:"Fast links to retail channels nationwide."}],[5,"fulfillment",{ko:"맞춤형 물류",en:"Total Solution"},"TOTAL SOLUTION",{ko:"상품에 최적화된 물류를 제안합니다.",en:"Logistics tailored to your product."}],[6,"customs",{ko:"함께, 더 멀리",en:"Go Further"},"GLOBAL BUSINESS",{ko:"국내를 넘어 세계로 연결합니다.",en:"From Korea to the world."}]];
+  const stats=[[{ko:"거점센터",en:"Hubs"},"10+",{ko:"전국 주요 거점",en:"Key locations"}],[{ko:"월 처리 물량",en:"Monthly volume"},"50,000+",{ko:"BOX",en:"boxes"}],[{ko:"협력 파트너",en:"Partners"},"100+",{ko:"함께하는 기업",en:"companies"}],[{ko:"수출입 지원",en:"Trade support"},"30+",{ko:"GLOBAL COUNTRY",en:"countries"}]];
+  const ch=CHANNELS.concat(CHANNELS);
+  return `
+  <section class="hero" id="hero">
+   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><img src="${img(s.i)}" data-full="${s.i}" alt=""></div>`).join("")}
+   ${S.map((s,k)=>`<div class="hcopy" data-slide="${k}" style="${k?"display:none":""}"><div class="wrap"><div class="inner"><div class="eyebrow">${s.e}</div><h1>${T(s.h)}</h1><p>${T(s.p)}</p><div class="btns"><a class="btn btn-acc arrow" href="${s.b[0]}">${T(s.b[1])}</a><a class="btn btn-ghost" href="#contact">${T(UI.quote)}</a></div></div></div></div>`).join("")}
+   <div class="hnav"><div class="wrap">${S.map((s,k)=>`<button data-go="${k}" class="${k?"":"on"}">0${k+1}<i></i></button>`).join("")}<div class="hlabel">KOREAN GOODS<br>CONNECT THE WORLD</div></div></div>
+  </section>
+  <div class="iconbar"><div class="wrap">${ib.map(x=>`<a href="#${x[1]}">${ICONS[x[0]]}<span><b>${T(x[2])}</b><small>${T(x[3])}</small></span></a>`).join("")}</div></div>
+
+  <section class="sec"><div class="wrap about">
+   <div class="txt"><div class="eyebrow">ABOUT ONGIL</div><h2>${LANG==="ko"?"좋은 물류가<br>더 큰 내일을 만듭니다.":"Good logistics<br>builds a bigger tomorrow."}</h2><p class="lead">${LANG==="ko"?"온길은 신뢰와 책임을 바탕으로 고객의 비즈니스가 더 멀리, 더 높이 성장할 수 있도록 함께합니다.":"Built on trust and responsibility, ONGIL helps your business go further and grow higher."}</p><a class="btn btn-ink arrow" href="#about">${LANG==="ko"?"온길을 더 알아보기":"More about ONGIL"}</a></div>
+   <div class="pcards">${cards.map(c=>`<a class="pcard" href="#${c[1]}"><img src="${img(c[0])}" alt="" loading="lazy"><div class="c"><b>${T(c[2])}</b><span class="en">${c[3]}</span><p>${T(c[4])}</p></div><span class="go">→</span></a>`).join("")}</div>
+  </div></section>
+
+  <section class="trust"><div class="wrap">
+   <div><div class="eyebrow">KOREAN RETAIL CHANNELS</div><h3>${LANG==="ko"?"국내 주요 유통 채널 납품 대응":"Delivery to major Korean retail channels"}</h3>
+    <div class="marquee"><div class="mtrack">${ch.map((c,k)=>`<span class="rchip ${k%CHANNELS.length<5?"top":""}">${c}</span>`).join("")}</div></div>
+    <div class="tnote">${LANG==="ko"?"※ 유통사별 납품 규격 대응 채널입니다. 거래 확정처는 공식 로고로 표기됩니다.":"※ Channels whose delivery specs we support. Confirmed accounts will show official logos."}</div></div>
+   <div class="stats">${stats.map(s=>`<div class="stat"><small>${T(s[0])} <span class="chip">${T(UI.goal)}</span></small><b>${s[1]}</b><div class="u">${T(s[2])}</div></div>`).join("")}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+   <div class="eyebrow">TWO WAYS TO START</div><h2>${LANG==="ko"?"바이어도, 생산자도<br>온길에서 시작합니다.":"Buyers and producers<br>both start at ONGIL."}</h2>
+   <div class="split" style="margin-top:28px">
+    <div class="sbox"><img src="${img(14)}" alt="" loading="lazy"><div class="c"><div class="eyebrow" style="color:var(--accent-2)">FOR GLOBAL BUYERS</div><h3>${LANG==="ko"?"한국 상품을 찾는<br>해외 바이어라면":"Sourcing Korean food<br>for your market?"}</h3><p>${LANG==="ko"?"스펙시트·MOQ·단가, 샘플, 콜드체인 선적까지 한 창구에서.":"Spec sheets, MOQ, pricing, samples and cold-chain shipping — one contact."}</p><a class="btn btn-acc arrow" href="#buyer">${T(UI.quote)}</a></div></div>
+    <div class="sbox"><img src="${img(20)}" alt="" loading="lazy"><div class="c"><div class="eyebrow" style="color:var(--accent-2)">FOR KOREAN PRODUCERS</div><h3>${LANG==="ko"?"사장님은 맛에만 집중,<br>물류·수출은 온길이":"You focus on taste,<br>we handle the rest"}</h3><p>${LANG==="ko"?"보관·출고·유통 납품부터 수출까지 한 번에 맡기세요.":"Storage, fulfillment, retail delivery and export — all in one."}</p><a class="btn btn-acc arrow" href="#producer">${T(UI.consult)}</a></div></div>
+   </div>
+  </div></section>
+
+  <section class="sec" style="background:var(--cream);padding-top:72px"><div class="wrap prod">
+   <div class="ph"><img src="${img(16)}" alt="" loading="lazy"></div>
+   <div><div class="eyebrow">FLAGSHIP · K-FOOD</div><h2>${LANG==="ko"?"이천쌀 떡볶이 · Fresh HMR":"Icheon Rice Tteokbokki · Fresh HMR"}</h2><p class="lead">${LANG==="ko"?"온길의 물류가 직접 증명하는 수출 상품. 급속 냉동으로 신선도를 잠그고 수출 규격으로 포장해 콜드체인으로 보냅니다.":"Export products that prove our logistics: quick-frozen, export-packed and shipped through the cold chain."}</p>
+    <div class="plist"><div><b>${LANG==="ko"?"17 SKU 수출 라인업":"17-SKU export lineup"} <span class="chip fact">${T(UI.fact)}</span></b><small>${LANG==="ko"?"김치·떡볶이·장류·HMR":"Kimchi, tteokbokki, sauces, HMR"}</small></div><div><b>${LANG==="ko"?"-18°C 콜드체인":"-18°C cold chain"}</b><small>${LANG==="ko"?"보관·운송·리퍼 선적":"Storage, trucking, reefer"}</small></div><div><b>OEM · ${LANG==="ko"?"공동 브랜드":"Co-branding"}</b><small>${LANG==="ko"?"현지 맞춤 브랜드":"Market-fit brands"}</small></div><div><b>${LANG==="ko"?"샘플 발송":"Samples"}</b><small>${LANG==="ko"?"바이어 테스트용":"For buyer testing"}</small></div></div>
+    <a class="btn btn-ink arrow" href="#tteok">${LANG==="ko"?"상품 자세히 보기":"View products"}</a></div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+   <div class="eyebrow">ALL 20 PAGES</div><h2>${LANG==="ko"?"온길의 모든 길, 한눈에":"Every ONGIL page at a glance"}</h2><p class="lead">${LANG==="ko"?"중요도 순으로 정리했습니다. 카드를 누르면 해당 페이지로 이동합니다.":"Ordered by importance. Tap a card to open the page."}</p>
+   <div class="tgrid">${TABS.slice(1).map((t,k)=>`<a class="tg" href="#${t.id}"><div class="im"><img src="${img(t.img)}" alt="" loading="lazy"></div><div class="t"><span>${String(k+2).padStart(2,"0")}</span><b>${T(t.t)}</b></div></a>`).join("")}</div>
+  </div></section>
+  ${band()}`;
+}
+
+/* ---- special tab bodies ---- */
+function forms(which){
+  const both=which==="both";
+  const buyer=`<form class="formcard" data-lead="buyer"><div class="eyebrow">FOR BUYERS</div><h3>${T(UI.quote)}</h3><p class="sub">${LANG==="ko"?"48시간 내 스펙시트·MOQ·단가 안내와 함께 회신드립니다. [목표 응답시간]":"We aim to reply within 48 hours with spec sheets, MOQ and pricing."}</p>
+   <div class="fgrid"><label class="f">Name / Position *<input name="name" required></label><label class="f">Company *<input name="company" required></label><label class="f">Email *<input name="email" type="email" required></label><label class="f">Country<input name="country"></label>
+   <label class="f">Product<select name="product"><option>Icheon Rice Tteokbokki</option><option>Fresh HMR</option><option>Kimchi</option><option>Sauces · Jang</option><option>Logistics / Export service</option><option>Other</option></select></label><label class="f">Quantity<input name="qty" placeholder="e.g. 1x20ft reefer"></label>
+   <label class="f full">Message<textarea name="msg"></textarea></label></div><button class="btn btn-acc arrow" type="submit">${LANG==="ko"?"견적 요청 보내기":"Send request"}</button><div class="fmsg"></div></form>`;
+  const prod=`<form class="formcard" data-lead="producer"><div class="eyebrow">FOR PRODUCERS</div><h3>${T(UI.consult)}</h3><p class="sub">${LANG==="ko"?"물류 위탁·유통 납품·수출 대행 무엇이든 편하게 남겨주세요.":"Logistics outsourcing, retail delivery or export — tell us what you need."}</p>
+   <div class="fgrid"><label class="f">${LANG==="ko"?"상호 *":"Company *"}<input name="company" required></label><label class="f">${LANG==="ko"?"담당자 *":"Contact *"}<input name="name" required></label><label class="f">${LANG==="ko"?"연락처 *":"Phone *"}<input name="phone" required></label><label class="f">${LANG==="ko"?"이메일":"Email"}<input name="email" type="email"></label>
+   <label class="f">${LANG==="ko"?"품목":"Product"}<input name="product" placeholder="${LANG==="ko"?"예: 냉동 떡볶이":"e.g. frozen tteokbokki"}"></label><label class="f">${LANG==="ko"?"필요 서비스":"Service"}<select name="service"><option>${LANG==="ko"?"보관·출고 위탁":"Storage & fulfillment"}</option><option>${LANG==="ko"?"유통센터 납품":"Retail delivery"}</option><option>${LANG==="ko"?"수출 컨설팅·대행":"Export consulting"}</option><option>${LANG==="ko"?"전체 원스톱":"Full one-stop"}</option></select></label>
+   <label class="f">${LANG==="ko"?"HACCP 여부":"HACCP"}<select name="haccp"><option>${LANG==="ko"?"있음":"Yes"}</option><option>${LANG==="ko"?"없음":"No"}</option><option>${LANG==="ko"?"진행 중":"In progress"}</option></select></label><label class="f">${LANG==="ko"?"희망 국가":"Target country"}<input name="country"></label>
+   <label class="f full">${LANG==="ko"?"문의 내용":"Message"}<textarea name="msg"></textarea></label></div><button class="btn btn-ink arrow" type="submit">${LANG==="ko"?"상담 신청하기":"Request consultation"}</button><div class="fmsg"></div></form>`;
+  if(which==="buyer")return buyer; if(which==="producer")return prod;
+  return `<div class="forms2">${buyer}${prod}</div>`;
+}
+
+const DX={
+ country:{us:{ko:"미국",en:"USA"},ca:{ko:"캐나다",en:"Canada"},vn:{ko:"베트남",en:"Vietnam"},my:{ko:"말레이시아",en:"Malaysia"},sg:{ko:"싱가포르",en:"Singapore"},jp:{ko:"일본",en:"Japan"},au:{ko:"호주",en:"Australia"},eu:{ko:"EU",en:"EU"}},
+ cat:{tteok:{ko:"떡·면류",en:"Rice cakes · noodles"},kimchi:{ko:"김치·발효",en:"Kimchi · fermented"},sauce:{ko:"소스·장류",en:"Sauces · jang"},meat:{ko:"육류 포함 HMR",en:"HMR with meat"},sea:{ko:"김·수산",en:"Laver · seafood"}},
+ temp:{amb:{ko:"상온",en:"Ambient"},chill:{ko:"냉장",en:"Chilled"},frz:{ko:"냉동",en:"Frozen"}}
+};
+function diagRun(c,k,tp){
+  const L=(ko,en)=>LANG==="ko"?ko:en; const out=[]; let score=1;
+  out.push(L("수출용 영문 스펙시트·성분표 준비","English spec sheet and ingredient list"));
+  out.push(L("인보이스·패킹리스트·원산지증명서","Commercial invoice, packing list, certificate of origin"));
+  const C={
+   us:[L("FDA 식품시설 등록(FFR) 확인","FDA Food Facility Registration"),L("FDA 사전통지(Prior Notice) 신고","FDA Prior Notice"),L("현지 수입자 FSVP 대응 여부 확인","Importer's FSVP readiness"),L("영문 영양성분·주요 알레르기 표시 라벨","English nutrition & major-allergen label")],
+   ca:[L("CFIA 기준 수입자(SFC 라이선스) 확인","Importer with CFIA SFC licence"),L("영어·프랑스어 이중 라벨","Bilingual English/French label")],
+   vn:[L("제품 자가공표(Self-declaration) 서류","Product self-declaration"),L("베트남어 보조 라벨","Vietnamese sub-label")],
+   my:[L("무슬림 시장 타깃 시 인정 할랄 인증 검토","Recognized halal certification if targeting Muslim consumers"),L("영어/말레이어 라벨","English/Malay label")],
+   sg:[L("SFA 수입 라이선스 보유 수입자 확인","Importer licensed by SFA"),L("영문 라벨·첨가물 기준 확인","English label and additive check")],
+   jp:[L("식품위생법 수입신고 대응","Food Sanitation Act import notification"),L("일본어 라벨·첨가물 기준 확인","Japanese label and additive rules")],
+   au:[L("BICON 수입 조건 조회","Check BICON import conditions"),L("FSANZ 기준 라벨","FSANZ-compliant label")],
+   eu:[L("동물성 원료 포함 복합식품 규정 확인","Composite products rules for animal-origin ingredients"),L("EU 식품정보 라벨(Reg. 1169/2011)","EU food information label (Reg. 1169/2011)")]
+  };
+  out.push(...(C[c]||[]));
+  if(k==="meat"){out.push(L("육류 원료: 수입국 위생증명·허용 여부 우선 확인 (고난도)","Meat ingredients: check health certificate & eligibility first (high difficulty)"));score+=2;}
+  if(k==="kimchi"){out.push(L("발효 가스 팽창 대비 포장 설계","Packaging for fermentation gas"));score+=0.5;}
+  if(k==="sea"){out.push(L("수산물 위생증명·원료 원산지 확인","Seafood health certificate and origin"));score+=1;}
+  if(tp==="frz"){out.push(L("-18°C 이하 리퍼 컨테이너·온도 기록","Reefer at -18°C or below with temperature logs"));score+=0.5;}
+  if(tp==="chill"){out.push(L("유통기한 대비 운송 리드타임 검토 (항공 검토)","Shelf life vs. transit time (consider air)"));score+=1;}
+  if(["us","au","eu"].includes(c))score+=1;
+  const lvl=score>=3.5?L("높음","High"):score>=2?L("중간","Medium"):L("낮음","Low");
+  return {out,lvl};
+}
+function diagBlock(){
+  const opt=(o)=>Object.entries(o).map(([v,l])=>`<option value="${v}">${T(l)}</option>`).join("");
+  return `<div class="diag"><form class="formcard" id="dxf"><div class="eyebrow">STEP 1–3</div><h3>${T(UI.diag)}</h3><p class="sub">${LANG==="ko"?"선택하면 바로 결과가 나옵니다.":"Results appear instantly."}</p>
+   <div class="fgrid" style="grid-template-columns:1fr"><label class="f">${LANG==="ko"?"① 품목":"① Product"}<select name="cat">${opt(DX.cat)}</select></label><label class="f">${LANG==="ko"?"② 희망 국가":"② Country"}<select name="country">${opt(DX.country)}</select></label><label class="f">${LANG==="ko"?"③ 온도대":"③ Temperature"}<select name="temp">${opt(DX.temp)}</select></label></div>
+   <button class="btn btn-acc arrow" type="submit">${LANG==="ko"?"진단하기":"Check"}</button></form>
+   <div class="dres" id="dxr"><h3>${LANG==="ko"?"수출 준비 체크리스트":"Export checklist"}</h3><p class="ph">${LANG==="ko"?"왼쪽에서 품목·국가·온도대를 고르고 '진단하기'를 눌러주세요.":"Pick product, country and temperature, then press Check."}</p></div></div>`;
+}
+function pkgBlock(){
+  const P=LANG==="ko"?[
+   ["Starter","수출 첫걸음",["무료 AI 수출 진단","국가·품목 규제 리포트","수출 서류 체크리스트","1:1 상담 1회"]],
+   ["Growth","물류 + 수출 실행",["보관·출고(O2O 풀필먼트)","유통센터 납품 대행","라벨 현지화·인증 연계","통관·포워딩 연계"]],
+   ["Full","원스톱 파트너",["콜드체인 보관·리퍼 선적","바이어 발굴·샘플 운영","OEM·공동 브랜드","전담 매니저"]]
+  ]:[
+   ["Starter","First step to export",["Free AI export check","Country & product rules report","Document checklist","One 1:1 consultation"]],
+   ["Growth","Logistics + export",["Storage & O2O fulfillment","Retail DC delivery","Label localization & certification","Customs & forwarding"]],
+   ["Full","One-stop partner",["Cold-chain storage & reefer","Buyer sourcing & samples","OEM & co-branding","Dedicated manager"]]
+  ];
+  return `<div class="pkgs">${P.map((p,k)=>`<div class="pkg ${k===1?"hot":""}"><div class="eyebrow">${p[0]}</div><h3>${p[1]}</h3><div class="pr">${LANG==="ko"?"견적 문의":"Quote on request"}</div><ul>${p[2].map(x=>`<li>${x}</li>`).join("")}</ul><a class="btn ${k===1?"btn-acc":"btn-ink"} arrow" href="#contact">${LANG==="ko"?"견적 받기":"Get a quote"}</a></div>`).join("")}</div>`;
+}
+function faq(){
+  const Q=LANG==="ko"?[["소량도 보관·출고가 가능한가요?","가능합니다. 품목과 월 물량을 알려주시면 맞는 운영 방식을 제안드립니다."],["수출을 한 번도 안 해봤는데 괜찮을까요?","무료 AI 수출 진단으로 준비 항목부터 확인하고, 서류·인증·통관을 단계별로 함께 진행합니다."],["냉동 제품도 해외로 보낼 수 있나요?","-18°C 이하 리퍼 컨테이너로 선적합니다. 국가별 수입 요건을 먼저 확인합니다."],["비용은 어떻게 정해지나요?","물량·온도대·국가·서비스 범위에 따라 달라 견적으로 안내드립니다."]]
+  :[["Can you handle small volumes?","Yes. Tell us the products and monthly volume and we'll propose a fit."],["We've never exported. Is that OK?","Start with the free AI export check, then we go step by step through documents, certification and customs."],["Can frozen products be exported?","Yes, in reefer containers at -18°C or below, after checking import rules."],["How is pricing set?","By volume, temperature, country and scope — we send a quote."]];
+  return Q.map(q=>`<details class="q"><summary>${q[0]}</summary><p>${q[1]}</p></details>`).join("");
+}
+function channelBlock(){
+  return `<div class="chgrid">${CHANNELS.map((c,k)=>`<div>${c}<small>${CH_TYPE[c]||""}</small></div>`).join("")}</div><p class="tnote" style="margin-top:14px">${LANG==="ko"?"※ 유통사별 납품 규격 대응 채널 목록입니다. 거래 확정처는 공식 로고로 표기됩니다.":"※ Channels whose delivery specs we support. Confirmed accounts will show official logos."}</p>`;
+}
+
+function subTab(t,i){
+  let body="";
+  const sec=(inner,bg)=>`<section class="sec" ${bg?'style="background:var(--cream)"':""}><div class="wrap">${inner}</div></section>`;
+  const head=(e,h,l)=>`<div class="eyebrow">${e}</div><h2>${h}</h2>${l?`<p class="lead" style="margin-bottom:30px">${l}</p>`:""}`;
+  switch(t.id){
+   case "aidx": body=sec(diagBlock())+sec(head("NEXT STEP",LANG==="ko"?"정밀 진단이 필요하면":"Need a detailed review?",LANG==="ko"?"담당자가 품목 사진·성분표를 보고 실제 수출 가능성과 비용을 안내드립니다.":"Our team reviews your product photos and ingredients for real feasibility and cost.")+forms("producer"),1); break;
+   case "tteok": body=sec(`<div class="duo"><div class="ph"><img src="${img(1)}" alt="" loading="lazy"></div><div>${head("FLAGSHIP EXPORT",LANG==="ko"?"산지에서 식탁까지,<br>온길 물류의 증거":"From farm to table —<br>proof of ONGIL logistics")}<div class="steps">${(LANG==="ko"?[["이천쌀 원료","산지 원료로 만든 쌀떡"],["HACCP 생산","위생 기준 라인에서 생산"],["급속 냉동·수출 포장","신선도 잠금, 수출 규격 포장"],["콜드체인 선적","-18°C 이하 리퍼 컨테이너"]]:[["Icheon rice","Rice cakes from local rice"],["HACCP production","Made on hygiene-certified lines"],["Quick-freeze & export pack","Freshness locked, export-spec packing"],["Cold-chain shipping","Reefer at -18°C or below"]]).map(s=>`<div class="step"><div><b>${s[0]}</b><small>${s[1]}</small></div></div>`).join("")}</div><a class="btn btn-acc arrow" style="margin-top:22px" href="#buyer">${LANG==="ko"?"떡볶이 수출 문의":"Inquire about tteokbokki"}</a></div></div>`)+sec(`<div class="duo"><div>${head("PRODUCTION",LANG==="ko"?"위생 라인에서 생산합니다":"Made on hygienic lines",LANG==="ko"?"생산 파트너의 HACCP 라인과 연계해 수출 품질 기준을 맞춥니다.":"Linked with partner HACCP lines to meet export quality.")}</div><div class="ph"><img src="${img(12)}" alt="" loading="lazy"></div></div>`,1); break;
+   case "hmr": body=sec(pointsBlock({pts:[{ko:["냉동으로 신선도","원물 중심 HMR을 냉동 형태로 만들어 신선도와 유통기한을 확보합니다."],en:["Freshness by freezing","Frozen HMR secures freshness and shelf life."]},{ko:["물류 효율","냉동 규격화로 적재 효율과 해외 유통 효율을 높입니다."],en:["Logistics efficiency","Standardized frozen formats improve loading and distribution."]},{ko:["라인업 확장","김치·떡볶이·장류·HMR 17 SKU에서 바이어 맞춤 구성을 제안합니다."],en:["Lineup","Custom assortments from 17 SKUs."]}]}))+sec(`<div class="duo"><div class="ph"><img src="${img(7)}" alt="" loading="lazy"></div><div>${head("COLD CHAIN",LANG==="ko"?"공장에서 바이어 창고까지<br>온도가 끊기지 않게":"No break in temperature<br>from factory to buyer")}<a class="btn btn-ink arrow" href="#cold">${LANG==="ko"?"콜드체인 보기":"See cold chain"}</a></div></div>`,1); break;
+   case "producer": body=sec(pointsBlock({pts:[{ko:["물류 위탁","보관·출고·반품까지 맡기고 생산에만 집중하세요."],en:["Outsource logistics","Hand over storage, dispatch and returns."]},{ko:["유통 납품","유통센터 납품 규격과 일정은 온길이 맞춥니다."],en:["Retail delivery","We handle DC specs and schedules."]},{ko:["수출 대행","진단·서류·인증·바이어까지 수출을 대신 엽니다."],en:["Export for you","Assessment, documents, certification and buyers."]}]}))+sec(head("CONSULTATION",LANG==="ko"?"상담 신청":"Consultation")+forms("producer"),1); break;
+   case "buyer": body=sec(pointsBlock({pts:[{ko:["Verified sourcing","HACCP 라인 기반 K-Food를 검증해 연결합니다."],en:["Verified sourcing","K-Food from HACCP lines, vetted."]},{ko:["Spec · MOQ · Price","스펙시트·MOQ·FOB/CIF 단가를 정리해 드립니다."],en:["Spec · MOQ · Price","Spec sheets, MOQ and FOB/CIF pricing."]},{ko:["Cold-chain delivery","냉동 제품도 리퍼 선적으로 안전하게 보냅니다."],en:["Cold-chain delivery","Frozen goods shipped safely by reefer."]}]}))+sec(`<div class="duo"><div class="ph"><img src="${img(2)}" alt="" loading="lazy"></div><div>${forms("buyer")}</div></div>`,1); break;
+   case "channel": body=sec(head("RETAIL CHANNELS",LANG==="ko"?"국내 유통 채널 납품 대응":"Korean retail channel delivery",LANG==="ko"?"대형마트·창고형·이커머스·편의점·SSM·백화점 순으로 정리했습니다.":"Hypermarkets, warehouse clubs, e-commerce, CVS, SSM and department stores.")+channelBlock())+sec(duoBlock(t),1); break;
+   case "network": body=sec(`<div class="stats" style="margin-bottom:40px">${[[{ko:"거점센터",en:"Hubs"},"10+"],[{ko:"월 처리 물량",en:"Monthly boxes"},"50,000+"],[{ko:"협력 파트너",en:"Partners"},"100+"],[{ko:"수출입 지원국",en:"Countries"},"30+"]].map(s=>`<div class="stat"><small>${T(s[0])} <span class="chip">${T(UI.goal)}</span></small><b>${s[1]}</b></div>`).join("")}</div>`+pointsBlock({pts:[{ko:["국내 거점","보관·출고 거점을 통해 전국 납품을 지원합니다."],en:["Domestic hubs","Hubs supporting nationwide delivery."]},{ko:["포워딩·통관","포워더·관세사 네트워크로 해상·항공을 연결합니다."],en:["Forwarding & customs","Forwarders and brokers for sea and air."]},{ko:["현지 파트너","해외 수입사·유통사와 라스트마일을 잇습니다."],en:["Local partners","Importers and distributors abroad."]}]}))+sec(duoBlock(t),1); break;
+   case "pricing": body=sec(pkgBlock())+sec(faq(),1); break;
+   case "about": body=sec(`<div class="duo"><div>${head("OUR STORY",LANG==="ko"?"온길 — 따뜻한 길, 바른 길":"ONGIL — a warm road, the right road",LANG==="ko"?"맛은 최고인데 수출 문턱은 높았습니다. 온길은 현장 물류와 수출 실무를 하나로 묶어, 좋은 상품이 국내외 어디든 바르게 닿도록 길을 만듭니다.":"Great taste, high export barriers. ONGIL ties field logistics and export practice together so good products reach anywhere, the right way.")}<div class="plist"><div><b>${LANG==="ko"?"통합물류기획":"Logistics planning"}</b><small>${LANG==="ko"?"보관·출고·운송 설계":"Storage, dispatch, transport"}</small></div><div><b>${LANG==="ko"?"종합상품유통":"Distribution"}</b><small>${LANG==="ko"?"국내 유통 채널 납품":"Korean retail delivery"}</small></div><div><b>${LANG==="ko"?"원스톱수출입":"One-stop trade"}</b><small>${LANG==="ko"?"서류·인증·통관·운송":"Docs, certs, customs, freight"}</small></div><div><b>${LANG==="ko"?"글로벌 진출 파트너":"Global partner"}</b><small>${LANG==="ko"?"바이어·현지 유통 연결":"Buyers & local distribution"}</small></div></div></div><div class="ph"><img src="${img(0)}" alt="" loading="lazy"></div></div>`)+sec(head("MISSION",LANG==="ko"?"상품이 가는 모든 길을 책임집니다":"Responsible for every road your products take")+pointsBlock({pts:[{ko:["신뢰","약속한 시간과 품질을 지키는 물류"],en:["Trust","Logistics that keeps time and quality promises"]},{ko:["연결","생산자·유통·바이어를 하나의 길로"],en:["Connection","Producers, retailers and buyers on one road"]},{ko:["확장","국내를 넘어 세계 시장으로"],en:["Expansion","Beyond Korea to global markets"]}]}),1); break;
+   case "contact": body=sec(forms("both"))+sec(`<div class="duo"><div>${head("FAQ",LANG==="ko"?"자주 묻는 질문":"FAQ")}${faq()}</div><div class="formcard"><h3>${LANG==="ko"?"바로 연락하기":"Direct contact"}</h3><p class="sub">ONGIL LOGISTICS</p><div class="steps"><div class="step"><div><b>TEL</b><small>${CONTACT.tel}</small></div></div><div class="step"><div><b>E-mail</b><small>${CONTACT.mail}</small></div></div><div class="step"><div><b>WhatsApp</b><small>${CONTACT.tel}</small></div></div><div class="step"><div><b>${LANG==="ko"?"카카오톡 채널":"KakaoTalk"}</b><small>${LANG==="ko"?"개설 예정":"Coming soon"}</small></div></div></div></div></div>`,1); break;
+   default: body=sec(pointsBlock(t))+sec(duoBlock(t),1);
+  }
+  return thero(t,i)+body+`<div class="wrap" style="padding-bottom:60px">${pager(i)}</div>`+band();
+}
+
+let cur=null, slideTimer=null;
+function render(){
+  nav();
+  const id=(location.hash||"#home").slice(1);
+  const i=IDX[id]!=null?IDX[id]:0; const t=TABS[i];
+  $("#app").innerHTML=`<div class="tab on">${i===0?home():subTab(t,i)}</div>`;
+  document.querySelectorAll("#tabstrip a").forEach(a=>a.classList.toggle("on",a.dataset.id===t.id));
+  const on=$("#tabstrip a.on"); if(on) on.scrollIntoView({block:"nearest",inline:"center"});
+  document.querySelectorAll(".gitem").forEach(g=>g.classList.toggle("on",g.dataset.g.split(",").includes(t.id)));
+  if(cur!==t.id) window.scrollTo({top:0,behavior:"instant"});
+  cur=t.id;
+  bind(); upgrade();
+}
+/* 큰 이미지(원본 PNG)는 미리보기 로드 후 교체 */
+function upgrade(){
+  document.querySelectorAll("img[data-full]").forEach(im=>{const f=new Image();f.onload=()=>{im.src=f.src};f.src=img(+im.dataset.full,true);});
+}
+function bind(){
+  clearInterval(slideTimer);
+  const hero=$("#hero");
+  if(hero){
+    let k=0; const sl=hero.querySelectorAll(".slide"), cp=hero.querySelectorAll(".hcopy"), bt=hero.querySelectorAll(".hnav button");
+    const go=(n)=>{k=n;sl.forEach((s,j)=>s.classList.toggle("on",j===k));cp.forEach((c,j)=>c.style.display=j===k?"":"none");bt.forEach((b,j)=>b.classList.toggle("on",j===k));};
+    bt.forEach(b=>b.onclick=()=>{go(+b.dataset.go);restart();});
+    const restart=()=>{clearInterval(slideTimer);slideTimer=setInterval(()=>go((k+1)%sl.length),6500);};
+    restart();
+  }
+  document.querySelectorAll("form[data-lead]").forEach(f=>f.onsubmit=(e)=>{e.preventDefault();sendLead(f)});
+  const dx=$("#dxf");
+  if(dx) dx.onsubmit=(e)=>{e.preventDefault();const fd=new FormData(dx);const r=diagRun(fd.get("country"),fd.get("cat"),fd.get("temp"));
+    $("#dxr").innerHTML=`<h3>${T(DX.cat[fd.get("cat")])} → ${T(DX.country[fd.get("country")])} · ${T(DX.temp[fd.get("temp")])}</h3><div class="lvl">${LANG==="ko"?"준비 난이도":"Difficulty"}: ${r.lvl}</div><ul>${r.out.map(x=>`<li>${x}</li>`).join("")}</ul><p class="disc">${LANG==="ko"?"※ 룰 기반 참고용 결과입니다. 최종 요건은 수입국 기관·통관 단계에서 확인이 필요합니다.":"※ Rule-based reference only. Final requirements must be confirmed with import authorities."}</p><a class="btn btn-acc arrow" style="margin-top:16px" href="#contact">${LANG==="ko"?"정밀 진단 요청":"Request detailed review"}</a>`;
+    toast(LANG==="ko"?"진단 결과가 나왔습니다":"Checklist ready");};
+}
+function sendLead(f){
+  const data=Object.fromEntries(new FormData(f).entries()); data.type=f.dataset.lead; data.lang=LANG; data.at=new Date().toISOString(); data.page=location.href;
+  const msg=f.querySelector(".fmsg");
+  if(LEAD_ENDPOINT){
+    fetch(LEAD_ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify(data)})
+     .then(()=>{msg.textContent=LANG==="ko"?"접수되었습니다. 담당자가 곧 연락드립니다.":"Received. We'll be in touch soon.";f.reset();})
+     .catch(()=>mailFallback(data,msg));
+  } else mailFallback(data,msg);
+}
+function mailFallback(d,msg){
+  const sub=encodeURIComponent(`[ONGIL ${d.type==="buyer"?"Buyer Quote":"Producer Consult"}] ${d.company||""}`);
+  const body=encodeURIComponent(Object.entries(d).map(([k,v])=>`${k}: ${v}`).join("\n"));
+  location.href=`mailto:${CONTACT.mail}?cc=${CONTACT.cc}&subject=${sub}&body=${body}`;
+  msg.textContent=LANG==="ko"?"메일 앱이 열립니다. 전송을 눌러 접수를 완료해 주세요.":"Your mail app will open — press send to finish.";
+}
+function toast(t){const el=$("#toast");el.textContent=t;el.style.display="block";clearTimeout(el._t);el._t=setTimeout(()=>el.style.display="none",2200);}
+
+/* ================= INIT ================= */
+function setTheme(x){document.documentElement.dataset.theme=x;document.querySelectorAll("[data-theme-btn]").forEach(b=>b.classList.toggle("on",b.dataset.themeBtn===x));try{localStorage.setItem("ongil-theme",x)}catch(e){}}
+document.querySelectorAll("[data-theme-btn]").forEach(b=>b.onclick=()=>setTheme(b.dataset.themeBtn));
+try{const s=localStorage.getItem("ongil-theme");if(s)setTheme(s)}catch(e){}
+document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{LANG=b.dataset.lang;document.documentElement.lang=LANG;document.querySelectorAll("[data-lang]").forEach(x=>x.classList.toggle("on",x===b));render();});
+$("#memoBtn").onclick=()=>$("#memo").classList.toggle("open");
+$("#burger").onclick=()=>$("#drawer").classList.add("open");
+$("#drawer").onclick=(e)=>{if(e.target.id==="drawer"||e.target.tagName==="A")$("#drawer").classList.remove("open")};
+$("#toTop").onclick=(e)=>{e.preventDefault();window.scrollTo({top:0,behavior:"smooth"})};
+$("#kakaoBtn").onclick=()=>toast("카카오톡 채널 개설 후 연결됩니다");
+window.addEventListener("hashchange",render);
+
+/* 비밀번호 8687 (검토용 시안 잠금) */
+function unlock(){$("#gate").remove();document.body.classList.remove("locked");try{sessionStorage.setItem("ongil-ok","1")}catch(e){}}
+let ok=false;try{ok=sessionStorage.getItem("ongil-ok")==="1"}catch(e){}
+if(ok) unlock();
+const tryPw=()=>{if($("#pw").value==="8687")unlock();else{$("#pwerr").textContent="비밀번호가 맞지 않습니다.";$("#pw").value="";}};
+if($("#pwbtn")){$("#pwbtn").onclick=tryPw;$("#pw").onkeydown=(e)=>{if(e.key==="Enter")tryPw()};setTimeout(()=>$("#pw")&&$("#pw").focus(),100);}
+render();
+</script>
+</body>
+</html>
