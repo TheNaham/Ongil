@@ -5,6 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>온길로직스 ONGIL LOGISTICS — 통합물류기획 · 종합상품유통 · 원스톱수출입</title>
 <meta name="description" content="상품이 가는 모든 길, 온길이 함께합니다. 입고·보관부터 O2O 풀필먼트, 콜드체인, 수출 컨설팅·통관까지 원스톱.">
+<link rel="canonical" href="https://ongil.cloud/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="온길로직스 ONGIL LOGISTICS">
+<meta property="og:url" content="https://ongil.cloud/">
+<meta property="og:title" content="온길로직스 ONGIL LOGISTICS — 상품이 가는 모든 길, 온길이 함께합니다">
+<meta property="og:description" content="입고·보관부터 O2O 풀필먼트, 콜드체인, 수출 컨설팅·통관까지 원스톱. 통합물류기획 · 종합상품유통 · 원스톱수출입">
+<meta property="og:image" content="https://ongil.cloud/og-2.png?v=261007">
+<meta property="og:image:secure_url" content="https://ongil.cloud/og-2.png?v=261007">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ongil.cloud/og-2.png?v=261007">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -94,8 +108,7 @@ nav.gnav{display:flex;gap:4px;margin-left:auto}
 .hero{position:relative;height:min(78vh,720px);min-height:520px;overflow:hidden;background:var(--ink-2)}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease}
 .slide.on{opacity:1}
-.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s ease}
-.slide.on img{transform:scale(1)}
+.slide img,.slide video{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 7s ease} .slide.on img,.slide.on video{transform:scale(1)}
 .slide::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,16,34,.82) 0%,rgba(10,16,34,.55) 38%,rgba(10,16,34,.05) 70%)}
 .hcopy{position:absolute;inset:0;z-index:2;display:flex;align-items:center}
 .hcopy .wrap{width:100%}
@@ -589,9 +602,11 @@ function duoBlock(t){
 /* ---- HOME ---- */
 function home(){
   const S=[
-   {i:0,e:"GOOD LOGISTICS · A BETTER TOMORROW",h:{ko:"상품이 가는 모든 길,<br><em>온길</em>이 함께합니다.",en:"Every road your products travel,<br><em>ONGIL</em> goes with you."},p:{ko:"신뢰하는 물류, 연결되는 비즈니스. 통합물류기획 · 종합상품유통 · 원스톱수출입.",en:"Trusted logistics, connected business. Integrated logistics, distribution and one-stop export."},b:["#logistics",{ko:"물류서비스 보기",en:"Our logistics"}]},
-   {i:1,e:"ICHEON RICE TTEOKBOKKI · FRESH HMR",h:{ko:"이 떡볶이가 세계로 가는 길,<br><em>온길</em>이 엽니다.",en:"The road this tteokbokki takes<br>to the world — <em>ONGIL</em> opens it."},p:{ko:"이천쌀 떡볶이 · Fresh HMR — 소싱부터 급속 냉동, 콜드체인 수출까지 원스톱.",en:"Icheon rice tteokbokki and Fresh HMR — sourcing, quick-freezing and cold-chain export in one stop."},b:["#tteok",{ko:"대표 상품 보기",en:"See products"}]},
-   {i:2,e:"FROM KOREA TO GLOBAL TABLES",h:{ko:"한국의 좋은 상품을,<br><em>세계의 시장</em>으로.",en:"Great Korean products,<br>to <em>global markets</em>."},p:{ko:"수출 컨설팅 · 인증 · 통관 · 국제운송까지 온길이 끝까지 연결합니다.",en:"Export consulting, certification, customs and international freight — connected end to end."},b:["#consult",{ko:"수출 컨설팅 보기",en:"Export consulting"}]}
+   {i:0,v:"v3",e:"GOOD LOGISTICS · A BETTER TOMORROW",h:{ko:"상품이 가는 모든 길,<br><em>온길</em>이 함께합니다.",en:"Every road your products travel,<br><em>ONGIL</em> goes with you."},p:{ko:"신뢰하는 물류, 연결되는 비즈니스. 통합물류기획 · 종합상품유통 · 원스톱수출입.",en:"Trusted logistics, connected business. Integrated logistics, distribution and one-stop export."},b:["#logistics",{ko:"물류서비스 보기",en:"Our logistics"}]},
+   {i:0,v:"v1",e:"ICHEON RICE · FROM THE FIELD",h:{ko:"좋은 쌀에서<br><em>좋은 상품</em>이 시작됩니다.",en:"Great products<br>start with <em>great rice</em>."},p:{ko:"이천쌀 산지 소싱부터 원료 품질·이력 관리까지, 수출의 첫 단추를 온길이 함께 끼웁니다.",en:"From Icheon rice sourcing to raw-material quality and traceability — ONGIL is there from the very first step."},b:["#tteok",{ko:"원료·상품 보기",en:"Ingredients & products"}]},
+   {i:0,v:"v2",e:"SMART FACTORY · EXPORT-READY PACKING",h:{ko:"공장에서 나온 그대로,<br><em>온길</em>이 이어갑니다.",en:"Straight from the factory,<br><em>ONGIL</em> carries it on."},p:{ko:"생산 · 급속 냉동 · 패킹 · 라벨링까지, 수출 규격에 맞춘 생산 연계와 출고 준비.",en:"Production, quick-freezing, packing and labeling — production linked to export-ready shipping."},b:["#logistics",{ko:"생산·물류 연계 보기",en:"Production to logistics"}]},
+   {i:1,v:"v4",e:"ICHEON RICE TTEOKBOKKI · FRESH HMR",h:{ko:"이 떡볶이가 세계로 가는 길,<br><em>온길</em>이 엽니다.",en:"The road this tteokbokki takes<br>to the world — <em>ONGIL</em> opens it."},p:{ko:"이천쌀 떡볶이 · Fresh HMR — 소싱부터 급속 냉동, 콜드체인 수출까지 원스톱.",en:"Icheon rice tteokbokki and Fresh HMR — sourcing, quick-freezing and cold-chain export in one stop."},b:["#tteok",{ko:"대표 상품 보기",en:"See products"}]},
+   {i:2,v:"v5",e:"FROM KOREA TO GLOBAL TABLES",h:{ko:"한국의 좋은 상품을,<br><em>세계의 시장</em>으로.",en:"Great Korean products,<br>to <em>global markets</em>."},p:{ko:"수출 컨설팅 · 인증 · 통관 · 국제운송까지 온길이 끝까지 연결합니다.",en:"Export consulting, certification, customs and international freight — connected end to end."},b:["#consult",{ko:"수출 컨설팅 보기",en:"Export consulting"}]}
   ];
   const ib=[["box","storage",{ko:"입고 · 보관",en:"Inbound · Storage"},{ko:"안전하고 체계적인 보관",en:"Safe, systematic storage"}],["truck","fulfillment",{ko:"출고 · 패킹",en:"Fulfillment"},{ko:"신속·정확한 출고",en:"Fast, accurate dispatch"}],["bldg","center",{ko:"센터 납품",en:"Center Delivery"},{ko:"대형마트·유통센터 전문",en:"Retail DCs"}],["snow","cold",{ko:"콜드체인",en:"Cold Chain"},{ko:"냉동 HMR 온도 유지",en:"Frozen HMR, kept cold"}],["globe","customs",{ko:"수출입 · 무역지원",en:"Export · Trade"},{ko:"국내를 넘어 세계로",en:"Beyond Korea"}]];
   const cards=[[3,"storage",{ko:"물류센터",en:"Warehousing"},"WAREHOUSING",{ko:"안전한 보관이 신뢰의 시작입니다.",en:"Safe storage is where trust begins."}],[4,"center",{ko:"유통 · 납품",en:"Distribution"},"DISTRIBUTION",{ko:"전국 유통 채널로 빠르게 연결합니다.",en:"Fast links to retail channels nationwide."}],[5,"fulfillment",{ko:"맞춤형 물류",en:"Total Solution"},"TOTAL SOLUTION",{ko:"상품에 최적화된 물류를 제안합니다.",en:"Logistics tailored to your product."}],[6,"customs",{ko:"함께, 더 멀리",en:"Go Further"},"GLOBAL BUSINESS",{ko:"국내를 넘어 세계로 연결합니다.",en:"From Korea to the world."}]];
@@ -599,7 +614,7 @@ function home(){
   const ch=CHANNELS.concat(CHANNELS);
   return `
   <section class="hero" id="hero">
-   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><img src="${img(s.i)}" data-full="${s.i}" alt=""></div>`).join("")}
+   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><video src="/hero/${s.v}.mp4" poster="/hero/${s.v}.jpg" muted loop playsinline ${k?'preload="none"':'autoplay preload="auto"'} aria-hidden="true"></video></div>`).join("")}
    ${S.map((s,k)=>`<div class="hcopy" data-slide="${k}" style="${k?"display:none":""}"><div class="wrap"><div class="inner"><div class="eyebrow">${s.e}</div><h1>${T(s.h)}</h1><p>${T(s.p)}</p><div class="btns"><a class="btn btn-acc arrow" href="${s.b[0]}">${T(s.b[1])}</a><a class="btn btn-ghost" href="#contact">${T(UI.quote)}</a></div></div></div></div>`).join("")}
    <div class="hnav"><div class="wrap">${S.map((s,k)=>`<button data-go="${k}" class="${k?"":"on"}">0${k+1}<i></i></button>`).join("")}<div class="hlabel">KOREAN GOODS<br>CONNECT THE WORLD</div></div></div>
   </section>
@@ -754,7 +769,7 @@ function bind(){
   const hero=$("#hero");
   if(hero){
     let k=0; const sl=hero.querySelectorAll(".slide"), cp=hero.querySelectorAll(".hcopy"), bt=hero.querySelectorAll(".hnav button");
-    const go=(n)=>{k=n;sl.forEach((s,j)=>s.classList.toggle("on",j===k));cp.forEach((c,j)=>c.style.display=j===k?"":"none");bt.forEach((b,j)=>b.classList.toggle("on",j===k));};
+    const go=(n)=>{k=n;sl.forEach((s,j)=>{s.classList.toggle("on",j===k);const v=s.querySelector("video");if(v){if(j===k){v.preload="auto";const p=v.play();if(p&&p.catch)p.catch(()=>{});}else v.pause();}});cp.forEach((c,j)=>c.style.display=j===k?"":"none");bt.forEach((b,j)=>b.classList.toggle("on",j===k));};
     bt.forEach(b=>b.onclick=()=>{go(+b.dataset.go);restart();});
     const restart=()=>{clearInterval(slideTimer);slideTimer=setInterval(()=>go((k+1)%sl.length),6500);};
     restart();
