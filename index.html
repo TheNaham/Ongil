@@ -614,7 +614,7 @@ function home(){
   const ch=CHANNELS.concat(CHANNELS);
   return `
   <section class="hero" id="hero">
-   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><video src="/hero/${s.v}.mp4" poster="/hero/${s.v}.jpg" muted loop playsinline ${k?'preload="none"':'autoplay preload="auto"'} aria-hidden="true"></video></div>`).join("")}
+   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><video src="/${s.v}.mp4" poster="/${s.v}.jpg" muted loop playsinline ${k?'preload="none"':'autoplay preload="auto"'} aria-hidden="true"></video></div>`).join("")}
    ${S.map((s,k)=>`<div class="hcopy" data-slide="${k}" style="${k?"display:none":""}"><div class="wrap"><div class="inner"><div class="eyebrow">${s.e}</div><h1>${T(s.h)}</h1><p>${T(s.p)}</p><div class="btns"><a class="btn btn-acc arrow" href="${s.b[0]}">${T(s.b[1])}</a><a class="btn btn-ghost" href="#contact">${T(UI.quote)}</a></div></div></div></div>`).join("")}
    <div class="hnav"><div class="wrap">${S.map((s,k)=>`<button data-go="${k}" class="${k?"":"on"}">0${k+1}<i></i></button>`).join("")}<div class="hlabel">KOREAN GOODS<br>CONNECT THE WORLD</div></div></div>
   </section>
