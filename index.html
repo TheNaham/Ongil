@@ -614,7 +614,7 @@ function home(){
   const ch=CHANNELS.concat(CHANNELS);
   return `
   <section class="hero" id="hero">
-   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><video src="/${s.v}.mp4" poster="/${s.v}.jpg" muted loop playsinline ${k?'preload="none"':'autoplay preload="auto"'} aria-hidden="true"></video></div>`).join("")}
+   ${S.map((s,k)=>`<div class="slide ${k?"":"on"}"><video src="/${s.v}.mp4" poster="/${s.v}.jpg" muted playsinline ${k?'preload="none"':'autoplay preload="auto"'} aria-hidden="true"></video></div>`).join("")}
    ${S.map((s,k)=>`<div class="hcopy" data-slide="${k}" style="${k?"display:none":""}"><div class="wrap"><div class="inner"><div class="eyebrow">${s.e}</div><h1>${T(s.h)}</h1><p>${T(s.p)}</p><div class="btns"><a class="btn btn-acc arrow" href="${s.b[0]}">${T(s.b[1])}</a><a class="btn btn-ghost" href="#contact">${T(UI.quote)}</a></div></div></div></div>`).join("")}
    <div class="hnav"><div class="wrap">${S.map((s,k)=>`<button data-go="${k}" class="${k?"":"on"}">0${k+1}<i></i></button>`).join("")}<div class="hlabel">KOREAN GOODS<br>CONNECT THE WORLD</div></div></div>
   </section>
@@ -769,9 +769,10 @@ function bind(){
   const hero=$("#hero");
   if(hero){
     let k=0; const sl=hero.querySelectorAll(".slide"), cp=hero.querySelectorAll(".hcopy"), bt=hero.querySelectorAll(".hnav button");
-    const go=(n)=>{k=n;sl.forEach((s,j)=>{s.classList.toggle("on",j===k);const v=s.querySelector("video");if(v){if(j===k){v.preload="auto";const p=v.play();if(p&&p.catch)p.catch(()=>{});}else v.pause();}});cp.forEach((c,j)=>c.style.display=j===k?"":"none");bt.forEach((b,j)=>b.classList.toggle("on",j===k));};
+    const go=(n)=>{k=n;sl.forEach((s,j)=>{s.classList.toggle("on",j===k);const v=s.querySelector("video");if(v){if(j===k){v.preload="auto";v.currentTime=0;const p=v.play();if(p&&p.catch)p.catch(()=>{});}else v.pause();}});cp.forEach((c,j)=>c.style.display=j===k?"":"none");bt.forEach((b,j)=>b.classList.toggle("on",j===k));};
     bt.forEach(b=>b.onclick=()=>{go(+b.dataset.go);restart();});
-    const restart=()=>{clearInterval(slideTimer);slideTimer=setInterval(()=>go((k+1)%sl.length),6500);};
+    const restart=()=>{clearInterval(slideTimer);clearTimeout(slideTimer);const v=sl[k]&&sl[k].querySelector("video");slideTimer=setTimeout(()=>{go((k+1)%sl.length);restart();},(v&&v.duration&&!v.paused)?Math.max(1500,(v.duration-v.currentTime)*1000+400):6500);};
+    sl.forEach((s,j)=>{const v=s.querySelector("video");if(v)v.addEventListener("ended",()=>{if(j===k){go((k+1)%sl.length);restart();}});});
     restart();
   }
   document.querySelectorAll("form[data-lead]").forEach(f=>f.onsubmit=(e)=>{e.preventDefault();sendLead(f)});
